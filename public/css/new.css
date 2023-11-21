@@ -1,0 +1,9 @@
+.box, .box2, .box3 {
+    background: #000000;
+    border-radius: 30px;
+    box-shadow: 1px 0 20px #ebebeb;
+    text-align: center;
+    padding: 49px 18px;
+    height: 200px;
+    margin: 10px 0;
+}

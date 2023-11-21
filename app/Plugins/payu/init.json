@@ -1,0 +1,10 @@
+{
+    "name": "payu",
+    "version": "1.0",
+    "display_name": "Payu",
+    "description": "Payment with Payu",
+    "author": "Gaurav",
+    "category": "payment",
+    "has_installer": true,
+    "item_id": ""
+}

@@ -1,0 +1,10 @@
+{
+    "name": "cash",
+    "version": "1.0",
+    "display_name": "Cash/Cheque",
+    "description": "Payment with Cash/Cheque",
+    "author": "Bizz Digital",
+    "category": "payment",
+    "has_installer": true,
+    "item_id": ""
+}
