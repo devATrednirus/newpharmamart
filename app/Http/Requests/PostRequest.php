@@ -25,7 +25,7 @@ use App\Rules\BlacklistWordRule;
 class PostRequest extends Request
 {
 	protected $cfMessages = [];
-	
+
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
@@ -43,27 +43,27 @@ class PostRequest extends Request
 			//'phone'        => ['max:20'],
 			//'city_id'      => ['required', 'not_in:0'],
 		];
-		
+
 		// CREATE
 		if (in_array($this->method(), ['POST', 'CREATE'])) {
 			// $rules['parent_id'] = ['required', 'not_in:0'];
-			
+
 			// reCAPTCHA
 			if (config('settings.security.recaptcha_activation')) {
 				$rules['g-recaptcha-response'] = ['required'];
 			}
 		}
-		
+
 		// UPDATE
 		// if (in_array($this->method(), ['PUT', 'PATCH', 'UPDATE'])) {}
-		
+
 		// COMMON
-		
+
 		// Location
 		if (in_array(config('country.admin_type'), ['1', '2']) && config('country.admin_field_active') == 1) {
 			$rules['admin_code'] = ['required', 'not_in:0'];
 		}
-		
+
 		// // Email
 		// if ($this->filled('email')) {
 		// 	$rules['email'][] = 'email';
@@ -80,7 +80,7 @@ class PostRequest extends Request
 		// 		$rules['email'][] = 'required';
 		// 	}
 		// }
-		
+
 		// // Phone
 		// if (config('settings.sms.phone_verification') == 1) {
 		// 	if ($this->filled('phone')) {
@@ -98,14 +98,14 @@ class PostRequest extends Request
 		// 		$rules['phone'][] = 'required';
 		// 	}
 		// }
-		
+
 		// Custom Fields
 		if (!isFromApi()) {
 			$cfRequest = new CustomFieldRequest();
 			$rules = $rules + $cfRequest->rules();
 			$this->cfMessages = $cfRequest->messages();
 		}
-		
+
 		/*
 		 * Tags (Only allow letters, numbers, spaces and ',;_-' symbols)
 		 *
@@ -122,31 +122,31 @@ class PostRequest extends Request
 		}
 
 		if($this->filled('filename') ){
-
-			$rules['filename'] = [ 'mimes:' . getUploadFileTypes('file'), 'max:' . (int)config('settings.upload.max_file_size', 1000)];
+			$rules['filename'] = [ 'mimes:' . getUploadFileTypes('file')];
+			//$rules['filename'] = [ 'mimes:' . getUploadFileTypes('file'), 'max:' . (int)config('settings.upload.max_file_size', 1000)];
 		}
-		
+
 		return $rules;
 	}
-	
+
 	/**
 	 * @return array
 	 */
 	public function messages()
 	{
 		$messages = [];
-		
+
 		// Category & Sub-Category
 		if ($this->filled('parent_id') && !empty($this->input('parent_id'))) {
 			$messages['category_id.required'] = t('The :field is required.', ['field' => mb_strtolower(t('Sub-Category'))]);
 			$messages['category_id.not_in'] = t('The :field is required.', ['field' => mb_strtolower(t('Sub-Category'))]);
 		}
-		
+
 		// Custom Fields
 		if (!isFromApi()) {
 			$messages = $messages + $this->cfMessages;
 		}
-		
+
 		return $messages;
 	}
 }

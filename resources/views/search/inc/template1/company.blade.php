@@ -298,7 +298,7 @@
                                     </div>
                                     <div class="col-md-5 powered-box">
                                         <a class="btn btn-danger powered-by" target="_blank" href="{{ lurl('/') }}">
-                                            <h5>Member</h5><img src="{{ lurl('storage/app/default/logo.png') }}">
+                                            <h5>Member</h5><span style="font-size: xx-small;margin-left: -7px;">PHARMAFRANCHISEMART</span>
                                         </a>
                                     </div>
                                 </div>
