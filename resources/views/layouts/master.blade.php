@@ -62,24 +62,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.defer=true;j.src=
 			<link rel="alternate" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{ strtolower($localeCode) }}"/>
 		@endif
 	@endforeach
-	@if (count($dnsPrefetch) > 0)
+	{{--  @if (count($dnsPrefetch) > 0)
 		@foreach($dnsPrefetch as $dns)
 			<link rel="dns-prefetch" href="//{{ $dns }}">
 		@endforeach
-	@endif
+	@endif  --}}
 	@if (isset($post))
 		@if (isVerifiedPost($post))
 			@if (config('services.facebook.client_id'))
 				<meta property="fb:app_id" content="{{ config('services.facebook.client_id') }}" />
 			@endif
-			{!! $og->renderTags() !!}
+			{{--!! $og->renderTags() !!--}}
 			{!! MetaTag::twitterCard() !!}
 		@endif
 	@else
 		@if (config('services.facebook.client_id'))
 			<meta property="fb:app_id" content="{{ config('services.facebook.client_id') }}" />
 		@endif
-		{!! $og->renderTags() !!}
+		{{--!! $og->renderTags() !!--}}
 		{!! MetaTag::twitterCard() !!}
 	@endif
 	@include('feed::links')

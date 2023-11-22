@@ -10,7 +10,7 @@
 		}
 	}
 
-	$phone = TextToImage::make($sUser->phone, config('larapen.core.textToImage'));
+	$phone = Larapen\TextToImage\Facades\TextToImage::make($sUser->phone, config('larapen.core.textToImage'));
     $phoneLink = 'tel:' . $sUser->phone;
     $phoneLinkAttr = '';
     if (!auth()->check()) {

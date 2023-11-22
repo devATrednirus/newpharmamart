@@ -819,7 +819,7 @@ class UserController extends PanelController
 
 	public function store(StoreRequest $request)
 	{
-				dd(1);
+				//dd(1);
 		$this->handleInput($request);
 
 		return parent::storeCrud();
@@ -827,7 +827,7 @@ class UserController extends PanelController
 
 	public function update(UpdateRequest $request)
 	{
-				dd(2);
+				///dd(2);
 		$this->handleInput($request);
 
 

@@ -57,6 +57,11 @@
 | The admin panel routes
 |
 */
+
+
+Route::group(array('before' => 'auth|nohttps'), function()
+{
+
 Route::group([
 	'namespace'  => 'App\Http\Controllers\Admin',
 	'middleware' => ['web', 'install.checker'],
@@ -629,3 +634,6 @@ Route::group([
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+});

@@ -97,6 +97,8 @@ class LoginController extends FrontController
         MetaTag::set('keywords', getMetaTag('keywords', 'login'));
 
         //echo $req->url();
+
+        //dd($req->url());
         if( strpos($req->url(),'/admin')) {
           return view('vendor.admin.auth.login');
         } else {
@@ -121,6 +123,8 @@ class LoginController extends FrontController
 	 */
     public function login(LoginRequest $request)
     {
+
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -134,6 +138,9 @@ class LoginController extends FrontController
         if(!empty($request->input('login'))) {
           $loginField = getLoginField($request->input('login'));
         }
+
+
+
        /* dump([$loginField,$request->input('login')]);
         DB::enableQueryLog();
         $user =  DB::select( DB::raw("SELECT * FROM users WHERE ".$loginField." = '".$request->input('login')."'") );
@@ -200,6 +207,10 @@ class LoginController extends FrontController
         // Auth the User
 
         $old_sid = Session()->getId();
+        //echo Auth::attempt($credentials);
+        //dd($credentials);
+//dd(Auth::attempt($credentials));
+
         if (Auth::attempt($credentials)) {
 
             Session()->setId($old_sid);
@@ -211,10 +222,17 @@ class LoginController extends FrontController
                 Session::put('login_type','user');
             //
             if(strpos($request->url(),'/admin')) {
+
               return redirect('admin/dashboard');
             } else {
                 return redirect()->intended($this->redirectTo);
             }
+        } else {
+          if(strpos($request->url(),'/admin')) {
+            return redirect('admin/login')->withErrors(['error' => trans('auth.failed')])->withInput();
+          } else {
+              return redirect('login')->withErrors(['error' => trans('auth.failed')])->withInput();
+          }
         }
 
 
