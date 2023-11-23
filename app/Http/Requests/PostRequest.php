@@ -122,7 +122,7 @@ class PostRequest extends Request
 		}
 
 		if($this->filled('filename') ){
-			$rules['filename'] = [ 'mimes:' . getUploadFileTypes('file')];
+			//$rules['filename'] = [ 'mimes:' . getUploadFileTypes('file')];
 			//$rules['filename'] = [ 'mimes:' . getUploadFileTypes('file'), 'max:' . (int)config('settings.upload.max_file_size', 1000)];
 		}
 

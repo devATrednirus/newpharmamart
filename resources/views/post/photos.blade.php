@@ -23,21 +23,21 @@
     <div class="main-container">
         <div class="container">
             <div class="row">
-    
+
                 <div class="col-md-3 page-sidebar">
                     @include('account.inc.sidebar')
                 </div>
-                
+
                 <div class="col-md-9 page-content">
-                    
+
                     <div class="inner-box">
-						
+
                         <h2 class="title-2"><strong><i class="icon-camera-1"></i> {{ t('Photos') }}</strong></h2>
-						
+
                         <div class="row">
                             <div class="col-md-12">
                                 <form class="form-horizontal" id="postForm" method="POST" action="{{ url()->current() }}" enctype="multipart/form-data">
-                                    {!! csrf_field() !!}
+                                    @csrf
                                     <input type="hidden" name="post_id" value="{{ $post->id }}">
                                     <fieldset>
                                         @if (isset($picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
@@ -60,7 +60,7 @@
                                         @endif
                                         <div id="uploadError mt-2" style="display: none;"></div>
                                         <div id="uploadSuccess" class="alert alert-success fade show mt-2" style="display: none;"></div>
-                                    
+
                                         {{--
                                         <!-- Button -->
                                         <div class="form-group row mt-4">
@@ -78,14 +78,14 @@
                                                    <a href="{{ lurl('posts/create') }}" class="btn btn-default btn-lg">Create New Post</a>
 
                                                    <a href="{{ lurl('posts/' . $post->id . '/edit') }}" class="btn btn-default btn-lg">Edit Post</a>
-                                                 
+
                                                     <?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
                                                     <a id="skipBtn" href="{{ lurl($post->uri, $attr) }}" class="btn btn-default btn-lg">View Post</a>
-                                                
-                                                
+
+
                                             </div>
                                         </div>
-                                    
+
                                     </fieldset>
                                 </form>
                             </div>
@@ -121,6 +121,12 @@
         <script src="{{ url('assets/plugins/bootstrap-fileinput/js/locales/'.ietfLangTag(config('app.locale')).'.js') }}" type="text/javascript"></script>
     @endif
     <script>
+
+    $.ajaxSetup({
+headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+}
+});
         /* Initialize with defaults (pictures) */
         @if (isset($picturesLimit) and is_numeric($picturesLimit) and $picturesLimit > 0)
         <?php
@@ -141,14 +147,14 @@
                 overwriteInitial: false,
                 showCaption: false,
                 showPreview: true,
-                allowedFileExtensions: {!! getUploadFileTypes('image', true) !!},
+                //allowedFileExtensions: {!! getUploadFileTypes('image', true) !!},
 				uploadUrl: '{{ $uploadUrl }}',
                 uploadAsync: false,
 				showBrowse: true,
 				showCancel: true,
 				showUpload: false,
 				showRemove: false,
-                maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }},
+                //maxFileSize: {{ (int)config('settings.upload.max_file_size', 1000) }},
                 browseOnZoneClick: true,
                 minFileCount: 0,
                 maxFileCount: {{ (int)$picturesLimit }},
@@ -175,7 +181,7 @@
                     } else {
                         $initialPreviewConfigUrl = lurl('posts/' . $post->id . '/photos/' . $post->pictures->get($i)->id . '/delete');
                     }
-                    
+
                     // File size
 					try {
 						$fileSize = (int)File::size(filePath($post->pictures->get($i)->filename));
@@ -192,10 +198,10 @@
                 @endfor
                 ],
                 @endif
-				
+
                 /* elErrorContainer: '#uploadError', */
 				/* msgErrorClass: 'file-error-message', */ /* @todo: depreciated. */
-				
+
 				uploadClass: 'btn btn-success'
             });
         @endif
@@ -213,15 +219,15 @@
 					return true;
 				}
 			}
-			
+
 			return false;
 		});
-		
+
 		/* Show upload status message */
         $('#pictureField').on('filebatchpreupload', function(event, data, id, index) {
             $('#uploadSuccess').html('<ul></ul>').hide();
         });
-		
+
 		/* Show success upload message */
         $('#pictureField').on('filebatchuploadsuccess', function(event, data, previewId, index) {
             /* Show uploads success messages */
@@ -234,10 +240,10 @@
             });
             $('#uploadSuccess ul').append(out);
             $('#uploadSuccess').fadeIn('slow');
-            
+
             /* Change button label */
             $('#nextStepAction').html('{{ $nextStepLabel }}').removeClass('btn-default').addClass('btn-primary');
-            
+
             /* Check redirect */
             var maxFiles = {{ (isset($picturesLimit)) ? (int)$picturesLimit : 1 }};
             var oldFiles = {{ (isset($post) and isset($post->pictures)) ? $post->pictures->count() : 0 }};
@@ -248,12 +254,12 @@
 				redirect(nextStepUrl);
             }
         });
-		
+
 		/* Reorder (Sort) files */
 		$('#pictureField').on('filesorted', function(event, params) {
 			picturesReorder(params);
 		});
-		
+
 		/* Delete picture */
         $('#pictureField').on('filepredelete', function(jqXHR) {
             var abort = true;
@@ -273,9 +279,9 @@
 			if (typeof params.stack === 'undefined') {
 				return false;
 			}
-			
+
 			waitingDialog.show('{{ t('Processing') }}...');
-	
+
 			$.ajax({
 				method: 'POST',
 				url: siteUrl + '/ajax/post/pictures/reorder',
@@ -284,25 +290,25 @@
 					'_token': $('input[name=_token]').val()
 				}
 			}).done(function(data) {
-				
+
 				waitingDialog.hide();
-				
+
 				if (typeof data.status === 'undefined') {
 					return false;
 				}
-		
+
 				/* Reorder Notification */
 				if (data.status == 1) {
 					$('#uploadSuccess').html('<ul></ul>').hide();
 					$('#uploadSuccess ul').append('{{ t('Your picture has been reorder successfully') }}');
 					$('#uploadSuccess').fadeIn('slow');
 				}
-		
+
 				return false;
 			});
-	
+
 			return false;
 		}
     </script>
-    
+
 @endsection

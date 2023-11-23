@@ -178,47 +178,54 @@ class ImportController extends Controller
 		$rows = array_map("str_getcsv", explode("\n", $csvData));
 		$header = array_shift($rows);
 		$check = 0;
+		//dd($rows);
 		foreach ($rows as $row) {
+
 			if (isset($row[0])) {
 				if ($row[0] != "") {
+					//echo count($row);
+					//dd('fff');
+
 					$row = array_combine($header, $row);
+
 					if ($row['email'] == '') {
 						$check = 1;
 						return 'email is required';
 					}
-					if ($row['domain'] == '') {
+					/* if ($row['domain'] == '') {
 						$check = 1;
 						return 'domain is required';
 					}
 					if ($row['package'] == '') {
 						$check = 1;
 						return 'package is required';
-					}
-					if ($row['package_start_date'] == '') {
+					}*/
+					/* if ($row['package_start_date'] == '') {
 						$check = 1;
 						return 'package_start_date is required';
 					}
 					if ($row['package_end_date'] == '') {
 						$check = 1;
 						return 'package_end_date is required';
-					}
-					if ($row['gender'] == '') {
+					} */
+					/*if ($row['gender'] == '') {
 						$check = 1;
 						return 'gender is required';
-					}
-					if ($row['first_name'] == '') {
+					}*/
+					/* if ($row['first_name'] == '') {
 						$check = 1;
 						return 'first_name is required';
-					}
-					if ($row['last_name'] == '') {
+					} */
+					/* if ($row['last_name'] == '') {
 						$check = 1;
 						return 'last_name is required';
-					}
+					} */
 					if ($row['phone'] == '') {
-						$check = 1;
-						return 'phone is required';
+						//$check = 1;
+						$row['phone'] = '0000000000';
+						//return 'phone is required';
 					}
-					if ($row['country_code'] == '') {
+					/*if ($row['country_code'] == '') {
 						$check = 1;
 						return 'country_code is required';
 					}
@@ -237,11 +244,11 @@ class ImportController extends Controller
 					if ($row['color'] == '') {
 						$check = 1;
 						return 'color is required';
-					}
-					if ($row['buy_leads_alerts'] == '') {
+					}*/
+					/*if ($row['buy_leads_alerts'] == '') {
 						$check = 1;
 						return 'buy_leads_alerts is required';
-					}
+					} */
 					if ($row['phone_hidden'] == '') {
 						$check = 1;
 						return 'phone_hidden is required';
@@ -276,24 +283,24 @@ class ImportController extends Controller
 						} else {
 							$verified_email = 1;
 						}
-						$country = DB::table('countries')->where(['name' => $row['country_code']])->first();
+						$country = DB::table('countries')->where(['name' => empty($row['country_code']) ? $row['country'] : $row['country']  ])->first();
 						$array = array(
 							'name' => $row['company_name'],
 							'email' => $row['email'],
-							'domain' => $row['domain'],
+							'domain' => '', //$row['domain'],
 							'package_id' => @$package->id,
 							'package_start_date' => date("Y-m-d", strtotime($row['package_start_date'])),
 							'package_end_date' => date("Y-m-d", strtotime($row['package_end_date'])),
 							'gender_id' => @$gender->id,
-							'first_name' => $row['first_name'],
-							'last_name' => $row['last_name'],
+							'first_name' => empty($row['first_name']) ? ' ' : $row['first_name'] ,
+							'last_name' => empty($row['last_name']) ? ' ' : $row['last_name'] ,
 							'phone' => $row['phone'],
 							'country_code' => @$country->name,
-							'email_to_send' => $row['notification_email'],
-							'sms_to_send' => $row['SMS_Mobile_Number'],
-							'template' => $row['template'],
-							'color' => $row['color'],
-							'buy_leads_alerts' => $row['buy_leads_alerts'],
+							'email_to_send' => !empty($row['notification_email']) ? $row['notification_email'] : '' ,
+							'sms_to_send' => !empty($row['SMS_Mobile_Number']) ? $row['SMS_Mobile_Number'] : '',
+							'template' => !empty($row['template']) ? $row['template'] : 'template2',
+							'color' => !empty($row['color']) ? $row['color'] : 'colourv2',
+							'buy_leads_alerts' => !empty($row['buy_leads_alerts']) ? $row['buy_leads_alerts'] : 'Yes',
 							'phone_hidden' => $phone_hidden,
 							'verified_phone' => $verified_phone,
 							'verified_email' => $verified_email,
@@ -301,6 +308,8 @@ class ImportController extends Controller
 							'created_at' => date('Y-m-d H:i:s'),
 							'updated_at' => date('Y-m-d H:i:s'),
 						);
+
+						//dd($array);
 						$checkifexits = DB::table('users')->where(['email' => $row['email']])->count();
 						if ($checkifexits == 0) {
 							DB::table('users')->insert($array);

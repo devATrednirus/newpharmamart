@@ -35,6 +35,9 @@ class Admin
 	public function handle($request, Closure $next, $guard = null)
 	{
 
+
+		
+
 	 //$credentials = [
 		//		'email'    => 'surinder@rednirus.in',
 		//		'password' => 'Newpassword',

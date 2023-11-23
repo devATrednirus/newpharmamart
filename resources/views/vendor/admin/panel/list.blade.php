@@ -584,7 +584,11 @@ $('#importing').text('Uploading...');
 var formData = new FormData(this);
 $.ajax({
 type:'POST',
+<?php if(strpos($url, '/users')) { ?>
+url: "<?=$appurl?>/admin/import_users",
+<?php } else { ?>
 url: "{{ url($url)}}",
+<?php } ?>
 data: formData,
 cache:false,
 contentType: false,

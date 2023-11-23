@@ -109,4 +109,23 @@ class Kernel extends HttpKernel
   		\Illuminate\Auth\Middleware\Authorize::class,
   	];
 
+
+    public function handle($request)
+   {
+
+          if(strpos($request->url(), 'en/')) {
+              //redirect(str_replace('en/','',$request->url()));
+              //return Redirect::route(str_replace('en/','',$request->url()));
+              header('Location: '.str_replace('https://','http://',str_replace('en/','',$request->url())));
+              exit();
+
+          }
+
+          return parent::handle($request);
+    }
+
+
+
+
+
 }

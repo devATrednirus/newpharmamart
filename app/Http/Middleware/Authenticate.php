@@ -18,4 +18,19 @@ class Authenticate extends Middleware
             return route('login');
         }
     }
+
+  /*  public function handle($request, \App\Http\Middleware\Closure $next, $guard = null)
+  	{
+
+        if(in_array($request->route()->uri(), ['en/'])){
+
+            return redirect('posts');
+
+        }
+
+        return $next($request);
+	   }
+    */
+
+
 }
