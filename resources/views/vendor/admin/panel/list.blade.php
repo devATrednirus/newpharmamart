@@ -246,6 +246,8 @@ if(Request::path()=='admin/users')
                     },
 					responsive: false,
                     "scrollX": true,
+                    scrollCollapse: true,
+                    scrollY: '600px',
 
                     @if ($xPanel->ajax_table)
                     "processing": true,
