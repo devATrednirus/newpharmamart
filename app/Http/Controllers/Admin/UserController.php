@@ -21,6 +21,7 @@ use App\Http\Requests\Admin\UserRequest as StoreRequest;
 use App\Http\Requests\Admin\UserRequest as UpdateRequest;
 use App\Models\Gender;
 use App\Models\Package;
+use App\Models\City;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -494,6 +495,56 @@ class UserController extends PanelController
 			]);
 
 			$this->xPanel->addField([
+				'name'              => 'address1',
+				'label'             => 'Address 1',
+				'type'              => 'text',
+				'attributes'        => [
+					'placeholder' => 'Address 1',
+				],
+				'wrapperAttributes' => [
+					'class' => 'form-group col-md-6',
+				],
+			]);
+
+			$this->xPanel->addField([
+				'name'              => 'address2',
+				'label'             => 'Address 2',
+				'type'              => 'text',
+				'attributes'        => [
+					'placeholder' => 'Address 2',
+				],
+				'wrapperAttributes' => [
+					'class' => 'form-group col-md-6',
+				],
+			]);
+
+
+		$this->xPanel->addField([
+			'label'             => 'City',
+			'name'              => 'city_id',
+			'model'             => 'App\Models\City',
+			'entity'            => 'city',
+			'attribute'         => 'asciiname',
+			'type'              => 'select2',
+			'wrapperAttributes' => [
+				'class' => 'form-group col-md-6',
+			],
+		]);
+
+			$this->xPanel->addField([
+				'name'              => 'pincode',
+				'label'             => 'Pin Code',
+				'type'              => 'text',
+				'attributes'        => [
+					'placeholder' => 'Pin Code',
+				],
+				'wrapperAttributes' => [
+					'class' => 'form-group col-md-6',
+				],
+			]);
+
+
+			$this->xPanel->addField([
 				'name'              => 'phone',
 				'label'             => trans('admin::messages.Phone'),
 				'type'              => 'text',
@@ -880,6 +931,18 @@ class UserController extends PanelController
 		return $this->getTranslatedArray($entries);
 	}
 
+
+
+	private function cities()
+	{
+		$entries = City::where('active','1')->orderBy('name','asc')->get();
+
+		return $this->getTranslatedArray($entries);
+	}
+	
+	
+	
+	
 	/**
 	 * Handle Input values
 	 *
