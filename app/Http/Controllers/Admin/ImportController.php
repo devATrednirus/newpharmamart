@@ -183,8 +183,10 @@ class ImportController extends Controller
 
 			if (isset($row[0])) {
 				if ($row[0] != "") {
-					//echo count($row);
-					//dd('fff');
+					//print_r($row);
+					//print_r($header);
+					//dd(count($row).' --- '.count($header));
+
 
 					$row = array_combine($header, $row);
 
@@ -295,6 +297,11 @@ class ImportController extends Controller
 							'first_name' => empty($row['first_name']) ? ' ' : $row['first_name'] ,
 							'last_name' => empty($row['last_name']) ? ' ' : $row['last_name'] ,
 							'phone' => $row['phone'],
+							'address1' => empty($row['address1']) ? ' ' : $row['address1'] ,
+							'address2' => empty($row['address2']) ? ' ' : $row['address2'] ,
+							'photo' => empty($row['photo']) ? ' ' : $row['photo'] ,
+							'city_id' => empty($row['city_id']) ? ' ' : $row['city_id'] ,
+							'pincode' => empty($row['pincode']) ? ' ' : $row['pincode'] ,
 							'country_code' => @$country->name,
 							'email_to_send' => !empty($row['notification_email']) ? $row['notification_email'] : '' ,
 							'sms_to_send' => !empty($row['SMS_Mobile_Number']) ? $row['SMS_Mobile_Number'] : '',
@@ -542,7 +549,7 @@ class ImportController extends Controller
 		}
 		if (@$request->entryId == '') {
 			$data = json_decode(json_encode(DB::table('users')->select(
-				'users.name as company name',
+				'users.name as company_name',
 				'users.email',
 				'packages.name as package',
 				'users.package_start_date',
@@ -551,18 +558,23 @@ class ImportController extends Controller
 				'users.first_name',
 				'users.last_name',
 				'users.phone',
+				'users.photo',
+				'users.address1',
+				'users.address2',
+				'users.pincode',
+				'users.city_id',
 				'users.country_code as country',
 				'users.address2 as State',
 				'users.city_id as City',
 				'users.address1 as address',
 				'users.about_us as about',
 				'users.domain as domain',
-				'users.email_to_send as notification email',
-				'users.sms_to_send as SMS Mobile Number',
+				'users.email_to_send as notification_email',
+				'users.sms_to_send as SMS_Mobile_Number',
 				'users.username as company_url',
 				'users.template',
 				'users.color',
-				'users.buy_leads_alerts as lead alert',
+				'users.buy_leads_alerts as lead_alert',
 				DB::raw('(CASE WHEN users.phone_hidden = 0 THEN "No" ELSE "Yes" END) as phone_hidden'),
 				DB::raw('(CASE WHEN users.verified_phone = 0 THEN "No" ELSE "Yes" END) as verified_phone'),
 				DB::raw('(CASE WHEN users.verified_email = 0 THEN "No" ELSE "Yes" END) as verified_email'),
@@ -582,13 +594,18 @@ class ImportController extends Controller
 		} else {
 			$emp = implode(',', $request->entryId);
 			$data = json_decode(json_encode(DB::table('users')->select(
-				'users.name as company name',
+				'users.name as company_name',
 				'users.email',
 				'packages.name as package',
 				'users.package_start_date',
 				'users.package_end_date',
 				'users.gender_id as gender',
 				'users.first_name',
+				'users.photo',
+				'users.address1',
+				'users.address2',
+				'users.pincode',
+				'users.city_id',
 				'users.last_name',
 				'users.phone',
 				'users.country_code as country',
@@ -597,12 +614,12 @@ class ImportController extends Controller
 				'users.address1 as address',
 				'users.about_us as about',
 				'users.domain as domain',
-				'users.email_to_send as notification email',
-				'users.sms_to_send as SMS Mobile Number',
+				'users.email_to_send as notification_email',
+				'users.sms_to_send as SMS_Mobile_Number',
 				'users.username as company_url',
 				'users.template',
 				'users.color',
-				'users.buy_leads_alerts as lead alert',
+				'users.buy_leads_alerts as lead_alert',
 				DB::raw('(CASE WHEN users.phone_hidden = 0 THEN "No" ELSE "Yes" END) as phone_hidden'),
 				DB::raw('(CASE WHEN users.verified_phone = 0 THEN "No" ELSE "Yes" END) as verified_phone'),
 				DB::raw('(CASE WHEN users.verified_email = 0 THEN "No" ELSE "Yes" END) as verified_email'),
