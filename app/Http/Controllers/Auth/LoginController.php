@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Event;
 use Torann\LaravelMetaTags\Facades\MetaTag;
 use App\Http\Controllers\Auth\Traits\VerificationTrait;
 use DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 class LoginController extends FrontController
 {
@@ -335,7 +336,48 @@ class LoginController extends FrontController
         $user->phone_token_created = \Carbon\Carbon::now();
 
         $user->save();
-        $this->sendVerificationSms($user);
+
+        if($user->verified_phone == 0) {
+
+          // Account details
+    			$apiKey = urlencode("NTA0YjcxNzg3NTUyNjU1NTU4NmU1YTc2Mzg0ZTMwNTc=");
+    			// Message details
+    			$numbers = urlencode($user->phone);
+    			//$sender = urlencode("TXTLCL");
+          $sender = urlencode("RDNIRS");
+    			//$message = rawurlencode("Your otp is ".$user->phone_token);
+          $message = rawurlencode("Rednirus - Verify your phone number. The verification code is: ".$user->phone_token.".");
+    			//$numbers = implode(",", $numbers);
+
+    			// Prepare data for POST request
+    			//$data = array("apikey" => $apiKey, "numbers" => $numbers, "sender" => $sender, "message" => $message);
+          $data = "apikey=" . $apiKey . "&numbers=" . $numbers . "&sender=" . $sender . "&message=" . $message;
+
+          $ch = curl_init("https://api.textlocal.in/send/?" . $data);
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          $response = curl_exec($ch);
+          curl_close($ch);
+
+          Log:info($response);
+        }
+
+
+  			// Send the POST request with cURL
+  			/* $ch = curl_init("https://api.textlocal.in/send/");
+  			curl_setopt($ch, CURLOPT_POST, true);
+  			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  			$response = curl_exec($ch);
+  			curl_close($ch); */
+  			// Process your response here\
+        session(['otpstatus' => 1]);
+
+
+  			//dd($response);
+
+        if($request->session()->get('verificationSmsSent') == true) {
+          $this->sendVerificationSms($user);
+        }
 
         exit;
         return response()->json([
