@@ -1,3 +1,11 @@
+<?php $sty = '';
+if(!empty($_GET['debu'])) {
+  if($_GET['debu'] == 1)  {
+    echo "home.inc.featured";
+    $sty = ' style="border: 1px solid;" ';
+  }
+} ?>
+
 <?php
 if (!isset($cacheExpiration)) {
     $cacheExpiration = (int)config('settings.other.cache_expiration');
@@ -13,7 +21,7 @@ if (!isset($cacheExpiration)) {
 				<div class="col-xl-12 box-title">
 					<div class="inner">
 						<h2>
-							<span class="title-3">{!! $featured->title !!} home.inc.featured</span>
+							<span class="title-3">{!! $featured->title !!}</span>
 							<a href="{{ $featured->link }}" class="sell-your-item">
 								{{ t('View more') }} <i class="icon-th-list"></i>
 							</a>
@@ -61,7 +69,7 @@ if (!isset($cacheExpiration)) {
 								}
 								?>
 								<div class="item">
-                  home.inc.featured
+
 									<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 									<a href="{{ lurl($post->uri, $attr) }}">
 										<span class="item-carousel-thumb">

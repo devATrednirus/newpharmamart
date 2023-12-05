@@ -1,3 +1,8 @@
+<style>
+.ps-block--about.wow.zoomIn img {
+    height: 64% !important;
+}
+</style>
 <div class="container">
   <section style="margin-bottom: 90px !important;" class="ps-about--info mb-5 pb-5 pt-5 mt-5 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.7s"
     style="visibility: visible; animation-duration: 1s; animation-delay: 0.7s; animation-name: fadeInUp;">

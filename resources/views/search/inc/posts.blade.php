@@ -144,10 +144,11 @@ $i=0;
 		 {
 			 $i=0;
 			 $tag = str_replace('-','',$arr[2]);
-			 $posts=DB::table('posts')->select('posts.id as post_id','posts.title','posts.description',
+			 $posts=DB::table('posts')->select('posts.id as post_id','product_groups.slug as gslug','posts.title','posts.description',
 			 'posts.short_description','users.name','users.address1','users.address2',
 			 'users.pincode','users.username','users.id','users.city_id','cities.name as city_name','posts.user_id')
 			 ->join('users','users.id','=','posts.user_id')
+       ->join('product_groups','product_groups.id','=','posts.group_id')
 			 ->join('cities','cities.id','=','users.city_id')
  			 ->whereRaw('FIND_IN_SET(\''.$tag.'\', REPLACE(LOWER(posts.tags)," ","") ) > 0')->get();
 
@@ -212,11 +213,22 @@ $i=0;
 					@endif
 				@endif
 
+        <?php //dd($post); ?>
+
 				<!--- <div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;"> --> <p>{!! \Illuminate\Support\Str::limit($post->short_description, 150, $end='...')  !!} </p>  <!--- </div> --->
         <br>
-                                       <div class="read-more">
-                                          <a href="{{ lurl($post->uri, $attr) }}" target=”_blank”>Read More...</a>
-                                       </div>
+
+
+
+<div class="read-more">
+   <a href="<?=lurl('/')?>/<?=slugify(@$post->username)?>/<?=$post->gslug?>#<?=slugify(@$post->title)?>" target=”_blank”>Read More...</a>
+</div>
+
+
+
+                                       {{-- <div class="read-more">
+                                          <a href="{-- { lurl($post->uri, $attr) } --}" target=”_blank”>Read More...</a>
+                                       </div> --}}
 
 				<?php
 				$v=strip_tags($post->short_description);
