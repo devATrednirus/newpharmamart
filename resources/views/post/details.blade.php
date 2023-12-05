@@ -18,9 +18,9 @@
 @endsection
 <?php
    // Phone
-   
+
    $sUser = $user ;
-   $phone = TextToImage::make($user->phone, config('larapen.core.textToImage'));
+   $phone = Larapen\TextToImage\Facades\TextToImage::make($user->phone, config('larapen.core.textToImage'));
    $phoneLink = 'tel:' . $user->phone;
    $phoneLinkAttr = '';
    if (!auth()->check()) {
@@ -30,7 +30,7 @@
    		$phoneLinkAttr = 'data-toggle="modal"';
    	}
    }
-   
+
    // Contact Seller URL
    $contactSellerURL = '#contactUser';
    $class = 'send_message';
@@ -38,7 +38,7 @@
    	if (config('settings.single.guests_can_contact_ads_authors') != '1') {
    		$contactSellerURL = '#quickLogin';
    		$class = '';
-   
+
    	}
    }
    ?>
@@ -665,7 +665,7 @@
                         </div>
                      </div>
                      @include('search.inc.template1.quick_query')
-                     
+
                      {{--
                      <h3 class="form-heading">Send your enquiry to this supplier</h3>
                      <form>
