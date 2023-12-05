@@ -5,7 +5,7 @@ if (!isset($cacheExpiration)) {
     $cacheExpiration = (int)config('settings.other.cache_expiration');
 }
 
- 
+
 $keywords = rawurldecode(request()->get('q'));
 
 $searched_keyword = $keywords;
@@ -25,7 +25,7 @@ if(!$keywords){
 }
 
 
- 
+
 if($keywords!="" && isset($city)){
 
 		$keywords.=" in ".$city->name;
@@ -33,37 +33,37 @@ if($keywords!="" && isset($city)){
 
 $i=0;
 ?>
-
+{{-- $paginator->getCollection()->count() --}}
 @if (isset($paginator) and $paginator->getCollection()->count() > 0)
 	<?php
 		if (!isset($cats)) {
 			$cats = collect([]);
 		}
-  
+
 		foreach($paginator->getCollection() as $key => $post):
 
       $i=$i+1;
 
-			
+
 
 		$sUser = \App\Models\User::with('city')->where('id', $post->user_id)->first();
 
-		 
+
 			//dump([$key]);
 		if (empty($countries) or !$countries->has($post->country_code)) continue;
-	
+
 		// Get Pack Info
         $package = null;
-         
+
         $cacheId = 'package.' . $post->py_package_id . '.' . config('app.locale');
         $package = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
             $package = \App\Models\Package::findTrans($post->py_package_id);
             return $package;
         });
-		 
 
-		 
-	
+
+
+
 		// Get PostType Info
 		/*$cacheId = 'postType.' . $post->post_type_id . '.' . config('app.locale');
     	$postType = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
@@ -80,38 +80,38 @@ $i=0;
 			$alttag = $pictures->first()->alttag;
 		} else {
 			$postImg = resize(config('larapen.core.picture.default'));
-			
+
 		}
 		if(!$alttag)
 			$alttag = $post->title;
-  
+
 		// Get the Post's City
 		$cacheId = config('country.code') . '.city.' . $post->city_id;
     	$city = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
             $city = \App\Models\City::find($post->city_id);
 			return $city;
 		});
-          
+
 		if (empty($city)) continue;
-	
+
 		// Convert the created_at date to Carbon object
 		$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
 		$post->created_at = $post->created_at->ago();
-		
+
 		// Category
 		$cacheId = 'category.' . $post->category_id . '.' . config('app.locale');
 		$liveCat = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
 			$liveCat = \App\Models\Category::find($post->category_id);
 			return $liveCat;
 		});
-		
+
 		// Check parent
 		if (empty($liveCat->parent_id)) {
 			$liveCatParentId = $liveCat->id;
 			$liveCatType = $liveCat->type;
 		} else {
 			$liveCatParentId = $liveCat->parent_id;
-			
+
 			$cacheId = 'category.' . $liveCat->parent_id . '.' . config('app.locale');
 			$liveParentCat = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($liveCat) {
 				$liveParentCat = \App\Models\Category::find($liveCat->parent_id);
@@ -119,7 +119,7 @@ $i=0;
 			});
 			$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
 		}
-		
+
 		// Check translation
 		if ($cats->has($liveCatParentId)) {
 			$liveCatName = $cats->get($liveCatParentId)->name;
@@ -127,16 +127,16 @@ $i=0;
 			$liveCatName = $liveCat->name;
 		}
 	?>
-	<div class="item-list listing-col-box" data-id="{{$post->user_id}}">
-        @if (isset($package) and !empty($package))
+	{{-- <!-- <div class="item-list listing-col-box" data-id="{{$post->user_id}}"> -->  --}} <div class="ps-categogy--list">
+      {{--  @if (isset($package) and !empty($package))
             @if ($package->ribbon != '')
                 <div class="cornerRibbons {{ $package->ribbon }}">
 					<a href="#"> {{ $package->short_name }}</a>
 				</div>
             @endif
-        @endif
+        @endif --}}
 		<?php
-		
+
 		$url=$_SERVER['REQUEST_URI'];
 		$arr =explode('/',$url);
 		 $search_tags=in_array("tag", $arr);
@@ -150,41 +150,47 @@ $i=0;
 			 ->join('users','users.id','=','posts.user_id')
 			 ->join('cities','cities.id','=','users.city_id')
  			 ->whereRaw('FIND_IN_SET(\''.$tag.'\', REPLACE(LOWER(posts.tags)," ","") ) > 0')->get();
-			 
+
 			 foreach($posts as $post)
 			 {
 				 $i=$i+1;
 				 $pictures=DB::table('pictures')->where(['post_id'=>$post->post_id])->get();
-                $img='';				
+                $img='';
 				foreach($pictures as $imgrow)
 				 {
 					 $img = $imgrow->filename;
- 					 $alttag = $imgrow->alttag;					 
+ 					 $alttag = $imgrow->alttag;
 				 }
 				 if(!$alttag){
  					$alttag = $post->title;
 				 }
 			?>
-			
+
 			<div class="row">
-			<div class="col-md-3 col-xs-12 photobox listing-img-block">
-				<div class="add-image listing-img-inner">
-					<span class="photo-count"><i class="fa fa-camera"></i> <?=$pictures->count();?> </span>
-					
+        <div class="col-lg-9">
+          <div class="row">
+
+
+
+
+			{{-- <div class="col-md-3 col-xs-12 photobox listing-img-block"> --}}  <div class="col-lg-4">
+				{{-- <div class="add-image listing-img-inner"> --}} <div class="listing_image">
+					{{--<span class="photo-count"><i class="fa fa-camera"></i> <?=$pictures->count();?> </span>--}}
+
 					<a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">
 						<img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/<?=$img?>" alt="{{$alttag}}" width="320px" height="270px">
 					</a>
 				</div>
 			</div>
-	
-			<div class="col-md-6 col-xs-12 listing-details-col" >
-				<div class="ads-details listing-name">
-					<h2 class="add-title" id="sony">
-						
-						<a target="_blank" href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">{{ str_limit(@$post->title, 70) }} 
+
+			 {{-- <div class="col-md-6 col-xs-12 listing-details-col" > --}} <div class="col-lg-8"><div class="listing-data"><div class="dat-list">
+				{{-- <div class="ads-details listing-name"> --}}
+					<h2>
+
+						<a target="_blank" href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">{{ str_limit(@$post->title, 70) }}
 						<?php
 								//dd($post);
-							if($searched_keyword!="" && preg_match('/'.$searched_keyword.'/i', $post->description)){ 
+							if($searched_keyword!="" && preg_match('/'.$searched_keyword.'/i', $post->description)){
 							//	echo "<small>offering ".$searched_keyword."</small>";
 							}
 
@@ -194,40 +200,43 @@ $i=0;
 
 						</a>
 					</h2>
-					
-					
 
-					
-				</div>
-	
+
+
+
+				{{-- </div>  --}}
+
 				@if (config('plugins.reviews.installed'))
 					@if (view()->exists('reviews::ratings-list'))
 						@include('reviews::ratings-list')
 					@endif
 				@endif
 
-				<div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;">{!! \Illuminate\Support\Str::limit($post->short_description, 150, $end='...')  !!}</div>
+				<!--- <div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;"> --> <p>{!! \Illuminate\Support\Str::limit($post->short_description, 150, $end='...')  !!} </p>  <!--- </div> --->
+        <br>
+                                       <div class="read-more">
+                                          <a href="{{ lurl($post->uri, $attr) }}" target=”_blank”>Read More...</a>
+                                       </div>
 
-				
-				<?php 
+				<?php
 				$v=strip_tags($post->short_description);
 				 $strcount = $strcount=strlen($v);
 				if($strcount>150)
 				{
 					?>
-					<a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>" style='color: red; font-weight: bold;'>Read More...</a>
+					<!--- <a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>" style='color: red; font-weight: bold;'>Read More...</a>   --->
 				<?php
 				}
 				?>
-			</div>
-	
-			<div class="col-md-3 col-xs-12 lis-contact-col">
-			    <span class="info-row">
-					    
+			</div></div></div></div></div>
+
+			{{--<div class="col-md-3 col-xs-12 lis-contact-col">--}}<div class="col-lg-3"><div class="user-data"><div class="user-content">
+			    <div class="data">
+
 						<?php $attr = ['countryCode' => config('country.icode'), 'username' => @$post->username]; ?>
-						<h4><a class="company-name" style="color: #f12227; font-weight: 700;" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
+						<h4><a  style="color: #f12227; font-weight: 700;" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
 						 	{{ @$post->name }}
-							
+
 						</a></h4>
 
 					{{--	<span class="date"><i class="icon-clock"></i> {{ $post->created_at }} </span>
@@ -238,18 +247,18 @@ $i=0;
 							</span>
 						@endif
 					 --}}
-						
-				</span>
-				
-				
-					<div class="c-address">
+
+
+
+           <hr>
+						<!-- <div class="c-address"> --> <p>
 					     <?=$post->city_name?>
 						 <br>
 							{{$post->address1}}, {{$post->address2}}, {{$post->pincode}}
-					</div>
-				
-			
-			
+					<!-- </div>  --->  </p>
+        </div>
+
+
 				{{--
 				<h4 class="item-price">
 					@if (isset($liveCatType) and !in_array($liveCatType, ['not-salable']))
@@ -263,43 +272,48 @@ $i=0;
 					@endif
 				</h4>
 				--}}
-			 
-			 
 
-				<a class="btns view-number send_message" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
-						<?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
-						<a class="btns c-supllier" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
-							View Website
-						</a>
-			</div>
+        <div class="data-button">
+
+        <a  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+      </div>
+      <div class="data-buttons">
+            <?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
+            <a  target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
+              View Website
+            </a>
+          </div>
+
+
+			</div></div></div>
 
 		</div>
-		
+
 			<?php
 			 }
 		 }
 		 else
 		 {
  		?>
-		<div class="row">
-			<div class="col-md-3 col-xs-12 photobox listing-img-block">
-				<div class="add-image listing-img-inner">
-					<span class="photo-count"><i class="fa fa-camera"></i> {{ $pictures->count() }} </span>
+		<div class="row"><div class="col-lg-9"><div class="row">
+			{{-- <div class="col-md-3 col-xs-12 photobox listing-img-block"> --}}  <div class="col-lg-4">
+				{{--  <div class="add-image listing-img-inner"> --}} <div class="listing_image">
+					{{--<span class="photo-count"><i class="fa fa-camera"></i> {{ $pictures->count() }} </span>--}}
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 					<a href="{{ lurl($post->uri, $attr) }}">
 						<img class="img-thumbnail no-margin" loading="lazy" src="{{ $postImg }}" alt="{{$alttag}}" width="320px" height="240px">
 					</a>
 				</div>
 			</div>
-	
-			<div class="col-md-6 col-xs-12 listing-details-col" >
-				<div class="ads-details listing-name">
-					<h2 class="add-title" id="sony">
+
+			{{-- <div class="col-md-6 col-xs-12 listing-details-col" > --}} <div class="col-lg-8"><div class="listing-data"><div class="dat-list">
+				{{-- <div class="ads-details listing-name">  <h2 class="add-title" id="sony"> --}}
+					<h2>
 						<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
-						<a target="_blank" href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }} 
+						<a target="_blank" href="{{ lurl($post->uri, $attr) }}">{{ str_limit($post->title, 70) }}
 						<?php
 								//dd($post);
-							if($searched_keyword!="" && preg_match('/'.$searched_keyword.'/i', $post->description)){ 
+							if($searched_keyword!="" && preg_match('/'.$searched_keyword.'/i', $post->description)){
 								echo "<small>offering ".$searched_keyword."</small>";
 							}
 
@@ -309,38 +323,42 @@ $i=0;
 
 						</a>
 					</h2>
-					
-					
 
-					
-				</div>
-	
+
+
+
+				{{-- </div>  --}}
+
 				@if (config('plugins.reviews.installed'))
 					@if (view()->exists('reviews::ratings-list'))
 						@include('reviews::ratings-list')
 					@endif
 				@endif
 
-				<div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;">{!! \Illuminate\Support\Str::limit(strip_tags($post->short_description), 300, $end='...')  !!}</div>
-                <?php 
+				<!-- <div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;"> --> <p>{!! \Illuminate\Support\Str::limit(strip_tags($post->short_description), 300, $end='...')  !!}</p>  <!-- </div>  --->
+        <br>
+                                       <div class="read-more">
+                                          <a href="{{ lurl($post->uri, $attr) }}" target=”_blank”>Read More...</a>
+                                       </div>
+                <?php
 				$v=strip_tags($post->short_description);
 				 $strcount= strlen($v);
 				if($strcount>300)
 				{
-					echo "<a href=".lurl($post->uri, $attr)." style='color: red; font-weight: bold;'>Read More...</a>";
+					//echo "<a href=".lurl($post->uri, $attr)." style='color: red; font-weight: bold;'>Read More...</a>";
 				}
 				?>
-				
-				
-			</div>
-	
-			<div class="col-md-3 col-xs-12 lis-contact-col">
-			    <span class="info-row">
-					    
+
+
+			</div></div></div></div></div>
+
+			{{--<div class="col-md-3 col-xs-12 lis-contact-col">--}}<div class="col-lg-3"><div class="user-data"><div class="user-content">
+			    <div class="data">
+
 						<?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
-						<h4><a class="company-name" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
+						<h4><a  target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
 						 	{{ $post->company_name }}
-							
+
 						</a></h4>
 
 					{{--	<span class="date"><i class="icon-clock"></i> {{ $post->created_at }} </span>
@@ -351,18 +369,21 @@ $i=0;
 							</span>
 						@endif
 					 --}}
-						<p class="listing-address">
+						<!--- <p class="listing-address">
 							<a href="{!! qsurl(trans('routes.v-search', ['countryCode' => config('country.icode')]), array_merge(request()->except(['l', 'location']), ['l'=>$post->city_id])) !!}" class="info-link">{{ $city->name }}</a> {{ (isset($post->distance)) ? '- ' . round(lengthPrecision($post->distance), 2) . unitOfLength() : '' }}
-						</p>
-				</span>
-				
+						</p> --->
+
+
 				@if(isset($sUser->city))
-					<div class="c-address">
+          <hr>
+          <p>
+					<!-- <div class="c-address"> --->
 							{{$sUser->address1}}, {{$sUser->address2}}, {{$sUser->city->name}} {{($sUser->city->subAdmin1 && $sUser->city->name!=$sUser->city->subAdmin1->name)?$sUser->city->subAdmin1->name:''}} {{$sUser->pincode}}
-					</div>
+					<!-- </div> --->
+          </p>
 					@endif
-			        
-			      
+        </div>
+
 				{{--
 				<h4 class="item-price">
 					@if (isset($liveCatType) and !in_array($liveCatType, ['not-salable']))
@@ -376,34 +397,48 @@ $i=0;
 					@endif
 				</h4>
 				--}}
-			 
-			 
 
-				<a style="max-width: initial !important;" class="btns view-number send_message" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
-						<?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
-						<a style="max-width: initial !important;" class="btns c-supllier" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
-							View Website
-						</a>
-			</div>
+
+
+        <div class="data-button">
+
+        <a  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+      </div>
+      <div class="data-buttons">
+            <?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
+            <a  target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
+              View Website
+            </a>
+          </div>
+
+
+
+			</div></div>
 
 		</div>
-		
+
 		<?php
          }
 			$otherPosts = \App\Models\Post::where('user_id',$post->user_id)->where('id','<>',$post->id)->limit(3)->get();;
-			
+
 
 		?>
 
 		@if($otherPosts->count()>0)
 
-		<!-- static Content -->
+		<!-- static Content
 									<div class="related-pro-bottom">
-										<div class="row">
-										
+										<div class="row">-->
+
+
+
 											@foreach($otherPosts as $related)
-											    <div class="col-lg-4 col-md-4 cl-sm-4 related-pro-col">
-												    <div class="pro-thumb" id="otherPosts">
+
+                      <div class="col-lg-4">
+   <div class="sompreo" style="height:80%">
+											    <div class="row">
+                            	<div class="col-lg-3">
+												    <div class="some_imgs" >
 												    	<?php
 
 												    	//dd($related);
@@ -420,26 +455,28 @@ $i=0;
 																$alttag = $related->title;
 															}
 															$related->uri = trans('routes.v-post', ['slug' => slugify($related->title), 'id' => $related->id]);
-									 
+
 														?>
 												         <a href="{{ lurl($related->uri) }}">
 															<img  src="{{ $relatedImg }}" alt="<?php echo $alttag;?>" loading="lazy">
 														</a>
-													</div>
-													<div class="related-pro-des">
-													    <h4><a href="{{ lurl($related->uri) }}">{{$related->title}}</a></h4>
-										 
-														<a class="btn  btn-md btn-default send_message get-quote" data-toggle="modal" data-id="{{ $related->id }}" href="#contactUser">Get Quote</a>
-													</div>
-												</div>
-												@endforeach
-											
+													</div></div>
+													<div class="col-lg-9">
+                            <div class="some_content">
+													    <p>{{$related->title}}</p>
 
-										</div>
-									</div>
+														<a href="{{ lurl($related->uri) }}" data-toggle="modal" data-id="{{ $related->id }}" href="#contactUser">Get Quote</a>
+													</div></div>
+												</div>
+                      </div>
+  									</div>  <!-- this is sus</div> --->
+
+												@endforeach
+
+
 		@endif
 
-	</div>
+	</div></div>
 
 		@if((($key+1)%15==0) || ($paginator->getCollection()->count()<15 && ($key+1 == $paginator->getCollection()->count())))
  			<?php
@@ -469,14 +506,14 @@ $i=0;
 	            if($bannerCat!=""){
 
 	            	$query->orWhere('category_id',$bannerCat->id);
-	 				
+
 
 	 			}
 
-	           
-	            
+
+
 	        })->inRandomOrder()->first();
- 			  
+
  			?>
 
  			@if($banner)
@@ -487,13 +524,17 @@ $i=0;
  			@endif
 
  			@if($relatedCat->count()>0)
-	
- 			<div class="related-cate-block new">
-					<h2>Related Categories we serve</h2>
-					<div class="related-cate-inner">
-						 @foreach($relatedCat as $related)
+<div class="row bor">
+  <div class="col-lg-12">
+     <div class="title">
+        <h4>Related Category</h4>
+     </div>
+  </div>
 
-						<?php 
+
+						 @foreach($relatedCat as $related)
+<div class="col-lg-2">
+						<?php
 
 						 	if(isset($subCat)){
 
@@ -508,20 +549,28 @@ $i=0;
 								$heightimg='200';
 					 		}
 						?>
-						
-					    <div class="related-pro">
+
+					    <!--- <div class="related-pro">
 						    <div class="related-pro-inner">
 						    <div class="re-pic">
 							   <a href="/category/<?=$related->slug?>"> <img src="{{ \Storage::url($related->picture) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="220px" height="{{ $heightimg }}px"></a>
 							</div>
 							<h3><a href="/category/<?=$related->slug?>">{{$related->name}}</a></h3>
 							</div>
-						</div> 
+						</div> --->
+
+            <div class="rel">
+                  <a href="/category/<?=$related->slug?>"> <img src="{{ \Storage::url($related->picture) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="220px" height="{{ $heightimg }}px"></a>
+                   <h4><a href="/category/<?=$related->slug?>">{{$related->name}}</a></h4>
+                </div>
+
+
+            	</div>
 						@endforeach
 
-					</div>
+
 			</div>
-			 
+
 			@if(isset($subCat))
 
 			<!-- <section class="section-block requirement-form-wrap">
@@ -533,9 +582,9 @@ $i=0;
 							    <h2>Tell us your Requirement</h2>
 			                    <form name="quick_query_listing" class="quick_query_form listing_form" onSubmit="return submitQuery(this)">
 									<input class="form-control" type="text" placeholder="Tell Us Your Requirement" name="quick_query"  value="{{ old('quick_query',$keywords)}}">
-									<?php 
+									<?php
 
-							 
+
 										if(auth()->check()){
 											if(auth()->user()->user_type_id!="2"){
 
@@ -551,55 +600,55 @@ $i=0;
 
 												$name = old('quick_query_name');;
 
-												 
-										}	
+
+										}
 
 									?>
-									
-									
-									
+
+
+
 									<input class="form-control" type="text"  name="quick_query_name" placeholder="Name" value="{{$name}}">
 									<input class="form-control" type="text" name="quick_query_phone" placeholder="Mobile No." value="{{(auth()->check()) ? auth()->user()->phone : ''}}">
 									<input class="btn btn-default" type="submit" value="Submit Requirement">
 								</form>
 								</div>
 								</div>
-								 
-								
-								
-								
-			                </div>				
+
+
+
+
+			                </div>
 						</div>
 				</div>
 			</section>
  -->
-			
-			@endif
-			
-			
-			
+
 			@endif
 
-			 
-	
-	
+
+
+			@endif
+
+
+
+
 	@endif
-	
-	
-	
-	
-	
-	
-		
-	
-	
+
+
+
+
+
+
+
+
+
 	<?php endforeach; ?>
 @else
 	<div class="p-4" style="width: 100%;">
 <div class="adds-wrapper">
 <div class="item-list listing-col-box">
 <?php
-		
+
 		$url=$_SERVER['REQUEST_URI'];
 		$arr =explode('/',$url);
 		 $search_tags=in_array("tag", $arr);
@@ -617,7 +666,7 @@ $i=0;
 			 {
 				 $i=$i+1;
 				 $pictures=DB::table('pictures')->where(['post_id'=>$post->post_id])->get();
-                $img='';				
+                $img='';
 				foreach($pictures as $imgrow)
 				 {
  					 $img=$imgrow->filename;
@@ -627,25 +676,25 @@ $i=0;
 					$alttag = $post->title;
 				 }
 			?>
-			<div class="row">
-			<div class="col-md-3 col-xs-12 photobox listing-img-block">
-				<div class="add-image listing-img-inner">
-					<span class="photo-count"><i class="fa fa-camera"></i> <?=$pictures->count();?> </span>
-					
+			<div class="row"><div class="col-lg-9"><div class="row">
+			{{-- <div class="col-md-3 col-xs-12 photobox listing-img-block"> --}}   <div class="col-lg-4">
+				{{-- <div class="add-image listing-img-inner"> --}} <div class="listing_image">
+					{{--<span class="photo-count"><i class="fa fa-camera"></i> <?=$pictures->count();?> </span>--}}
+
 					<a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">
 						<img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/<?=$img?>" alt="{{@$alttag}}" width="320px" height="240px">
 					</a>
 				</div>
 			</div>
-	
-			<div class="col-md-6 col-xs-12 listing-details-col" >
-				<div class="ads-details listing-name">
-					<h2 class="add-title" id="sony">
-						
-						<a target="_blank" href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">{{ str_limit(@$post->title, 70) }} 
+
+			 {{-- <div class="col-md-6 col-xs-12 listing-details-col" > --}} <div class="col-lg-8"><div class="listing-data"><div class="dat-list">
+				{{-- <div class="ads-details listing-name"> --}}
+					<h2>
+
+						<a target="_blank" href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">{{ str_limit(@$post->title, 70) }}
 						<?php
 								//dd($post);
-							if($searched_keyword!="" && preg_match('/'.$searched_keyword.'/i', $post->description)){ 
+							if($searched_keyword!="" && preg_match('/'.$searched_keyword.'/i', $post->description)){
 								echo "<small>offering ".$searched_keyword."</small>";
 							}
 
@@ -655,42 +704,45 @@ $i=0;
 
 						</a>
 					</h2>
-					
-					
 
-					
-				</div>
-	
+
+
+
+				{{-- </div>  --}}
+
 				@if (config('plugins.reviews.installed'))
 					@if (view()->exists('reviews::ratings-list'))
 						@include('reviews::ratings-list')
 					@endif
 				@endif
 
-				<div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;">{!! \Illuminate\Support\Str::limit(strip_tags($post->short_description), 150, $end='...')  !!}</div>
-                               
-				 
-				<?php 
+				<!-- <div class="readmores" style="height:100px; overflow:hidden;padding:6px 0px 0px 0px;"> ---> <p>{!! \Illuminate\Support\Str::limit(strip_tags($post->short_description), 150, $end='...')  !!}</p> <!--- </div> --->
+        <br>
+                                       <div class="read-more">
+                                          <a href="{{ lurl($post->uri, $attr) }}" target=”_blank”>Read More...</a>
+                                       </div>
+
+				<?php
 				$v=strip_tags($post->short_description);
 			    $strcount=strlen($v);
 				if($strcount>150)
 				{
 					?>
-               <a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>" style='color: red; font-weight: bold;'>Read More...</a>
+              <!---  <a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>" style='color: red; font-weight: bold;'>Read More...</a>  --->
 				<?php
 				}
 				?>
 
-                          
-			</div>
-	               
-			<div class="col-md-3 col-xs-12 lis-contact-col">
-			    <span class="info-row">
-					    
+
+			</div></div></div></div></div>
+
+			{{--<div class="col-md-3 col-xs-12 lis-contact-col">--}}<div class="col-lg-3"><div class="user-data"><div class="user-content">
+			    <div class="data">
+
 						<?php $attr = ['countryCode' => config('country.icode'), 'username' => @$post->username]; ?>
-						<h4><a class="company-name" style="color: #f12227; font-weight: 700;" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
+						<h4><a  style="color: #f12227; font-weight: 700;" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
 						 	{{ @$post->name }}
-							
+
 						</a></h4>
 
 					{{--	<span class="date"><i class="icon-clock"></i> {{ $post->created_at }} </span>
@@ -701,18 +753,18 @@ $i=0;
 							</span>
 						@endif
 					 --}}
-						
-				</span>
-				
-				
-					<div class="c-address">
+
+
+
+
+					<hr> <!-- <div class="c-address"> --> <p>
 					     <?=$post->city_name?>
 						 <br>
 							{{$post->address1}}, {{$post->address2}}, {{$post->pincode}}
-					</div>
-				
-			
-			
+					<!-- </div>  --></p>
+        </div>
+
+
 				{{--
 				<h4 class="item-price">
 					@if (isset($liveCatType) and !in_array($liveCatType, ['not-salable']))
@@ -726,15 +778,24 @@ $i=0;
 					@endif
 				</h4>
 				--}}
-			 
-			 
 
-				<a class="btns view-number send_message" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+        <div class="data-button">
+
+        <a  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+      </div>
+      <div class="data-buttons">
+            <?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
+            <a  target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
+              View Website
+            </a>
+          </div>
+
+				{{--<a class="btns view-number send_message" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
 						<?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
 						<a class="btns c-supllier" target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}">
 							View Website
-						</a>
-			</div>
+						</a>--}}
+			</div></div></div>
 
 		</div>
 		<?php
@@ -747,7 +808,7 @@ $i=0;
 		if($i==0)
 		{
 		?>
-		
+
 		<p class="no-result">{{ t('No result. Refine your search using other criteria.') }}</p>
 		<?php
 		}
@@ -755,37 +816,37 @@ $i=0;
 		@if(!request()->ajax())
 		<?php
 
- 			 
+
  			if(isset($subCat)){
- 				
+
  				$relatedCat = \App\Models\Category::where('parent_id',$cat->id)->where('id','<>',$subCat->id)->limit(5)->inRandomOrder()->get();
- 				 
+
  			}
  			else if(isset($cat)){
 
  				$relatedCat = \App\Models\Category::where('parent_id','0')->where('id','<>',$cat->id)->limit(5)->inRandomOrder()->get();
- 				
- 				
+
+
  			}
  			else{
 
  				$relatedCat = \App\Models\Category::where('parent_id','0')->limit(5)->inRandomOrder()->get();
  			}
 
- 			 
 
- 			  
+
+
 
  			?>
-                         
+
  			@if($relatedCat->count()>0)
-	
- 			<div class="related-cate-block">
-					<h2>Related Categories</h2>
+<div class="row bor">
+
+					<h2>Related --Categories</h2>
 					<div class="related-cate-inner">
 						 @foreach($relatedCat as $related)
 
-						<?php 
+						<?php
 
 						 	if(isset($subCat)){
 
@@ -799,7 +860,7 @@ $i=0;
 					 			$url = lurl(trans('routes.v-search-cat', $attr));
 					 		}
 						?>
-						
+
 					    <div class="related-pro">
 						    <div class="related-pro-inner">
 						    <div class="re-pic">
@@ -807,19 +868,19 @@ $i=0;
 							</div>
 							<h3><a href="{{ $url }}">{{$related->name}}</a></h3>
 							</div>
-						</div> 
+						</div>
 						@endforeach
 
 					</div>
 			</div>
-			
-			  
+
+
 
 			<div class="help-block listing-help-block">
 			    <div class="container-fluid">
 					<div class="help-form">
 						    <div class="help-form-inner">
-							
+
 							    <h3 class="bounce">Let us Help You</h3>
 			                    <form name="quick_query_listing" class="quick_query_form listing_form" onSubmit="return submitQuery(this)">
 								    <div class="field-box">
@@ -828,9 +889,9 @@ $i=0;
 									        <input type="text" placeholder="Tell Us Your Requirement" name="quick_query"  value="{{ old('quick_query',$keywords)}}">
 										</div>
 									</div>
-									<?php 
+									<?php
 
-							 
+
 										if(auth()->check()){
 											if(auth()->user()->user_type_id!="2"){
 
@@ -846,12 +907,12 @@ $i=0;
 
 												$name = old('quick_query_name');;
 
-												 
-										}	
+
+										}
 
 									?>
 									<div class="row">
-										
+
 										<div class="col-md-6 field-box" style="padding-right:4px;">
 										    <div class="input-group">
 											    <i class="icon-user fa hidden-sm"></i>
@@ -876,22 +937,22 @@ $i=0;
 										</div>
 									</div>
 								</form>
-								 
-							
-			                </div>				
+
+
+			                </div>
 						</div>
 				</div>
 			</div>
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
 			@endif
 		@endif
-		
+
 	</div>
 @endif
 
@@ -906,18 +967,18 @@ $i=0;
 @section('after_scripts')
 	@parent
 	<script>
-            
-          
+
+
 
 
 
 
 		function submitQuery(form){
 
- 		 	
-		    
+
+
  			var form =$(form);
- 			
+
  			$('form').removeClass('active_query');
 
  			form.addClass('active_query');
@@ -937,7 +998,7 @@ $i=0;
 						'_token': $('input[name=_token]').val()
 					}
 				}).done(function(data) {
-					
+
 					$(".quick_query_form [type='submit']").removeAttr('disabled');
 					$('#query_type').val(data.type);
 					$('#query_id').val(data.id);
@@ -946,29 +1007,29 @@ $i=0;
 					$('[name="quick_query_phone"]').val(form.find('[name="quick_query_phone"]').val());
 					$('[name="quick_query_name"]').val(form.find('[name="quick_query_name"]').val());
 
-					
+
 
 					window.dataLayer =window.dataLayer || [];
-					
+
 					window.dataLayer.push({
 						'event':'quickQuery','conversionValue':1
 					});
 
-				 
 
-					$("#sliderForm #msform fieldset").removeAttr('style').hide(); 
+
+					$("#sliderForm #msform fieldset").removeAttr('style').hide();
 					$("#sliderForm #msform fieldset:eq(0)").show();
-					$("#sliderForm").modal({backdrop: 'static', keyboard: false}); 					
+					$("#sliderForm").modal({backdrop: 'static', keyboard: false});
 
-				 
 
-				 
-					 
-					
-					 
+
+
+
+
+
 				}).error(function(response) {
-					
-					
+
+
 					$(".quick_query_form [type='submit']").removeAttr('disabled');
 					var responseJSON = response.responseJSON;
 
@@ -983,7 +1044,7 @@ $i=0;
 
 						var msg=[];
 						$.each(data, function (index, value) {
-							
+
 							if(msg.length==0){
 								form.find('[name="'+index+'"]').focus()
 							}
@@ -993,15 +1054,15 @@ $i=0;
 						alert(msg.join("\n"));
 					}
 
-					
- 
-					 
+
+
+
 				});
 
 				return false;
  		}
-	 
-	 
+
+
 		@if ($count->get('all') > 0)
 			@if (config('settings.listing.display_mode') == '.grid-view')
 				gridView('.grid-view');
@@ -1020,7 +1081,7 @@ $i=0;
 		if (!listingDisplayMode) {
 			createCookie('listing_display_mode', '{{ config('settings.listing.display_mode', '.grid-view') }}', 7);
 		}
-		
+
 		/* Favorites Translation */
 		var lang = {
 			labelSavePostSave: "{!! t('Save ad') !!}",
@@ -1034,7 +1095,7 @@ $i=0;
 		};
 
 
-                                       
+
 
 	</script>
 <script>

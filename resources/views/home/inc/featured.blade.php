@@ -3,34 +3,36 @@ if (!isset($cacheExpiration)) {
     $cacheExpiration = (int)config('settings.other.cache_expiration');
 }
 ?>
+
 @if (isset($featured) and !empty($featured) and !empty($featured->posts))
 	@include('home.inc.spacer')
 	<div class="container-fluid">
+
 		<div class="col-xl-12 content-box layout-section sponser-ads">
 			<div class="row row-featured row-featured-category">
 				<div class="col-xl-12 box-title">
 					<div class="inner">
 						<h2>
-							<span class="title-3">{!! $featured->title !!}</span>
+							<span class="title-3">{!! $featured->title !!} home.inc.featured</span>
 							<a href="{{ $featured->link }}" class="sell-your-item">
 								{{ t('View more') }} <i class="icon-th-list"></i>
 							</a>
 						</h2>
 					</div>
 				</div>
-		
+
 				<div style="clear: both"></div>
-		
+
 				<div class="relative content featured-list-row clearfix">
-					
+
 					<div class="large-12 columns">
 						<div class="no-margin featured-list-slider owl-carousel owl-theme">
 							<?php
 							foreach($featured->posts as $key => $post):
 								if (empty($countries) or !$countries->has($post->country_code)) continue;
-								
+
 								$sUser = \App\Models\User::with('city')->where('id', $post->user_id)->first();
-								
+
 								// Picture setting
 								$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
 								if ($pictures->count() > 0) {
@@ -38,14 +40,14 @@ if (!isset($cacheExpiration)) {
 								} else {
 									$postImg = resize(config('larapen.core.picture.default'));
 								}
-			
+
 								// Category
 								$cacheId = 'category1111.' . $post->category_id . '.' . config('app.locale');
 								$liveCat = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
 									$liveCat = \App\Models\Category::find($post->category_id);
 									return $liveCat;
 								});
-			
+
 								// Check parent
 								if (empty($liveCat->parent_id)) {
 									$liveCatType = $liveCat->type;
@@ -59,6 +61,7 @@ if (!isset($cacheExpiration)) {
 								}
 								?>
 								<div class="item">
+                  home.inc.featured
 									<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 									<a href="{{ lurl($post->uri, $attr) }}">
 										<span class="item-carousel-thumb">
@@ -75,22 +78,22 @@ if (!isset($cacheExpiration)) {
 												{{$sUser->address1}}, {{$sUser->address2}}, {{$sUser->city->name}} {{($sUser->city->subAdmin1 && $sUser->city->name!=$sUser->city->subAdmin1->name)?$sUser->city->subAdmin1->name:''}} {{$sUser->pincode}}
 										</div>
 										@endif
-										
+
 										@if (config('plugins.reviews.installed'))
 											@if (view()->exists('reviews::ratings-list'))
 												@include('reviews::ratings-list')
 											@endif
 										@endif
-										 
+
 									</a>
 
 									<a class="btn  btn-md btn-default send_message" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"><i class="icon-mail-2"></i> <span> {{ t('Send a message') }} </span></a>
 								</div>
 							<?php endforeach; ?>
-			
+
 						</div>
 					</div>
-		
+
 				</div>
 			</div>
 		</div>
@@ -107,7 +110,7 @@ if (!isset($cacheExpiration)) {
 		/* Carousel Parameters */
 		var carouselItems = {{ (isset($featured) and isset($featured->posts)) ? collect($featured->posts)->count() : 0 }};
 		var carouselAutoplay = {{ (isset($featuredOptions) && isset($featuredOptions['autoplay'])) ? $featuredOptions['autoplay'] : 'true' }};
-		
+
 		var carouselAutoplayTimeout = {{ (isset($featuredOptions) && isset($featuredOptions['autoplay_timeout'])) ? $featuredOptions['autoplay_timeout'] : 1500 }};
 		var carouselLang = {
 			'navText': {

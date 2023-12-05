@@ -5,9 +5,9 @@
     $fullUrlNoParams = current($tmpExplode);
 ?>
 
-<div id="sidebar" class="col-lg-2 col-md-2 col-sm-3 main-sidebar mobile-filter-sidebar pb-4">
+<!--- <div id="sidebar" class="col-lg-2 col-md-2 col-sm-3 main-sidebar mobile-filter-sidebar pb-4">
 	<aside>
-		<div class="sidebar-modern-inner enable-long-words">
+		<div class="sidebar-modern-inner enable-long-words">  --->
 
 
 
@@ -112,12 +112,64 @@
                 @endif
 				--}}
 
+<?php
+  $cattoshow = $cats->groupBy('parent_id')->get(0);
+?>
+
+
+
+
+
+
+
+
+            <div class="col-sm-12 col-md-12 col-lg-3">
+              @foreach ($cattoshow as $iSubCatis)
+               <div class="sidebar-cat">
+                  <h4 class="catr">{{$iSubCatis->name}}</h4>
+                  <div class="list-group">
+                    @foreach ($iSubCatis->children as $val)
+                      <?php $attr = [
+                        'countryCode' => config('country.icode'),
+                        'catSlug'     => $iSubCatis->slug,
+                        'subCatSlug'  => $val->slug
+                      ];
+                      $searchUrl = lurl(trans('routes.search-subCat', $attr), $attr) ; ?>
+                      @if($val->name == '')
+                        <a href="{{$searchUrl}}" style ="background-color:#00c6ff;">
+                      @else
+                        <a href="{{$searchUrl}}" >
+                      @endif
+                          {{$val->name}}
+                        </a>
+                    @endforeach
+                  </div>
+               </div>
+              @endforeach
+
+
+
+
+        <div class="form-groups">
+          <h4 class="catr">Enquire Now Form</h4>
+        </div>
+
+
+
+
+<!-- Closed -->
+
 
 				<?php $parentId = ($cat->parent_id == 0) ? $cat->tid : $cat->parent_id; ?>
+
+
+
                 <!-- SubCategory -->
+
+        <!--
 				<div id="subCatsList">
 					<div class="block-title has-arrow sidebar-header">
-						<h5><strong><a href="#"><i class="fa fa-angle-left"></i> {{ t('Others Categories') }}</a></strong></h5>
+						<h5><strong><a href="#"><i class="fa fa-angle-left"></i> ddd{{ t('Others Categories') }}</a></strong></h5>
 					</div>
 					<div class="block-content list-filter categories-list">
 						<ul class="list-unstyled">
@@ -152,6 +204,8 @@
 								@endif
 								<ul class="list-unstyled long-list">
 									@if ($cats->groupBy('parent_id')->has($parentId))
+                    {{$parentId}}
+
 									@foreach ($cats->groupBy('parent_id')->get($parentId) as $iSubCat)
 										{{-- @continue(!$cats->has($iSubCat->parent_id)) --}}
 
@@ -272,15 +326,19 @@
 
 
 					</div>
-				</div>
+				</div>  --->
 				<?php $style = 'style="display: none;"'; ?>
 
 
 
 			@endif
 
+
+
+
+
             <!-- Category -->
-			<div id="catsList" {!! (isset($style)) ? $style : '' !!}>
+			<!-- <div id="catsList" {!! (isset($style)) ? $style : '' !!}>
 				<div class="block-title has-arrow sidebar-header" style="background-color:#00b5b7 !important;">
 					<h5 style="color:#fff;background-color:#00b5b7 !important;"><strong>{{ t('All Categories') }}</strong></h5>
 				</div>
@@ -337,93 +395,31 @@
 						@endif
 					</ul>
 				</div>
-			</div>
+			</div> --->
 
 
 			{{-- @include('search.inc.fields') --}}
-			<div style="clear:both"></div>
+			<!--- <div style="clear:both"></div>   --->
 
 
-		</div>
-       @isset($cat)
-            @if($cat->youtubelink)
-        <div class="ifrmae-video" style="margin-top: 24px;">
-		<iframe width="100%" height="500" src="{{$cat->youtubelink}}" title="{{$cat->youtubetext}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-		</div>
-         @endif
-        @endisset
+		<!--- </div>  --->
 
 
 
+@include('search.inc.catvideo')
+
+
+@include('search.inc.whatsapp')
 
 
 
-               <div class="whatappchat" style="    position: fixed;
-    width: 200px;
-    background: #E6DDD4;
-    bottom: 60px;
-    right: 21px;
-    z-index: 9999;
-    border-radius: 10px 10px 10px 10px;">
-      <div class="headerss" style="display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px;
-    background: #095E54;
-    border-radius: 10px 10px
-px
- 0px 0px;">
-         <div class="headers-left">
-           <i class="fa fa-user" style="text-align: center;
-    font-size: 15px;
-    color: #fff;
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-    padding-top: 6px;
-    border: 1px solid;"></i>
-         </div>
-          <div class="headers-left">
-           <h4 style="color: #fff;
-    align-self: center;font-size: 13px;">Welcome To Rednirus Mart</h4>
-           <p style="color: #fff;
-    align-self: center;font-size: 10px;">Typing...</p>
-         </div>
-      </div>
-      <div class="whatss-body" style="width: 134px;
-    background: #fff;
-    margin: 20px;
-    border-radius: 0px 0px 10px 10px;">
-          <p style="font-size: 12px;
-    margin: 0px;
-    padding: 10px;">Hi there ??<br>
-          How may help you...</p>
-      </div>
-      <div class="whatfooter" style="    background: #FFFFFF;
-    text-align: center;
-    /* margin: 0px 10px; */
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    padding: 10px 0px;
-    border-radius: 0px 0px 10px 10px;">
-        <a style="background: #14C656;
-    padding: 2px 26px;
-    border-radius: 32px;
-    display: block;
-    width: 153px;
-    color: #fff;
-    font-size: 12px;
-    margin: auto;" href="https://wa.me/+919888885364/?text=Hello,  How can Pharmafranchisemart help you? ({{Request::url()}})"><i class="fab fa-whatsapp"></i> Start Chat</a>  
-      </div>
+	<!---  </aside>
+
+</div>  --->
 </div>
 
 
 
-	</aside>
-
-</div>
 {{--
 @section('after_scripts')
     @parent

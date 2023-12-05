@@ -18,7 +18,7 @@ if (isset($citiesOptions)) {
 	if (isset($citiesOptions['show_post_btn']) and $citiesOptions['show_post_btn'] == '1') {
 		$loc['showButton'] = true;
 	}
-	
+
 	if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.svg')) {
 		if (isset($citiesOptions['show_map']) and $citiesOptions['show_map'] == '1') {
 			$map['show'] = true;
@@ -28,10 +28,11 @@ if (isset($citiesOptions)) {
 ?>
 @if ($loc['show'] || $map['show'])
 @include('home.inc.spacer')
+home.inc.locations
 <div class="container">
 	<div class="col-xl-12 page-content p-0">
 		<div class="inner-box">
-			
+
 			<div class="row">
 				@if (!$map['show'])
 					<div class="row">
@@ -46,13 +47,13 @@ if (isset($citiesOptions)) {
 				$leftClassCol = '';
 				$rightClassCol = '';
 				$ulCol = 'col-md-3 col-sm-12'; // Cities Columns
-				
+
 				if ($loc['show'] && $map['show']) {
 					// Display the Cities & the Map
 					$leftClassCol = 'col-lg-8 col-md-12';
 					$rightClassCol = 'col-lg-3 col-md-12';
 					$ulCol = 'col-md-4 col-sm-6 col-xs-12';
-					
+
 					if ($loc['itemsCols'] == 2) {
 						$leftClassCol = 'col-md-6 col-sm-12';
 						$rightClassCol = 'col-md-5 col-sm-12';
@@ -78,7 +79,7 @@ if (isset($citiesOptions)) {
 				<div class="{{ $leftClassCol }} page-content m-0 p-0">
 					@if (isset($cities))
 						<div class="relative location-content">
-							
+
 							@if ($loc['show'] && $map['show'])
 								<h2 class="title-3 p-3" style="white-space: nowrap;">
 									<i class="icon-location-2"></i>&nbsp;{{ t('Choose a city or region') }}
@@ -104,7 +105,7 @@ if (isset($citiesOptions)) {
 									@endforeach
 								</div>
 							</div>
-							
+
 							@if ($loc['showButton'])
 								@if (!auth()->check() and config('settings.single.guests_can_post_ads') != '1')
 									<a class="btn btn-lg btn-add-listing" href="#quickLogin" data-toggle="modal">
@@ -116,15 +117,15 @@ if (isset($citiesOptions)) {
 									</a>
 								@endif
 							@endif
-	
+
 						</div>
 					@endif
 				</div>
 				@endif
-				
+
 				@include('layouts.inc.tools.svgmap')
 			</div>
-			
+
 		</div>
 	</div>
 </div>

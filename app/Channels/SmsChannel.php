@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notification;
 
 class SmsChannel
 {
-     
+
 
     /**
      * Send the given notification.
@@ -31,33 +31,33 @@ class SmsChannel
                 $sms_text =  $sms_array['sms_text'];
             }
 
-            
+
             if($limit_text){
 
                 $sms_text= substr($sms_text,0,157);//."...";
             }
-            
+
             $sms_text=rawurlencode($sms_text);
- 
+
 	       $response = $this->textlocal($to,$sms_text);
-        	
+
         	return $response;
-           
-         
+
+
         } catch (\Exception $exception) {
-            
+
             \Log::error($exception->getMessage());
             return ;
-           
+
         }
     }
 
     public function global91sms($contacts,$sms_text){
 
-        $routeid = '459'; 
+        $routeid = '459';
         $api_key = "";
         $from= "RDNIRS";
-        
+
         $api_url = "http://www.global91sms.in/app/smsapi/index.php?key=".$api_key."&entity=1701160597365318576&tempid=999999999999999&routeid=".$routeid."&type=text&contacts=".$contacts."&senderid=".$from."&msg=".$sms_text;
 
         return  $response = file_get_contents( $api_url);
@@ -69,9 +69,10 @@ class SmsChannel
 
         // Account details
         $apiKey = urlencode('NTA0YjcxNzg3NTUyNjU1NTU4NmU1YTc2Mzg0ZTMwNTc=');
-    
-        $sender = urlencode('RDNIRS');
         
+
+        $sender = urlencode('RDNIRS');
+
         // Prepare data for POST request
         $data = array('apikey' => $apiKey, 'numbers' => $numbers, "sender" => $sender, "message" => $message);
         $ch = curl_init('https://api.textlocal.in/send/');
@@ -80,11 +81,11 @@ class SmsChannel
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
 
-        
+
         curl_close($ch);
-        
+
         return  $response;
 
     }
- 
+
 }

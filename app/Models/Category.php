@@ -126,7 +126,7 @@ class Category extends BaseModel
 	 *
 	 * @return array
 	 */
-	public function sluggable()
+	public function sluggable():array
 	{
 		return [
 			'slug' => [
@@ -312,9 +312,13 @@ class Category extends BaseModel
 
 		$value = $this->attributes['picture'];
 
-		if (!Storage::exists($value)) {
-			$value = 'app/default/categories/fa-folder-' . $skin . '.png';
-		} else {
+
+
+		//if (!Storage::exists($value)) {
+			//$value = 'app/default/categories/fa-folder-' . $skin . '.png';
+		//} else {
+
+
 			// If the Category contains a skinnable icon,
 			// Change it by the selected skin icon.
 			if (str_contains($value, 'app/categories/skin-')) {
@@ -331,7 +335,10 @@ class Category extends BaseModel
 				$replacement = 'app/default/categories/fa-folder-' . $skin . '.';
 				$value = preg_replace($pattern, $replacement, $value);
 			}
-		}
+
+
+
+		//}
 
 		return $value;
 	}

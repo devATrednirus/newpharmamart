@@ -28,14 +28,14 @@ use Prologue\Alerts\Facades\Alert;
 class Page extends BaseModel
 {
     use Crud, Sluggable, SluggableScopeHelpers, TranslatedTrait;
-    
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'pages';
-    
+
     /**
      * The primary key for the model.
      *
@@ -43,21 +43,21 @@ class Page extends BaseModel
      */
     // protected $primaryKey = 'id';
     protected $appends = ['tid'];
-    
+
     /**
      * Indicates if the model should be timestamped.
      *
      * @var boolean
      */
     // public $timestamps = false;
-    
+
     /**
      * The attributes that aren't mass assignable.
      *
      * @var array
      */
     protected $guarded = ['id'];
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -84,21 +84,21 @@ class Page extends BaseModel
         'translation_of'
     ];
     public $translatable = ['name', 'slug', 'title', 'content'];
-    
+
     /**
      * The attributes that should be hidden for arrays
      *
      * @var array
      */
     // protected $hidden = [];
-    
+
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
-    
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -107,9 +107,9 @@ class Page extends BaseModel
     protected static function boot()
     {
         parent::boot();
-	
+
 		Page::observe(PageObserver::class);
-		
+
         static::addGlobalScope(new ActiveScope());
     }
 
@@ -118,7 +118,7 @@ class Page extends BaseModel
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable():array
     {
         return [
             'slug' => [
@@ -136,7 +136,7 @@ class Page extends BaseModel
 
         return '<a href="' . url($uri) . '" target="_blank">' . $this->name . '</a>';
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -146,7 +146,7 @@ class Page extends BaseModel
     {
         return $this->belongsTo(Page::class, 'parent_id', 'translation_of')->where('translation_lang', config('app.locale'));
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -156,7 +156,7 @@ class Page extends BaseModel
     {
         return $builder->where('type', $type)->orderBy('id', 'DESC');
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | ACCESORS
@@ -185,7 +185,7 @@ class Page extends BaseModel
 
         return $value;
     }
-    
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
@@ -199,7 +199,7 @@ class Page extends BaseModel
 			$this->attributes['title'] = $value;
 		}
 	}
-	
+
     public function setPictureAttribute($value)
     {
         $attribute_name = 'picture';
@@ -231,7 +231,7 @@ class Page extends BaseModel
 				if (empty($extension)) {
 					$extension = 'jpg';
 				}
-				
+
 				// Make the image
 				if (exifExtIsEnabled()) {
 					$image = Image::make($value)->orientate()->resize(1280, 1280, function ($constraint) {
@@ -242,13 +242,13 @@ class Page extends BaseModel
 						$constraint->aspectRatio();
 					});
 				}
-	
+
 				// Generate a filename.
 				$filename = md5($value . time()) . '.' . $extension;
-	
+
 				// Store the image on disk.
 				Storage::put($destination_path . '/' . $filename, $image->stream());
-	
+
 				// Save the path to the database
 				$this->attributes[$attribute_name] = $destination_path . '/' . $filename;
 			} else {
@@ -261,7 +261,7 @@ class Page extends BaseModel
 		} catch (\Exception $e) {
 			Alert::error($e->getMessage())->flash();
 			$this->attributes[$attribute_name] = null;
-			
+
 			return false;
 		}
     }

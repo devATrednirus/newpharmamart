@@ -11,37 +11,101 @@
 * of the above copyright notice. If you Purchased from Codecanyon,
 * Please read the full License from here - http://codecanyon.net/licenses/standard
 --}}
+
+
+
+
+
+
 <?php
    $fullUrl = url(request()->getRequestUri());
    $tmpExplode = explode('?', $fullUrl);
    $fullUrlNoParams = current($tmpExplode);
    ?>
-@extends('layouts.master')
+@extends('newlayouts.app')
+@section('meta_title','')
+@section('meta_keywords','')
+@section('meta_description','')
+@section('meta_image')
+content="{{ Request::root() }}/images/logo-2.png"\
+@endsection
 @section('search')
 @parent
-@include('search.inc.form')
+{{-- @include('search.inc.form') --}}
 @endsection
 @section('content')
+
+<style>
+    .row.bor.mga {
+    border: 1px solid #50b3a3;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+.maint img {
+    min-width: 237px;
+}
+button.lyo:hover {
+    background: #403201;
+    color: #fff!important;
+}
+button.lyo {
+    border-radius: 12px;
+    border: 2px solid snow;
+    background: #29b5d2;
+    color: #fdfdfd;
+    font-size: 15px;
+    padding: 3px;
+}
+.lefn h3 {
+    text-transform: capitalize;
+}
+button.hex:hover {
+    background: red;
+    border: 1px solid red;
+
+}
+button.hex {
+     border: 2px solid #499344;
+    background: #4e984c;
+    color: #fff;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+</style>
+
 <div class="main-content">
    <div class="listing-page-block">
       <div class="container-fluid">
          @include('search.inc.breadcrumbs')
          @include('search.inc.location')
-         <div class="container-fluid wrapper">
-            <div class="row">
+
+
+
+         <section class="categorys">
+            <div class="lemps">
+               <div class="container-fluid">
+                  <div class="row">
+
+
+
                <!-- Sidebar -->
                @if (config('settings.listing.left_sidebar'))
                @include('search.inc.sidebar')
                <?php $contentColSm = 'col-md-9'; ?>
                @else
-               <?php $contentColSm = 'col-md-12'; ?>
+               <?php  $contentColSm = 'col-md-12'; ?>
                @endif
+
+
+
                <!-- Content -->
-               <div class="col-md-10 main-content-listing">
-                  <div class="row">
-                     <div class="col-md-12 page-content col-thin-left listing-col-wrap ">
-                        <div class="category-list{{ ($contentColSm == 'col-md-12') ? ' noSideBar' : '' }}">
-                           <div class="tab-box">
+               <div class="col-lg-9 col-md-12 order-first order-md-1">
+
+                  <div>
+                     <!-- <div class="col-md-12 page-content col-thin-left listing-col-wrap ">  --->
+                        <!--- 7. <div class="category-list{{ ($contentColSm == 'col-md-12') ? ' noSideBar' : '' }}">  --->
+                           <div class="tab-box" style="visibility:hidden; max-height:0px;">
                               @if (Session::has('flash_notification'))
                               @include('common.spacer')
                               <?php $paddingTopExists = true; ?>
@@ -55,7 +119,7 @@
                               <?php Session::forget('flash_notification.message'); ?>
                               @endif
                               <!-- Nav tabs -->
-                              <ul id="postType" class="nav nav-tabs add-tabs tablist" role="tablist">
+                              <!--- <ul id="postType" class="nav nav-tabs add-tabs tablist" style="visibility:hidden; max-height:0px;" role="tablist">
                                  <?php
                                     $liClass = 'nav-item';
                                     $spanClass = 'alert-danger';
@@ -64,7 +128,7 @@
                                         $spanClass = 'badge-danger';
                                     }
                                     ?>
-                                 <li {!! $liClass !!}>
+                                 <li {!! $liClass !!} style="visibility:hidden; max-height:0px;">
                                  <a href="{!! qsurl($fullUrlNoParams, request()->except(['page', 'type'])) !!}" role="tab" data-toggle="tab" class="nav-link">
                                  {{ t('All Ads') }} <span class="badge badge-pill {!! $spanClass !!}">{{ $count->get('all') }}</span>
                                  </a>
@@ -76,7 +140,7 @@
                                     $postTypeCount = ($count->has($postType->tid)) ? $count->get($postType->tid) : 0;
                                     ?>
                                  @if (request()->filled('type') && request()->get('type') == $postType->tid)
-                                 <li class="active nav-item">
+                                 <li class="active nav-item" style="visibility:hidden; max-height:0px;">
                                     <a href="{!! $postTypeUrl !!}" role="tab" data-toggle="tab" class="nav-link">
                                     {{ $postType->name }}
                                     <span class="badge badge-pill badge-danger">
@@ -85,7 +149,7 @@
                                     </a>
                                  </li>
                                  @else
-                                 <li class="nav-item">
+                                 <li class="nav-item" style="visibility:hidden; max-height:0px;">
                                     <a href="{!! $postTypeUrl !!}" role="tab" data-toggle="tab" class="nav-link">
                                     {{ $postType->name }}
                                     <span class="badge badge-pill alert-danger">
@@ -96,7 +160,7 @@
                                  @endif
                                  @endforeach
                                  @endif
-                              </ul>
+                              </ul> --->
                               {{--
                               <div class="tab-filter">
                                  <select id="orderBy" title="sort by" class="niceselecter select-sort-by" data-style="btn-select" data-width="auto">
@@ -129,7 +193,7 @@
                               </div>
                               --}}
                            </div>
-                           <div class="listing-filter">
+                           <!--  <div class="listing-filter">
                               <div class="pull-left col-xs-6">
                                  <div class="breadcrumb-list">
                                     {!! (isset($htmlTitle)) ? $htmlTitle : '' !!}
@@ -146,7 +210,7 @@
                               @endif
                               --}}
                               <div style="clear:both"></div>
-                           </div>
+                           </div> -->
                            <!-- Mobile Filter bar -->
                            {{--
                            <div class="mobile-filter-bar col-xl-12">
@@ -200,16 +264,18 @@
                               </ul>
                            </div>
                            --}}
-                           <div class="menu-overly-mask"></div>
+                          <!--  <div class="menu-overly-mask"></div>  --->
                            <!-- Mobile Filter bar End-->
-                           <div class="adds-wrapper">
-                              @include('search.inc.posts')
-                           </div>
-                           <div class="form-group">
+                           <!-- 2. <div class="adds-wrapper"> -->
+                             <!-- Top -->
+                             @include('search.inc.posts')
+                             <!-- Bottom -->
+                           <!-- 2. </div> -->
+                           <!-- <div class="form-group">
                               <div class="col-md-12 text-center mt-4">
                                  <button id="loadMore" class="btn btn-primary btn-lg submitPostForm" onclick="loadMore()"> Loading .... </button>
                               </div>
-                           </div>
+                           </div> -->
                            <div class="tab-box save-search-bar text-center">
                               @if (request()->filled('q') and request()->get('q') != '' and $count->get('all') > 0)
                               <a name="{!! qsurl($fullUrlNoParams, request()->except(['_token', 'location'])) !!}" id="saveSearch"
@@ -220,10 +286,21 @@
                               <a href="#"> &nbsp; </a>
                               @endif
                            </div>
+
+                           <div class="col-lg-12">
+                               <div class="description">
+                           <p>
+
                            @if(isset($bottom_text))
                            {!! $bottom_text !!}
                            @endif
-                        </div>
+                         </p>
+                       </div>
+                     </div>
+
+
+
+                        <!--- 7. </div>  --->
                         {{--
                         <div class="post-promo text-center mb-5">
                            <h2> {{ t('Do have anything to sell or rent?') }} </h2>
@@ -235,14 +312,14 @@
                            @endif
                         </div>
                         --}}
-                     </div>
+                     <!-- 1. </div>  --->
 
                   </div>
 
                     <div class="row">
                       <div class="col-md-12">
                           <div class="listing_company">
-                             <h4>Listing Company</h4>
+                             <h4></h4>
                          </div>
                       </div>
                         @if(isset($listingBanners))
@@ -260,7 +337,7 @@
 
                  </div>
 
-
+                 <br><br><br>
                </div>
                <div style="clear:both;"></div>
                <!-- Advertising -->
@@ -284,6 +361,7 @@
          <h4 style="font-size: 28px;margin-bottom: 20px;text-align: center;font-weight: bold;text-transform: uppercase;">Popular Cities</h4>
          <div class="row justify-content-center">
             <ul class="list">
+              @if(!empty($cities))
                @foreach ($cities as $_city)
                <li style="display: inline-block;">
                   <?php
@@ -317,7 +395,7 @@
                      	$fullUrlLocation =qsurl($fullUrlLocation);
 
                      }
-                     ?>
+                      ?>
                   @if ((isset($uriPathCityId) and $uriPathCityId == $_city->id) or (isset($city) and $city->id==$_city->id))
                   <a style="display: inline-block;color: #606060;font-size: 12px !important;font-weight: 200;padding: 0 4px 0 0;text-decoration: none;" href="{!! $fullUrlLocation !!}" title="{{ $_city->name }}">
                   {{$sub}} in {{ $_city->name }}
@@ -329,12 +407,25 @@
                   @endif
                </li>
                @endforeach
+              @endif
             </ul>
          </div>
       </div>
    </section>
    @endif
 </div>
+
+
+
+
+</div>
+</div>
+</div>
+</section>
+
+
+
+
 @endsection
 @section('modal_location')
 @include('layouts.inc.modal.location')
@@ -488,6 +579,9 @@
 .listing_company {
     text-align: center;
     margin: 40px 0px;
+}
+.main-content {
+    padding-top: 100px;
 }
 </style>
 @endsection

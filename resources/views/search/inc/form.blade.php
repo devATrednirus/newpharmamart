@@ -17,7 +17,8 @@ if (isset($city) and !empty($city)) {
 }
 ?>
 
-	<div class="search-row-wrapper header-search">
+	{{-- <div class="search-row-wrapper header-search">
+		Me search.inc.form.blade.php
 		<div class="container search-row">
 			<?php $attr = ['countryCode' => config('country.icode')]; ?>
 			<form id="seach" name="search" action="{{ lurl(trans('routes.v-search', $attr), $attr) }}" method="GET">
@@ -27,17 +28,17 @@ if (isset($city) and !empty($city)) {
 						<select name="ct" id="catSearch" class="form-control selecter" style="height: 38px">
 							<option value="" {{ ($ct=='') ? 'selected="selected"' : '' }}> Product </option>
 							<option value="company" {{ ($ct=='company') ? 'selected="selected"' : '' }}> Company </option>
-							
+
 						</select>
 					</div>
-					 
+
 					<div class="col-xl-7 col-md-7 col-sm-12 col-xs-12" style="height: 38px">
 						<input name="q" class="form-control keyword" required="required"  type="text" placeholder="{{ t('What?') }}" value="{{ $keywords }}">
 					</div>
 					{{-- <input type="hidden" id="lSearch" name="l" value="{{ $qLocationId }}">
 					<input type="hidden" id="lSearch" name="c" value="{{ ((isset($cat)) ? $cat->tid : '') }}">
 					<input type="hidden" id="lSearch" name="sc" value="{{ ((isset($subCat)) ? $subCat->tid : '') }}"> --}}
-					
+
 					{{--
 					<div class="col-xl-3 col-md-3 col-sm-12 col-xs-12 search-col locationicon">
 						<i class="icon-location-2 icon-append"></i>
@@ -48,16 +49,16 @@ if (isset($city) and !empty($city)) {
 					</div>
 
 					--}}
-					<!-- 
+					<!--
 					<input type="hidden" id="rSearch" name="r" value="{{ $qAdmin }}"> -->
-	
+
 					<div class="col-xl-1 col-md-2 col-sm-12 col-xs-12">
 						<button class="btn btn-primary btn-search btn-block">
 							<i class="fa fa-search" style="margin-left:-8px;"></i> <strong>{{ t('Find') }}</strong>
 						</button>
 					</div>
-			 
+
 				</div>
 			</form>
 		</div>
-	</div>
+	</div>  --}}

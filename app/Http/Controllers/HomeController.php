@@ -307,10 +307,10 @@ class HomeController extends FrontController
 
                 WHERE a.country_code = "IN"
                 	AND (u.verified_email=1 AND u.verified_phone=1)
-                	AND a.archived!=1 ' . $reviewedCondition . '
-                GROUP BY u.id, states.name 
+                	AND a.archived != 1 ' . $reviewedCondition . '
+                GROUP BY u.id, states.name
                 ORDER BY p.lft DESC, rand()
-                LIMIT 0,' . (int)$limit;
+                LIMIT 0,' . $limit;
 		$bindings = [
 			'countryCode' => config('country.code'),
 		];
@@ -321,7 +321,8 @@ class HomeController extends FrontController
 		$cacheId = config('country.code') . '.home.getLocationPost.'.$limit ;
 		$location_posts = Cache::remember($cacheId, $cacheExpiration, function () use ($sql, $bindings) {
 
-			$location_posts = DB::select(DB::raw($sql), $bindings);
+			//$location_posts = DB::select(DB::raw($sql), $bindings);
+			$location_posts = DB::select(DB::raw($sql));
 			return $location_posts;
 		});
 

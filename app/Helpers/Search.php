@@ -30,7 +30,7 @@ use GeoIp2\Database\Reader;
 class Search
 {
     protected $cacheExpiration;
-    
+
     public $country;
     public $lang;
     public static $queryLength = 1; // Minimum query characters
@@ -110,7 +110,7 @@ class Search
     public function __construct($preSearch = [])
     {
         $this->cacheExpiration = (int)config('settings.other.cache_expiration', 1440);
-        
+
         // Pre-Search
         if (isset($preSearch['city']) && !empty($preSearch['city'])) {
             $this->city = $preSearch['city'];
@@ -118,7 +118,7 @@ class Search
         if (isset($preSearch['admin']) && !empty($preSearch['admin'])) {
             $this->admin = $preSearch['admin'];
         }
-    
+
         // Distance (Max & Default distance)
         self::$maxDistance = config('settings.listing.search_distance_max', 0);
         self::$distance = config('settings.listing.search_distance_default', 0);
@@ -141,10 +141,10 @@ class Search
 
        // $this->arrSql->orderBy['p.lft'] = ' DESC';
         //$this->arrSql->groupBy[] = "";
-          $this->arrSql->groupBy[] = "a.user_id";       
+          $this->arrSql->groupBy[] = "a.user_id";
         // Build the global SQL
         // $this->arrSql->select[] = "a.*";
-          //DISTINCT(a.user_id), 
+          //DISTINCT(a.user_id),
         $this->arrSql->select[] = "a.*, (a.price * " . config('selectedCurrency.rate', 1) . ") as calculatedPrice,u.name as company_name,u.username ";
         // Post category relation
         $this->arrSql->join[] = "INNER JOIN " . DBTool::table('categories') . " as c ON c.id=a.category_id AND c.active=1";
@@ -166,7 +166,7 @@ class Search
 
         if(isset($_POST['listings_ids'])){
 
-            
+
             $this->arrSql->where['a.user_id']=" not in (".implode(",",json_decode($_POST['listings_ids'])).") ";
 
         //     $this->bindings['listings_ids'] = implode(",",json_decode($_POST['listings_ids']));
@@ -215,7 +215,7 @@ class Search
             $result = DB::select(DB::raw($sql), $bindings);
         } catch (\Exception $e) {
             $result = null;
-           
+
             // DEBUG
             if(isset($_GET['test']) && $_GET['test']=="pagei"){
                  echo $sql."\n\n";
@@ -242,17 +242,17 @@ class Search
                 if(isset($this->bindings['catId'])){
 
                     $query->orWhere('category_id',$this->bindings['catId']);
-                 
+
                 }
                 else if(isset($this->bindings['subCatId'])){
                    $query->orWhere('category_id',$this->bindings['subCatId']);
                 }
             }
-           
-            
+
+
         })->limit(8)->inRandomOrder()->get();
 
-         
+
         view()->share('listingBanners', $banners);
 
         // If Ad Type is filled, then check if the Ad Type exists
@@ -264,15 +264,15 @@ class Search
                     ->where('translation_of', $postTypeId)
                     ->where('translation_lang', config('app.locale'))
                     ->first();
-                
+
                 return $postType;
             });
-            
+
             if (empty($postType)) {
                 abort(404, t('The requested ad type does not exist.'));
             }
         }
-        
+
         // Start Search
         $sql = $this->builder() . "\n" . "LIMIT " . (int)$this->sqlCurrLimit . ", " . (int)$this->perPage;
         if(isset($_GET['test']) && $_GET['test']=="pagei"){
@@ -289,25 +289,29 @@ class Search
 
 
         foreach ($this->bindings as $key => $value) {
-           
+
            $sql= str_replace(":".$key, "'".$value."'", $sql);
         }
 
-  
+
 
             // dd($sql);
 
-         
 
- 
-            
+            //echo $sql;
+
+
         // Fetch Query !
         $paginator = self::query($sql, $this->bindings, 0);
+
+        $paginator = DB::select($sql);
+
+
         $paginator = new LengthAwarePaginator($paginator, $total, $this->perPage, $this->currentPage);
         $paginator->setPath(Request::url());
         //dd($paginator);
 
-    
+
         // Append the Posts 'uri' attribute
         $paginator->getCollection()->transform(function ($post) {
             $post->title = mb_ucfirst($post->title);
@@ -328,7 +332,7 @@ class Search
             dd($paginator);
         }
 
-      
+
 
         if(request()->method() == "GET" ){
             $searchHistory = new SearchHistory;
@@ -356,13 +360,13 @@ class Search
 
                 $searchHistory->serach_term = null;
             }
-            
-            
+
+
             $searchHistory->session_id = (isset($_COOKIE['__cfduid'])?$_COOKIE['__cfduid']:session()->getId());
             $searchHistory->ip_address = request()->ip();
             $searchHistory->count =$paginator->total();
 
-            
+
             if(auth()->check()){
 
                 $searchHistory->user_id =  auth()->user()->id;
@@ -380,26 +384,26 @@ class Search
 
                 $savedSession=[];
             }
-             
+
 
 
 
 
             if(!in_array($queryCheck,$savedSession)){
-              
-                $searchHistory->user_agent = request()->header('User-Agent');    
+
+                $searchHistory->user_agent = request()->header('User-Agent');
 
                 $save_record = true;
                 if(preg_match("/bot\//", strtolower($searchHistory->user_agent))){
                     $save_record = false;
-                }   
+                }
 
                 if($save_record){
 
                     $savedSession[]= $queryCheck;
                     \Session::put($searchHistory->session_id, $savedSession);
                     \Session::save();
-                    
+
                     $searchHistory->save();
                 }
 
@@ -407,10 +411,10 @@ class Search
             }
 
 
-                 
-               
 
-              
+
+
+
         }
        // dd($paginator);
         return ['paginator' => $paginator, 'count' => $count];
@@ -421,7 +425,7 @@ class Search
      */
     public function fechAll()
     {
-        
+
 
         if (request()->filled('q')) {
             $this->setQuery(request()->get('q'));
@@ -441,31 +445,31 @@ class Search
         }
 
 
-       
-        
 
 
-     
-         
+
+
+
+
 
         $this->arrSql->join[] = "INNER JOIN " . DBTool::table('cities') . " as cia ON cia.id=a.city_id";
 
 
-       
 
-        
+
+
 
         if (!empty($this->city)) {
            // $this->arrSql->where[] = " (uf.city_id is null or uf.city_id!='".$this->city->id."') ";
             $this->setLocationByCityCoordinates($this->city->latitude, $this->city->longitude, $this->city->id);
 
         }
-        
-        
-        
-         
 
-     
+
+
+
+
+
 
         $this->setRequestFilters();
 
@@ -513,7 +517,7 @@ class Search
         }
 
         if(isset($_GET['test']) && $_GET['test']=="pagei"){
-            
+
             dump($postTypes);
             dd($count);
         }
@@ -542,18 +546,18 @@ class Search
 
         if(request()->get('ct')!="company")
         {
-            
+
 
             $ipAddr= request()->getClientIp();
 
-           
-                   
+
+
             $reader = new Reader(storage_path('database/maxmind/GeoLite2-City.mmdb'));
             $geocity = null;
             try {
                     $geocity = $reader->city($ipAddr);
             } catch (\Exception $e) {
-                
+
             }
 
             if(isset($_GET['test_geo']) && $_GET['test_geo']=="ph"){
@@ -582,14 +586,14 @@ class Search
                         $arrWhere[] = " NOT EXISTS(select u.id from " . DBTool::table('user_filter_locations') . " uf where  u.id=uf.user_id and uf.city_id  in (".implode(',',$geo_cities).")) ";
 
                     }
- 
+
 
 
             }
 
         }
         // Set WHERE
-        
+
         $this->sql->where = '';
         if (count($arrWhere) > 0) {
             foreach ($arrWhere as $key => $value) {
@@ -610,11 +614,11 @@ class Search
 
         if(empty($this->arrSql->groupBy)){
 
-            $this->arrSql->groupBy[] = "a.user_id";
+            //$this->arrSql->groupBy[] = "a.user_id";
         }
 
         if (count($this->arrSql->groupBy) > 0) {
-            $this->sql->groupBy = "\n" . 'GROUP BY ' . implode(', ', $this->arrSql->groupBy);
+            //$this->sql->groupBy = "\n" . 'GROUP BY ' . implode(', ', $this->arrSql->groupBy);
         }
 
         // Set HAVING
@@ -680,20 +684,20 @@ class Search
         $select = [];
 
         // Get all keywords in array
-        
+
 
 
         $commonWords = array('a','able','about','above','abroad','according','accordingly','across','actually','adj','after','afterwards','again','against','ago','ahead','ain\'t','all','allow','allows','almost','alone','along','alongside','already','also','although','always','am','amid','amidst','among','amongst','an','and','another','any','anybody','anyhow','anyone','anything','anyway','anyways','anywhere','apart','appear','appreciate','appropriate','are','aren\'t','around','as','a\'s','aside','ask','asking','associated','at','available','away','awfully','b','back','backward','backwards','be','became','because','become','becomes','becoming','been','before','beforehand','begin','behind','being','believe','below','beside','besides','best','better','between','beyond','both','brief','but','by','c','came','can','cannot','cant','can\'t','caption','cause','causes','certain','certainly','changes','clearly','c\'mon','co','co.','com','come','comes','concerning','consequently','consider','considering','contain','containing','contains','corresponding','could','couldn\'t','course','c\'s','currently','d','dare','daren\'t','definitely','described','despite','did','didn\'t','different','directly','do','does','doesn\'t','doing','done','don\'t','down','downwards','during','e','each','edu','eg','eight','eighty','either','else','elsewhere','end','ending','enough','entirely','especially','et','etc','even','ever','evermore','every','everybody','everyone','everything','everywhere','ex','exactly','example','except','f','fairly','far','farther','few','fewer','fifth','first','five','followed','following','follows','for','forever','former','formerly','forth','forward','found','four','from','further','furthermore','g','get','gets','getting','given','gives','go','goes','going','gone','got','gotten','greetings','h','had','hadn\'t','half','happens','hardly','has','hasn\'t','have','haven\'t','having','he','he\'d','he\'ll','hello','help','hence','her','here','hereafter','hereby','herein','here\'s','hereupon','hers','herself','he\'s','hi','him','himself','his','hither','hopefully','how','howbeit','however','hundred','i','i\'d','ie','if','ignored','i\'ll','i\'m','immediate','in','inasmuch','inc','inc.','indeed','indicate','indicated','indicates','inner','inside','insofar','instead','into','inward','is','isn\'t','it','it\'d','it\'ll','its','it\'s','itself','i\'ve','j','just','k','keep','keeps','kept','know','known','knows','l','last','lately','later','latter','latterly','least','less','lest','let','let\'s','like','liked','likely','likewise','little','look','looking','looks','low','lower','ltd','m','made','mainly','make','makes','many','may','maybe','mayn\'t','me','mean','meantime','meanwhile','merely','might','mightn\'t','mine','minus','miss','more','moreover','most','mostly','mr','mrs','much','must','mustn\'t','my','myself','n','name','namely','nd','near','nearly','necessary','need','needn\'t','needs','neither','never','neverf','neverless','nevertheless','new','next','nine','ninety','no','nobody','non','none','nonetheless','noone','no-one','nor','normally','not','nothing','notwithstanding','novel','now','nowhere','o','obviously','of','off','often','oh','ok','okay','old','on','once','one','ones','one\'s','only','onto','opposite','or','other','others','otherwise','ought','oughtn\'t','our','ours','ourselves','out','outside','over','overall','own','p','particular','particularly','past','per','perhaps','placed','please','plus','possible','presumably','probably','provided','provides','q','que','quite','qv','r','rather','rd','re','really','reasonably','recent','recently','regarding','regardless','regards','relatively','respectively','right','round','s','said','same','saw','say','saying','says','second','secondly','see','seeing','seem','seemed','seeming','seems','seen','self','selves','sensible','sent','serious','seriously','seven','several','shall','shan\'t','she','she\'d','she\'ll','she\'s','should','shouldn\'t','since','six','so','some','somebody','someday','somehow','someone','something','sometime','sometimes','somewhat','somewhere','soon','sorry','specified','specify','specifying','still','sub','such','sup','sure','t','take','taken','taking','tell','tends','th','than','thank','thanks','thanx','that','that\'ll','thats','that\'s','that\'ve','the','their','theirs','them','themselves','then','thence','there','thereafter','thereby','there\'d','therefore','therein','there\'ll','there\'re','theres','there\'s','thereupon','there\'ve','these','they','they\'d','they\'ll','they\'re','they\'ve','thing','things','think','third','thirty','this','thorough','thoroughly','those','though','three','through','throughout','thru','thus','till','to','together','too','took','toward','towards','tried','tries','truly','try','trying','t\'s','twice','two','u','un','under','underneath','undoing','unfortunately','unless','unlike','unlikely','until','unto','up','upon','upwards','us','use','used','useful','uses','using','usually','v','value','various','versus','very','via','viz','vs','w','want','wants','was','wasn\'t','way','we','we\'d','welcome','well','we\'ll','went','were','we\'re','weren\'t','we\'ve','what','whatever','what\'ll','what\'s','what\'ve','when','whence','whenever','where','whereafter','whereas','whereby','wherein','where\'s','whereupon','wherever','whether','which','whichever','while','whilst','whither','who','who\'d','whoever','whole','who\'ll','whom','whomever','who\'s','whose','why','will','willing','wish','with','within','without','wonder','won\'t','would','wouldn\'t','x','y','yes','yet','you','you\'d','you\'ll','your','you\'re','yours','yourself','yourselves','you\'ve','z','zero');
 
 
         $title = $keywords;
-        
+
         $keywords = strtolower(str_replace("  "," ",preg_replace('/\b('.implode('|',$commonWords).')\b/','',strtolower($keywords))));
 
 
- 
+
         $words_tab = preg_split('/[\s,\+]+/', $keywords);
-        
+
        //
         $city = City::where(function($query)use($words_tab){
             foreach ($words_tab as $value) {
@@ -713,7 +717,7 @@ class Search
         $keywords = implode(" ",$words_tab);
 
         $this->keywords = $keywords;
-         
+
 
         //-- If third parameter is set as true, it will check if the column starts with the search
         //-- if then it adds relevance * 30
@@ -729,11 +733,11 @@ class Search
             $this->bindings['city_name'] = $this->city->name;
         }
 
-        
+
 
         $this->bindings['keywords'] = '%'.$keywords . '%';
         $this->bindings['title'] = '%'.$title . '%';
-        
+
 
         //$removeWords = ['in','']
         foreach ($this->searchable['columns'] as $column => $relevance) {
@@ -795,7 +799,7 @@ class Search
         //-- Orders the results by relevance
         $this->arrSql->orderBy['relevance'] = ' DESC';
 
-        
+
 
 
     }
@@ -828,7 +832,7 @@ class Search
 
             //$this->arrSql->where['cp.id'] = ' = :catId';
             $this->arrSql->where[':catId'] = ' IN (c.id, cp.id,ccp.id)';
-           
+
             //$this->arrSql->groupBy[] = "u.id";
              //dd($this->arrSql->groupBy);
             $this->bindings['catId'] = $catId;
@@ -837,7 +841,7 @@ class Search
         else
         {
 
-            
+
             if (!str_contains(implode(',', $this->arrSql->join), 'categories')) {
                 $this->arrSql->join[] = "INNER JOIN " . DBTool::table('categories') . " as c ON c.id=a.category_id AND c.active=1 AND c.translation_lang = :translationLang";
                 $this->bindings['translationLang'] = config('lang.abbr');
@@ -846,7 +850,7 @@ class Search
 
             $this->arrSql->where[':catId'] = ' IN (c.id, cp.id)';
             $this->bindings['catId'] = $subCatId;
-            
+
             // $this->bindings['subCatId'] = $subCatId;
         }
 
@@ -867,7 +871,7 @@ class Search
 
         return $this;
     }
-    
+
     /**
      * @param $tag
      * @return $this
@@ -877,12 +881,12 @@ class Search
         if (trim($tag) == '') {
             return $this;
         }
-        
+
         $tag = rawurldecode($tag);
-        
+
         $this->arrSql->where[] = 'FIND_IN_SET(:tag, REPLACE(LOWER(a.tags)," ","") ) > 0';
         $this->bindings['tag'] = mb_strtolower(str_replace(" ","",$tag));
-        
+
         return $this;
     }
 
@@ -927,29 +931,29 @@ class Search
         if ($lat == 0 || $lon == 0) {
             return $this;
         }
-        
-        
-        
+
+
+
         $distanceCalculationFormula = config('larapen.core.distanceCalculationFormula');
-        
+
         // Use the Cities Standard Searches
         if (!DBTool::checkIfMySQLFunctionExists($distanceCalculationFormula)) {
             return $this->setLocationByCityId($cityId);
         }
-        
+
         // Use the Cities Extended Searches
         // by using the MySQL Distance Calculation function
         $sql = '(' . $distanceCalculationFormula . '(' . $lat . ', ' . $lon . ', u.lat, u.lon)) as distance';
-        
+
         $this->arrSql->select[] = $sql;
-        
+
         $this->arrSql->where[] = ' u.lat is not null';
-        
+
         if(request()->get('ct')!="company")
         {
-            
+
             //$this->arrSql->having['distance'] = ' <= :distance';
- 
+
         }
         //$this->bindings['distance'] = self::$distance;
        // dd($this->arrSql->orderBy);
@@ -958,7 +962,7 @@ class Search
 
 
 //        $this->arrSql->orderBy['a.created_at'] = ' DESC';
-        
+
         return $this;
     }
 
@@ -973,7 +977,7 @@ class Search
         if (trim($cityId) == '') {
             return $this;
         }
-        
+
         $this->arrSql->where['a.city_id'] = ' = :cityId';
         $this->bindings['cityId'] = $cityId;
 
@@ -1048,7 +1052,7 @@ class Search
                             foreach($postValue as $optionId => $optionValue) {
                                 if (is_array($optionValue)) continue;
                                 if (!is_array($optionValue) && trim($optionValue) == '') continue;
-                                
+
                                 $bindId = $fieldId.$optionId;
                                 $alias = 'av' . (int) $bindId; // (int) to prevent SQL injection attack
                                 $where = '('.$alias.'.field_id = :fieldId'.$bindId.' AND '.$alias.'.option_id = :optionId'.$bindId.' AND '.$alias.'.value LIKE :value'.$bindId.')';
@@ -1062,7 +1066,7 @@ class Search
                             if (trim($postValue) == '') {
                                 continue;
                             }
-    
+
                             $bindId = $fieldId;
                             $alias = 'av' . (int) $bindId; // (int) to prevent SQL injection attack
                             $where = '('.$alias.'.field_id = :fieldId'.$bindId.' AND '.$alias.'.value LIKE :value'.$bindId.')';
@@ -1083,7 +1087,7 @@ class Search
                     foreach($value as $k => $v) {
                         if (is_array($v)) continue;
                         if (!is_array($v) && trim($v) == '') continue;
-                        
+
                         $tmpArr[$k] = $v;
                     }
                     if (!empty($tmpArr)) {

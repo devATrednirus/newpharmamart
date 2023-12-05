@@ -9,6 +9,7 @@ if (auth()->user()) {
 
 
 ?><div class="modal fade" id="sliderForm" role="dialog">
+	search\inc\slider-message.blade.php
 	<div class="modal-dialog" style=" padding: 40px; height:60%;">
 		<div class="modal-content" style="background: #fff; border:0px;">
 			<div class="row">
@@ -310,12 +311,12 @@ $(document).ready(function()
 		countryCode = $(this).val();
         getAdminDivisions(countryCode, adminType, 0);
     });*/
-    
+
     /* Get and Bind the selected city */
     if (adminType == 0) {
 		getSelectedCity(countryCode, cityId);
 	}
-    
+
     /* Get and Bind cities */
     $('#cityId,.custom_city').select2({
 		language: select2Language,
@@ -342,7 +343,7 @@ $(document).ready(function()
                     q: params.term, /* search term */
                     page: params.page
                 };
-                
+
                 return query;
             },
             processResults: function (data, params) {
@@ -353,7 +354,7 @@ $(document).ready(function()
                 // scrolling can be used
                 */
                 params.page = params.page || 1;
-                
+
                 return {
                     results: data.items,
                     pagination: {
@@ -385,7 +386,7 @@ $(document).ready(function()
 function getAdminDivisions(countryCode, adminType, selectedAdminCode)
 {
     if (countryCode == 0 || countryCode == '') return false;
-	
+
 	/* Make ajax call */
 	$.ajax({
 		method: 'GET',
@@ -395,7 +396,7 @@ function getAdminDivisions(countryCode, adminType, selectedAdminCode)
 		/* Init. */
 		$('#adminCode').empty().append('<option value="0">' + lang.select.admin + '</option>').val('0').trigger('change');
 		$('#cityId').empty().append('<option value="0">' + lang.select.city + '</option>').val('0').trigger('change');
-		
+
 		/* Bind data into Select list */
 		if (typeof obj.error !== 'undefined') {
 			$('#adminCode').find('option').remove().end().append('<option value="0"> '+ obj.error.message +' </option>');
@@ -404,7 +405,7 @@ function getAdminDivisions(countryCode, adminType, selectedAdminCode)
 		} else {
 			$('#adminCode').closest('.form-group').removeClass('has-error');
 		}
-		
+
 		if (typeof obj.data === 'undefined') {
 			return false;
 		}
@@ -415,7 +416,7 @@ function getAdminDivisions(countryCode, adminType, selectedAdminCode)
 				$('#adminCode').append('<option value="' + item.code + '">' + item.name + '</option>');
 			}
 		});
-		
+
 		/* Get and Bind the selected city */
 		getSelectedCity(countryCode, cityId);
 	});
@@ -436,7 +437,7 @@ function getSelectedCity(countryCode, cityId)
 	$('#adminCode').bind('click, change', function() {
 		$('#cityId').empty().append('<option value="0">' + lang.select.city + '</option>').val('0').trigger('change');
 	});
-	
+
 	/* Make ajax call */
 	$.ajax({
 		method: 'GET',
@@ -450,7 +451,7 @@ function getSelectedCity(countryCode, cityId)
 		$('#cityId').empty().append('<option value="0">' + lang.select.city + '</option>').val('0').trigger('change');
 		return 0;
 	});
-	
+
 	return 0;
 }
 </script>
@@ -621,12 +622,12 @@ function getSelectedCity(countryCode, cityId)
 
 
 			/*
-			
+
 			if(submited_form.hasClass('listing_form')){
 				submited_form.parent().html("Thank You");
 			}
 			else{
-				alert("Thank You");	
+				alert("Thank You");
 			}*/
 
 

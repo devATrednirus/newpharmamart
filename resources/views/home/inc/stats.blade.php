@@ -1,4 +1,14 @@
+<?php $sty = '';
+if(!empty($_GET['debu'])) {
+  if($_GET['debu'] == 1)  {
+    echo "home.inc.stats";
+    $sty = ' style="border: 1px solid;" ';
+  }
+} ?>
+{{--
+
 @if (isset($countPosts) and isset($countUsers) and isset($countCities))
+
 
 
 <div class="help-block" style="display:none;">
@@ -129,7 +139,7 @@
 	</div>
 </div>
 
-{{-- <section class="section-block banner-top-wrapper">
+ <section class="section-block banner-top-wrapper">
 	    <div class="container-fluid">
 		    <div class="section-bg">
 			<div class="container-fluid">
@@ -188,17 +198,19 @@
 			</div>
 			</div>
 		</div>
-	</section> --}}
+	</section>
 
 
 <section class="section-block requirement-form-wrap">
+
+
 	    <div class="container-fluid">
 		    <div class="section-bg">
 			<div class="container-fluid">
 		    <div class="row">
 			    <div class="col-md-6 banner-text">
-				    <h2 style="font-family: 'poppins';">We connect<br><strong>Buyers & Sellers</strong></h2>
-					{{--<p>Rednirus Mart is India's largest online B2B marketplace, connecting buyers with suppliers.</p> --}}
+				    <h2 style="font-family: 'poppins';">We connect<br><strong>Buyers & Sellers</strong></h2>home\inc\stats.blade.php
+					<p>Rednirus Mart is India's largest online B2B marketplace, connecting buyers with suppliers.</p>
                                         <p style="font-family: 'poppins';">Pharmafranchisemart is designed to simplify the supply chain by connecting buyers with sellers, providing access to a vast network of trusted suppliers, and allowing for easy comparison of products and prices.</p>
 
 
@@ -207,7 +219,6 @@
                                    <div class="trusted">
                                        <i class="fa fa-star" aria-hidden="true"></i>
                                      <p>Trusted Platform</p>
-
                                    </div>
                                </div>
                                <div class="col-lg-12 col-md-4">
@@ -232,7 +243,7 @@
 				</div>
 				<div class="col-md-6 requirement-form-pk">
 					<div class="requirement-form-inner">
-					<h2>Post Your requirement Here...</h2>
+					<h2>Post Your requirement Here... home\inc\stats.blade.php</h2>
 
 
 
@@ -399,3 +410,5 @@ function submitQuery(form){
 
 
 @endsection
+
+--}}

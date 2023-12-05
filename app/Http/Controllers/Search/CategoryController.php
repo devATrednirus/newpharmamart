@@ -27,12 +27,12 @@ class CategoryController extends BaseController
 
 
         // Check multi-countries site parameters
-        if (!config('settings.seo.multi_countries_urls')) {
+        //if (!config('settings.seo.multi_countries_urls')) {
             $subCatSlug = $catSlug;
             $catSlug = $countryCode;
-        }
+        //}
 
- 
+
         view()->share('isCatSearch', $this->isCatSearch);
         //->where('parent_id', 0)
         // Get Category
@@ -42,23 +42,23 @@ class CategoryController extends BaseController
         });
         if ($checkCat->parent_id == "0") {
 
-            $this->cat =  $checkCat;    
+            $this->cat =  $checkCat;
         }
         else{
 
             $this->cat =  $checkCat->parent;
-            
+
         }
 
 
-        
+        //echo  $this->cat;
         view()->share('cat', $this->cat);
 
         // Get common Data
         $catName = $this->cat->name;
         $catDescription = $this->cat->description;
         $catBottomText = $this->cat->bottom_text;
-    
+
         // Get Category nested IDs
         $catNestedIds = (object)[
             'parentId' => $this->cat->parent_id,
@@ -72,21 +72,21 @@ class CategoryController extends BaseController
             view()->share('isSubCatSearch', $this->isSubCatSearch);
 
             // Get SubCategory
-            $this->subCat = $checkCat;    
+            $this->subCat = $checkCat;
             view()->share('subCat', $this->subCat);
 
             // Get common Data
             $catName = $this->subCat->name;
             $catDescription = $this->subCat->description;
             $catBottomText = $this->subCat->bottom_text;
-            
+
             // Get Category nested IDs
             $catNestedIds = (object)[
                 'parentId' => $this->subCat->parent_id,
                 'id'       => $this->subCat->tid,
             ];
         }
-    
+
         // Get Custom Fields
          $cacheId = $catNestedIds->parentId.$catNestedIds->id . 'categoryPageCache1';
         $customFields = Cache::remember($cacheId, $this->cacheExpiration, function () use ($catNestedIds) {
@@ -105,7 +105,7 @@ class CategoryController extends BaseController
         $cacheId = $tid.$subCatTid.$subCat . 'categoryPageCache2';
 
         $data = Cache::remember($cacheId, $this->cacheExpiration, function () use ($tid, $subCatTid, $subCat) {
-           
+
         $search = new Search();
 
             if (isset($subCat) && !empty($subCat)) {
@@ -116,7 +116,7 @@ class CategoryController extends BaseController
         });
 
         $search =  new Search();
-        
+
         //view()->share('keywords', $search->keywords);
         view()->share('city', $search->city);
 
@@ -147,9 +147,9 @@ class CategoryController extends BaseController
 
         if (isset($catBottomText) && !empty($catBottomText)) {
             $catBottomText = str_replace('{LOCATION}','', $catBottomText);
-            
+
         }
-        
+
         view()->share('bottom_text', $catBottomText);
         // Meta Tags
         MetaTag::set('title', $title);
@@ -160,7 +160,7 @@ class CategoryController extends BaseController
         if($keywords=="" && $data['paginator']->getCollection()->count() > 0 ){
             $customKeywords=[];
             foreach($data['paginator']->getCollection() as $key => $post){
-                
+
                 $customKeywords[]= $post->title;
 
                 if(count($customKeywords)>9){
@@ -189,7 +189,7 @@ class CategoryController extends BaseController
         if (!empty($subCatSlug)) {
             view()->share('uriPathSubCatSlug', $subCatSlug);
         }
-        
+
         return view('search.serp', $data);
     }
 
@@ -204,7 +204,7 @@ class CategoryController extends BaseController
             $catSlug = $countryCode;
         }
 
- 
+
         view()->share('isCatSearch', $this->isCatSearch);
         //->where('parent_id', 0)
         // Get Category
@@ -214,23 +214,23 @@ class CategoryController extends BaseController
         });
         if ($checkCat->parent_id == "0") {
 
-            $this->cat =  $checkCat;    
+            $this->cat =  $checkCat;
         }
         else{
 
             $this->cat =  $checkCat->parent;
-            
+
         }
 
 
-        
+
         view()->share('cat', $this->cat);
 
         // Get common Data
         $catName = $this->cat->name;
         $catDescription = $this->cat->description;
         $catBottomText = $this->cat->bottom_text;
-    
+
         // Get Category nested IDs
         $catNestedIds = (object)[
             'parentId' => $this->cat->parent_id,
@@ -244,21 +244,21 @@ class CategoryController extends BaseController
             view()->share('isSubCatSearch', $this->isSubCatSearch);
 
             // Get SubCategory
-            $this->subCat = $checkCat;    
+            $this->subCat = $checkCat;
             view()->share('subCat', $this->subCat);
 
             // Get common Data
             $catName = $this->subCat->name;
             $catDescription = $this->subCat->description;
             $catBottomText = $this->subCat->bottom_text;
-            
+
             // Get Category nested IDs
             $catNestedIds = (object)[
                 'parentId' => $this->subCat->parent_id,
                 'id'       => $this->subCat->tid,
             ];
         }
-    
+
         // Get Custom Fields
          $cacheId = $catNestedIds->parentId.$catNestedIds->id . 'categoryPageCache1';
         $customFields = Cache::remember($cacheId, $this->cacheExpiration, function () use ($catNestedIds) {
@@ -277,7 +277,7 @@ class CategoryController extends BaseController
         $cacheId = $tid.$subCatTid.$subCat . 'categoryPageCache2';
 
        // $data = Cache::remember($cacheId, $this->cacheExpiration, function () use ($tid, $subCatTid, $subCat) {
-           
+
         $search = new Search();
 
         if (isset($subCat) && !empty($subCat)) {
@@ -288,13 +288,13 @@ class CategoryController extends BaseController
         //});
 
         $search =  new Search();
-        
+
         //view()->share('keywords', $search->keywords);
         view()->share('city', $search->city);
 
         if(isset($_POST['view']) && $_POST['view']=="ajax"){
            return view('search.inc.posts', $data);
         }
- 
+
     }
 }

@@ -83,34 +83,43 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 }
 ?>
 @if (isset($sForm['enableFormAreaCustomization']) and $sForm['enableFormAreaCustomization'] == '1')
-	
+
 	@if (isset($firstSection) and !$firstSection)
 		<div class="h-spacer"></div>
 	@endif
-	
+
+
+	<?php $sty = '';
+	if(!empty($_GET['debu'])) {
+	  if($_GET['debu'] == 1)  {
+	    echo "home.inc.search";
+	    $sty = ' style="border: 1px solid;" ';
+	  }
+	} ?>
+
 	<?php $parallax = (isset($sForm['parallax']) and $sForm['parallax'] == '1') ? 'parallax' : ''; ?>
-	<div class="wide-intro home-search {{ $parallax }}">
+	<div class="wide-intro home-search {{ $parallax }}" style="border: 0px solid; width: 390px;  height:40px;">
 		<div class="dtable hw100">
 			<div class="dtable-cell hw100">
 				<div class="container text-center">
-					
+
 					@if ($sForm['hideTitles'] != '1')
-						<h1 class="intro-title animated fadeInDown"> {{ $sForm['title'] }} </h1>
-						<p class="sub animateme fittext3 animated fadeIn">
+						{{-- <h1 class="intro-title animated fadeInDown"> {{ $sForm['title'] }} </h1> --}}
+						{{-- <p class="sub animateme fittext3 animated fadeIn">
 							{!! $sForm['subTitle'] !!}
-						</p>
+						</p> --}}
 					@endif
-					
+
 					@if ($sForm['hideForm'] != '1')
-						<div class="search-row animated fadeInUp">
+						<div class="search-row animated fadeInUp" >
 							<?php $attr = ['countryCode' => config('country.icode')]; ?>
 							<form id="search" name="search" action="{{ lurl(trans('routes.v-search', $attr), $attr) }}" method="GET">
 								<div class="row m-0">
-									<div class="col-sm-10 col-xs-12 search-col relative">
+									<div class="col-sm-10 col-xs-12 search-col relative"     style="max-width: 57% !important;">
 										<i class="icon-docs icon-append"></i>
-										<input type="text" name="q" class="form-control keyword has-icon" placeholder="{{ t('What?') }}" value="">
+										<input style="width:200px;" type="text" name="q" class="form-control keyword has-icon" placeholder="{{ t('What?') }}" value="">
 									</div>
-									{{-- 
+									{{--
 									<div class="col-sm-5 col-xs-12 search-col relative locationicon">
 										<i class="icon-location-2 icon-append"></i>
 										<input type="hidden" id="lSearch" name="l" value="">
@@ -125,47 +134,53 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 										@endif
 									</div>
 									--}}
-									
+
 									<div class="col-sm-2 col-xs-12 search-col">
-										<button class="btn btn-primary btn-search btn-block">
+										<button class="btn btn-primary btn-search btn-block read-more" style="margin-top:13px;padding:3px; width:50px;">
 											<i class="icon-search"></i> <strong>{{ t('Find') }}</strong>
 										</button>
 									</div>
-								 
+
 								</div>
 							</form>
 						</div>
 					@endif
-					 
-					
-  
-				
+
+
+
+
 				</div>
 			</div>
 		</div>
-		
-		 
+
+
 	</div>
-	
+
 @else
-	
+
 	@include('home.inc.spacer')
 	<div class="container">
 		<div class="intro">
 			<div class="dtable hw100">
 				<div class="dtable-cell hw100">
 					<div class="container text-center">
-						
+						<?php $sty = '';
+						if(!empty($_GET['debu'])) {
+						  if($_GET['debu'] == 1)  {
+						    echo "home.inc.search";
+						    $sty = ' style="border: 1px solid;" ';
+						  }
+						} ?>
 						<div class="search-row fadeInUp">
 							<?php $attr = ['countryCode' => config('country.icode')]; ?>
 							<form id="search" name="search" action="{{ lurl(trans('routes.v-search', $attr), $attr) }}" method="GET">
 								<div class="row m-0">
-									<div class="col-sm-5 col-xs-12 search-col relative">
+									<div class="col-sm-5 col-xs-12 search-col relative"   style="max-width: 57% !important;">
 										<i class="icon-docs icon-append"></i>
-										<input type="text" name="q" class="form-control keyword has-icon" placeholder="{{ t('What?') }}" value="">
+										<input type="text" style="width:200px;" name="q" class="form-control keyword has-icon" placeholder="{{ t('What?') }}" value="">
 									</div>
-									
-									<div class="col-sm-5 col-xs-12 search-col relative locationicon">
+
+									{{-- <div class="col-sm-5 col-xs-12 search-col relative locationicon">
 										<i class="icon-location-2 icon-append"></i>
 										<input type="hidden" id="lSearch" name="l" value="">
 										@if ($showMap)
@@ -177,10 +192,10 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 											<input type="text" id="locSearch" name="location" class="form-control locinput input-rel searchtag-input has-icon"
 												   placeholder="{{ t('Where?') }}" value="">
 										@endif
-									</div>
-									
+									</div> --}}
+
 									<div class="col-sm-2 col-xs-12 search-col">
-										<button class="btn btn-primary btn-search btn-block">
+										<button class="btn btn-primary btn-search btn-block read-more" style="margin-top:13px;padding:3px; width:50px;">
 											<i class="icon-search"></i> <strong>{{ t('Find') }}</strong>
 										</button>
 									</div>
@@ -188,11 +203,11 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 								</div>
 							</form>
 						</div>
-	
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 @endif

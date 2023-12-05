@@ -20,6 +20,12 @@ if (
 	$colClass4 = 'col-md-6 col-xs-12';
 }
 ?>
+
+
+
+
+
+home.inc.footer
 <footer class="main-footer skin-blue">
 		<div class="container-fluid">
 

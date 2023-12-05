@@ -1,4 +1,5 @@
 <div class="modal fade pk-login" id="userLogin" tabindex="-1" role="dialog">
+	search\inc\user_login.blade.php
 	<div class="modal-dialog">
 		<div class="modal-content">
 
@@ -14,7 +15,7 @@
 			</div>
 
 			<form role="form" method="POST" action="/user/signin" enctype="multipart/form-data" onSubmit="return user_login_quick_form(this)">
-				{!! csrf_field() !!}
+				@csrf
 				<div class="modal-body">
 
 					@if (isset($errors) and $errors->any() and old('quickSignForm')=='1')
@@ -99,7 +100,7 @@
 
 						$('[name="quick_query_phone"]').val(form.find('[name="signin_phone"]').val());
 
-						<?php if(preg_match('/pharmafranchisemart.com/',$_SERVER['SERVER_NAME'])){ ?>
+<?php if(preg_match('/pharmafranchisemart.com/',$_SERVER['SERVER_NAME']) || preg_match('/redniruscare.com/',$_SERVER['SERVER_NAME'])){ ?>
 						window.dataLayer =window.dataLayer || [];
 
 						if(window.dataLayer[window.dataLayer.length-1]['gtm.elementClasses']){

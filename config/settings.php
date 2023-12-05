@@ -2,6 +2,16 @@
 
 
 return [
+
+
+
 'app' => [
-'app_name' => 'Pharmafranchisemart',
-] ];
+  'app_name' => 'Pharmafranchisemart',
+], 
+
+'listing' => [
+  'left_sidebar' => 1,
+]
+
+
+];

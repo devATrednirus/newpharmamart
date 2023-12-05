@@ -13,14 +13,15 @@
 --}}
 @extends('layouts.master')
 
-@section('search')
+{{-- @section('search')
 	@parent
 	@include('search.inc.form')
-@endsection
+@endsection  --}}
 
 @section('content')
+home.inc.packages
 	<div class="main-container" id="homepage">
-		@include('search.inc.breadcrumbs')		
+		@include('search.inc.breadcrumbs')
 		@if (Session::has('flash_notification'))
 			@include('common.spacer')
 			<?php $paddingTopExists = true; ?>
@@ -32,7 +33,7 @@
 				</div>
 			</div>
 		@endif
-		
+
 
 
 		 <section class="products-grid-packages">
@@ -48,7 +49,7 @@
 	                <div class="item-packages col-md-4">
 	                    <div class="inner-box-packages clearfix">
 	                        <h2 class="graybackground product-name" style="background: #ddd;padding: 8px;border-radius: 0 20px 0 20px;box-shadow: 0 3px 0px 0 #aaa;margin-bottom: 22px;position: relative;margin-top: 10px;">{{$package->name}}</h2>
-	                        
+
 	                        <div>
 	                        	{!! $package->description !!}
 	                        </div>
@@ -65,7 +66,7 @@
 	                </div>
 
 				@endforeach
- 
+
             </div>
         </div>
     </section>
@@ -75,12 +76,12 @@
 @endsection
 
 @section('modal_message')
-	 
+
 		@include('search.inc.compose-message')
 		@include('search.inc.slider-message')
- 
-		
-	 
+
+
+
 @endsection
 
 @section('after_scripts')
@@ -88,7 +89,7 @@
 
 @section('after_styles')
 	<style>
-		
+
 .products-grid-packages .page-title h1{
 	font-family: roboto !important;
 }

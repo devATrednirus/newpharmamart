@@ -26,10 +26,19 @@ if($keywords!="" && isset($city)){
 		$keywords.=" in ".$city->name;
 }
 
-$enableQueryForm = true; 
+$enableQueryForm = true;
 
 if($enableQueryForm==true) {
 ?>
+<?php $sty = '';
+if(!empty($_GET['debu'])) {
+  if($_GET['debu'] == 1)  {
+    echo "search.inc.breadcrumbs";
+    $sty = ' style="border: 1px solid;" ';
+  }
+} ?>
+
+
 
 <div class="requirement-form">
     <div class="container-fluid">
@@ -51,7 +60,7 @@ if($enableQueryForm==true) {
 					@endif
 				</div>
 
-				<?php 
+				<?php
 
 					$quickQueryNameError = (isset($errors) and $errors->has('quick_query_name')) ? ' is-invalid' : '';
 					$quickQueryPhoneError = (isset($errors) and $errors->has('quick_query_phone')) ? ' is-invalid' : '';
@@ -72,8 +81,8 @@ if($enableQueryForm==true) {
 
 							$name = old('quick_query_name');;
 
-							 
-					}	
+
+					}
 
 				?>
 				<div class="col-lg-3 col-md-3 field-col">
@@ -103,7 +112,7 @@ if($enableQueryForm==true) {
 					 <input type="hidden" name="messageQuickQueryForm" value="1">
 				     <div class="input-group"><input type="submit" value="Get a Quote"></div>
 				</div>
-				
+
 			</div>
 			</form>
 		</div>
@@ -111,46 +120,84 @@ if($enableQueryForm==true) {
 	</div>
 </div>
 
-<?php 
+<?php
 
 }
 
 ?>
 
+
+<!-- <div class="container-fluid">
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="ttil">
+            <h4>Catname</h4>
+            <h6>Home / path</h6>
+         </div>
+      </div>
+   </div>
+</div> -->
+
 @if( getSegment(1)!=null )
-<div class="top-breadcrumb">
-	<nav aria-label="breadcrumb" role="navigation" class="search-breadcrumb">
-		<ol class="breadcrumb skin-blue">
-			<li class="breadcrumb-item"><a href="{{ lurl('/') }}"><i class="fa fa-home"></i></a></li>
-			<li class="breadcrumb-item">
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="ttil">
+            <h4>
+							@if (isset($bcTab) and count($bcTab) > 0)
+								@foreach($bcTab as $key => $value)
+									<?php $value = collect($value); ?>
+									@if($loop->last)
+										{!! $value->get('name') !!}
+									@endif
+								@endforeach
+							@endif
+						</h4>
+
+			  <h6><a href="{{ lurl('/') }}">Home</a> /
 				<?php $attr = ['countryCode' => config('country.icode')]; ?>
 				<a href="{{ lurl(trans('routes.v-search', $attr), $attr) }}">
 					{{ config('country.name') }}
 				</a>
-			</li>
+
 			@if (isset($bcTab) and count($bcTab) > 0)
 				@foreach($bcTab as $key => $value)
 					<?php $value = collect($value); ?>
 					@if ($value->has('position') and $value->get('position') > count($bcTab)+1)
-						<li class="breadcrumb-item active">
+							 /
 							{!! $value->get('name') !!}
 							&nbsp;
 							@if (isset($city) or isset($admin))
 								<a href="#browseAdminCities" id="dropdownMenu1" data-toggle="modal"> <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 							@endif
-						</li>
+
 					@else
-						<li class="breadcrumb-item"><a href="{{ lurl($value->get('url')) }}">{!! $value->get('name') !!}</a></li>
+						 / <a href="{{ lurl($value->get('url')) }}">{!! $value->get('name') !!}</a>
 					@endif
 				@endforeach
 			@endif
-		</ol>
-	</nav>
+
+		</div>
+ </div>
+</div>
 </div>
 @endif
-@if(isset($display_cat_name) )
+{{-- @if(isset($display_cat_name) )
 <div class="top-breadcrumb title-big">
 
-	<h1>{{$display_cat_name}} @if(isset($city) ) in {{$city->name}} @endif</h1>
+	<h1>{{$display_cat_name}} @if(isset($city) ) in {{$city->name}}  @endif</h1>
 </div>
-@endif
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="loc-name">
+
+            <h4 class="lk">{{$display_cat_name}} @if(isset($city) ) in {{$city->name}}  @endif</h4>
+</div>
+</div>
+</div>
+</div>
+
+@endif  --}}

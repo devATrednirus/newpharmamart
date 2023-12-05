@@ -15,14 +15,22 @@ if (isset($city) and !empty($city)) {
 
 ?>
  @if (isset($cities) and $cities->count() > 0)
-    
-<div class="location-categories">
+
+<!-- <div class="location-categories">
 			<div class="category-links">
 				<ul>
 					<li class="enter-loc"><input type="text" id="locSearch" name="location" class="form-control locinput input-rel searchtag-input has-icon tooltipHere"
 							   placeholder="{{ t('Where?') }}" value="{{ $qLocation }}" title="" data-placement="top"
 							   data-toggle="tooltip" type="button"
-							   data-original-title="{{ t('Enter a city name OR a state name with the prefix ":prefix" like: :prefix', ['prefix' => t('area:')]) . t('State Name') }}"></li>
+							   data-original-title="{{ t('Enter a city name OR a state name with the prefix ":prefix" like: :prefix', ['prefix' => t('area:')]) . t('State Name') }}"></li> --->
+
+
+								 <div class="states">
+								    <div class="container-fluid">
+								       <div class="row">
+								          <div class="col-lg-12">
+								             <div class="all-states">
+															      <ul>
 					<?php
 						$attr = ['countryCode' => config('country.icode'),'id'=>'','city'=>''];
 
@@ -40,7 +48,7 @@ if (isset($city) and !empty($city)) {
 
 							$fullUrlLocation = lurl(trans('routes.search', $attr), $attr);
 						}
-						
+
 						$locationParams = [
 							'l'  => '',
 							'location'  => '',
@@ -61,11 +69,11 @@ if (isset($city) and !empty($city)) {
 											All India
 										</a>
 						@else
-						<strong>
+
 						<a href="{!! $fullUrlLocation !!}" title="All India">
 											All India
 										</a>
-										</strong>
+
 						@endif
 					</li>
 				@foreach ($cities as $_city)
@@ -86,7 +94,7 @@ if (isset($city) and !empty($city)) {
 
 							$fullUrlLocation = lurl(trans('routes.search-city', $attr), $attr);
 						}
- 
+
 						$locationParams = [
 							'l'  => $_city->id,
 							'r'  => '',
@@ -94,33 +102,61 @@ if (isset($city) and !empty($city)) {
 							'sc' => (isset($subCat)) ? $subCat->tid : '',
 						];
 						if(preg_match('/\/search/', $fullUrlNoParams)){
-							
+
 							//$fullUrlLocation =qsurl($fullUrlLocation, array_merge(request()->except(['page','l'] + array_keys($locationParams)), $locationParams));
 							$fullUrlLocation =qsurl($fullUrlLocation);
 
 						}
 					?>
-				 
+
 					<li>
 						@if ((isset($uriPathCityId) and $uriPathCityId == $_city->id) or (isset($city) and $city->id==$_city->id))
-									<strong>
+
 										<a href="{!! $fullUrlLocation !!}" title="{{ $_city->name }}">
-											{{ $_city->name }}  
+											{{ $_city->name }}
 										</a>
-									</strong>
+
 								@else
 									<a href="{!! $fullUrlLocation !!}" title="{{ $_city->name }}">
 										{{ $_city->name }}
 									</a>
 								@endif
 					</li>
-					 
-				@endforeach
-				</ul>
-			</div>
-	 </div>
- 
-@endif
- 
- 
 
+				@endforeach
+			</ul>
+
+			            </div>
+			         </div>
+			      </div>
+			   </div>
+			</div>
+
+@endif
+<?php
+if(isset($subCat)){
+	$display_cat_name = $subCat->name;
+}
+else if(isset($cat)){
+	$display_cat_name = $cat->name;
+}
+else{
+	$display_cat_name = "";
+}
+?>
+
+@if(isset($display_cat_name) )
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="loc-name">
+
+            <h4 class="lk">{{$display_cat_name}} @if(isset($city) ) in {{$city->name}}  @endif</h4>
+</div>
+</div>
+</div>
+</div>
+
+@endif

@@ -9578,7 +9578,7 @@
  * Bootstrap v4.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE) 
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
     --blue: #007bff;
@@ -21654,7 +21654,7 @@ fieldset[disabled] a.btn {
 
 .btn-success:hover {
     color: #fff;
-    
+
 }
 
 .btn-success.focus,
@@ -25365,6 +25365,7 @@ nav.slider-nav a.next {
     margin-top: 15px;
     padding: 10px 0;
     position: relative;
+     margin-left: 20px; 
     text-transform: uppercase
 }
 
@@ -27215,7 +27216,9 @@ td.ads-details-td {
 
 .contact-form .form-horizontal {
     display: block;
-    margin-top: 20px
+    margin-top: 20px;
+    width: 900px;
+    margin-left: 30px;
 }
 
 .contact-info .address {
@@ -34973,7 +34976,7 @@ ul.dropdown-menu.user-menu>li {
 }
 
 /* .page-nav {
-   background: #343a40; 
+   background: #343a40;
   margin-bottom: 18px
 } */
 
@@ -37139,7 +37142,7 @@ nav.search-breadcrumb > ol.breadcrumb {
   height: 25px;
   margin-left: 4px;
   right: 52px;
-} 
+}
 
 
 
@@ -37189,11 +37192,11 @@ label.t-menu {
   font-size: 15px;
   color: #444;
 }
-  
+
   input[type="checkbox"]:checked#cssmenutoggle ~ .dropdown-menu {
   display: block !important;
 }
-  
+
 .page-nav .dropdown > .dropdown-menu {
   display:none!important;
 }
@@ -37218,7 +37221,7 @@ label.t-menu {
   .item-list .photobox .add-image img.img-thumbnail {
   width: 100%;
 }
-  
+
   .col-sm-3.company-btns{
       -ms-flex: 0 0 100%;
 flex: 0 0 100%;
@@ -37233,11 +37236,11 @@ label.t-menu {
   font-size: 15px;
   color: #444;
 }
-  
+
   input[type="checkbox"]:checked#cssmenutoggle ~ .dropdown-menu {
   display: block !important;
 }
-  
+
 .page-nav .dropdown > .dropdown-menu {
   display:none!important;
 }
@@ -37301,7 +37304,7 @@ label.t-menu {
 
 html body #wrapper {
   padding-top: 0px !important;
-}   
+}
 .company-name-top {
   max-width: inherit !important;
   padding: 15px 0 0 15px !important;
@@ -37325,22 +37328,22 @@ html body #wrapper {
   .h-left-b {
   border-right: none!important;
 }
-  
-  
+
+
   #homepage .help-block .listing-counter{
       flex: 0 0 100%;
 max-width: 100%;
   }
-  
-  
+
+
   #homepage .help-block .help-form{
       flex: 0 0 100%;
 max-width: 100%;
   }
-  
-  
-  
-  
+
+
+
+
   .pk-step-form .modal-dialog {
       width: auto
   }
@@ -37544,7 +37547,7 @@ max-width: 100%;
   .page-info.page-info-lite.rounded {
       display: none
   }
- 
+
   .listing-grid {
       padding-top: 0
   }
@@ -37584,9 +37587,9 @@ max-width: 100%;
   .featured-list-slider .item-carousel-thumb {
       display: inline-block;
       margin-bottom: 10px;
-     
+
       float: left;
-    
+
   }
   .sponser-ads .featured-list-slider .item {
   margin-left:0px!important;
@@ -37613,7 +37616,7 @@ max-width: 100%;
   .hidden-on-mobile {
       display: none
   }
-  
+
  /*  .sponser-ads .featured-list-slider .item {
       min-width: 100%!important;
       max-width: 100%!important
@@ -37639,7 +37642,7 @@ max-width: 100%;
       border: none;
       color: #000
   }
-  
+
   .location-categories {
       position: sticky;
       top: 139px;
@@ -37654,7 +37657,7 @@ max-width: 100%;
       right: 0;
       max-width: 72px
   }
-  
+
   .heade .main-header .header-search {
       padding-left: 2%!important;
       padding-right: 2%!important
@@ -37663,9 +37666,9 @@ max-width: 100%;
       padding-left: 15px!important;
       padding-right: 15px!important
   } */
-  
-  
-  
+
+
+
   .sponser-ads .owl-carousel .owl-item .item a.btn.send_message {
       padding-top: 6px;
       padding-bottom: 6px;
@@ -37698,7 +37701,7 @@ max-width: 100%;
       padding-right: 5px;
       float: none!important
   }
-  
+
   .pk-login .modal-dialog {
       width: auto;
       max-width: 298px;
@@ -37742,7 +37745,7 @@ max-width: 100%;
   flex: 0 0 50%;
 max-width: 50%;
   }
-  
+
 }
 
 
@@ -37771,7 +37774,7 @@ max-width: 50%;
 
 
 @media(min-width:768px) and (max-width:900px) {
-  
+
   .requirement-form h3 {
   font-size: 11px!important;
 }
@@ -37815,7 +37818,7 @@ max-width: 50%;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
   max-width: 100%;
-}   
+}
 
 .categories-grid .cate-col {
   -ms-flex: 0 0 50%;
@@ -37875,7 +37878,7 @@ max-width: 50%;
   font-size: 26px!important;
 }
 
-  
+
 }
 
 
@@ -38157,7 +38160,7 @@ a#conversation-tab[aria-controls="conversation"] {
 .page-nav {
   display: inline-block;
   margin-top: 15px;
-} 
+}
 
 /**  image icons css **/
 
@@ -38859,7 +38862,7 @@ display: block;
   margin-top:3px;
   width:100%;
   display:inline-block;
-  
+
 }
 
 .category-thumbnail {
@@ -38899,7 +38902,7 @@ display: block;
 }
 .category-item li a:hover{
   text-decoration:underline;
-}   
+}
 
 .category-item h3 {
   font-size: 16px;
@@ -38978,7 +38981,7 @@ flex: 0 0 16.5%;
   margin-bottom: 20px;
 }
 
-/* 
+/*
 .featured-col {
   position: relative;
   padding: 5px 10px 50px 10px;
@@ -39032,7 +39035,7 @@ background:none;
 
 .listing-page-block .container-fluid{
   max-width:100%;
-  
+
 }
 .desc-listing ul{
   margin:0px;
@@ -39226,7 +39229,7 @@ background:none;
 
 .sidebar-blocks .related-pro-des{
   padding-left:0px;
-  
+
 }
 .sidebar-blocks {
   background: #fff;
@@ -39709,7 +39712,7 @@ display: inline-block;
 
 .wide-intro .intro-title {
   display: none;
-} 
+}
 
 body #wrapper {
   padding-top: 73.2px !important;
@@ -39739,7 +39742,7 @@ body #wrapper {
   color: #fff!important;
   font-size: 12px;
   height: 40px;
-  line-height: 1; 
+  line-height: 1;
   padding: 12px 10px;
 }
 .box-inner-padding h5.title {
@@ -39849,7 +39852,7 @@ body #wrapper {
   background-color: #2e3192;
   color: #fff;
   font-weight: bold;
-  
+
 }
 .user-panel-sidebar ul li a:hover {
   background-color: #2e3192;
@@ -39883,7 +39886,7 @@ body #wrapper {
 }
 .btn-success {
      background-color: #6a1616;
- 
+
   margin: 14px 0px;
   font-size: 13px;
   padding: 15px;
