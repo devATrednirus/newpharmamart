@@ -246,9 +246,12 @@ $appurl = url('/');
 											// Get Post's Pictures
 											if ($post->pictures->count() > 0) {
 												$postImg = resize($post->pictures->get(0)->filename, 'medium');
+                        $postImg = str_replace('storage','storage/app',$postImg);
 											} else {
 												$postImg = resize(config('larapen.core.picture.default'));
 											}
+
+
 
 											// Get country flag
 											$countryFlagPath = 'images/flags/16/' . strtolower($post->country_code) . '.png';

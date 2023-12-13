@@ -10,8 +10,8 @@
                 <div class="container">
                     <div class="ps-logo"><a href="/"> <img src="/assets/images/jenus.jpg" alt><img class="sticky-logo" src="/assets/images/jenus.jpg" alt></a></div><a class="ps-menu--sticky" href="#"><i class="fa fa-bars"></i></a>
 
-                    	@include('home.inc.search')
-
+                    	<!-- Before this was included home.inc.search ---->
+                      @include('search.inc.form')
 
                     <div class="ps-header__right">
                         <ul class="ps-header__icons">
@@ -199,7 +199,7 @@
                             <ul class="menu">
                                 <li class="has-mega-menu"><a href="/">Home</a></li>
 																<?php
-																	$parents = DB::table('categories')->where('active','1')->limit(3)->orderBy('id', 'ASC')->get();   //->orderByRaw("(id <> '".$category->parent_id."')  ASC,name")
+																	$parents = DB::table('categories')->wherein('id',[1300,1302,1366,1401,1789])->where('parent_id','0')->where('active','1')->limit(5)->orderBy('id', 'ASC')->get();   //->orderByRaw("(id <> '".$category->parent_id."')  ASC,name")
 																?>
 
                                  <!-- <li class="has-mega-menu"><a href="#"> Categoriesddd<span class="sub-toggle"><i class="fa fa-chevron-down"></i></span></a>
@@ -228,14 +228,20 @@
 
 
 																@foreach($parents as $pa)
-																<li class="has-mega-menu"><a href="#"><?php $ctname = substr($pa->name,0,18);  ?>  {{$ctname}}...<span class="sub-toggle"><i class="fa fa-chevron-down"></i></span></a>
+																<li class="has-mega-menu"><a href="#"><?php
+                                if(!empty($pa->menuname)) {
+                                $ctname = $pa->menuname;
+                              } else {
+                                $ctname = substr($pa->name,0,18);
+
+                              }  ?>  {{$ctname}}<span class="sub-toggle"><i class="fa fa-chevron-down"></i></span></a>
 																	 <div class="mega-menu">
 																			 <div class="container">
 																					 <div class="mega-menu__row">
 
 																						 	  <?php $sub = DB::table('categories')->where('parent_id',$pa->id)->orderBy('id','ASC')->where('active','1')->get();
-																									$ncols = floor($sub->count()/2);
-
+																									//$ncols = floor($sub->count()/2);
+                                                  $ncols = 7;
 
 																								 ?>
 @foreach($sub as $k => $v)
@@ -247,7 +253,12 @@ $attr = [
   'subCatSlug'  => $v->slug
 ];
 $searchUrl = lurl(trans('routes.search-subCat', $attr), $attr) ;
+$searchUrlMAINCat = lurl(trans('routes.search-cat', $attr), $attr) ;
 ?>
+@if($loop->index == 16)
+  <li class="toshowallcats"><a href="{{$searchUrlMAINCat}}">View All &raquo;&raquo;&raquo;</a></li>
+  @break
+@endif
 
 
 																							 @if($loop->first || $ncols+1 == $k)<div class="mega-menu__column">  <ul class="sub-menu--mega"> @endif
@@ -264,7 +275,7 @@ $searchUrl = lurl(trans('routes.search-subCat', $attr), $attr) ;
 															 </li>
 															 @endforeach
 
-                                <li class="has-mega-menu"><a href="/blog">Blog</a></li>
+                                <!---<li class="has-mega-menu"><a href="/blog">Blog</a></li> --->
                                 <li class="has-mega-menu"><a href="{{ lurl(trans('routes.contact')) }}">Contact Us</a></li>
                             </ul>
                         </nav>
@@ -291,11 +302,9 @@ $searchUrl = lurl(trans('routes.search-subCat', $attr), $attr) ;
  <div class="ps-logo"><a href="/"> <img src="/assets/images/jenus.jpg" alt></a></div>
   <div id="myLinks">
     <a href="/">Home</a>
-		<?php
-			$parents = DB::table('categories')->where('active','1')->limit(3)->orderBy('id', 'ASC')->get();   //->orderByRaw("(id <> '".$category->parent_id."')  ASC,name")
-		?>
+		<?php $parents = DB::table('categories')->where('active','1')->limit(3)->orderBy('id', 'ASC')->get();   //->orderByRaw("(id <> '".$category->parent_id."')  ASC,name") 	?>
 	@foreach($parents as $pa)
-     <button class="dropdown-btn">Categoriesfffff
+     <button class="dropdown-btn">Categories
     <i class="fa fa-caret-down"></i>
   </button>
   <div class="dropdown-container">

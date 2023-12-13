@@ -1,3 +1,5 @@
+
+
 <?php
 $fullUrl = url(request()->getRequestUri());
 $tmpExplode = explode('?', $fullUrl);
@@ -26,6 +28,13 @@ if (isset($city) and !empty($city)) {
 
 
 								 <div class="states">
+                   <?php $sty = '';
+                   if(!empty($_GET['debu'])) {
+                     if($_GET['debu'] == 1)  {
+                       echo "search.inc.location";
+                       $sty = ' style="border: 1px solid;" ';
+                     }
+                   } ?>                   
 								    <div class="container-fluid">
 								       <div class="row">
 								          <div class="col-lg-12">

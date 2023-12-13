@@ -9,16 +9,8 @@ if (auth()->user()) {
 
 
 ?><div class="modal" id="sliderForm" role="dialog">
-	<?php $sty = '';
-	if(!empty($_GET['debu'])) {
-		if($_GET['debu'] == 1)  {
-			echo "search.inc.slider-message";
-			$sty = ' style="border: 1px solid;" ';
-		}
-	} ?>
+	search\inc\slider-message.blade.php
 	<div class="modal-dialog" style=" padding: 40px; height:60%;">
-
-                                    <div class="biuttt">
 		<div class="modal-content" style="background: #fff; border:0px;">
 			<div class="row">
 				<div class="col-md-12">
@@ -259,30 +251,6 @@ if (auth()->user()) {
 								</div>
 							</div>
 
-
-							<div class="col-md-12">
-								<div class="form-group required">
-
-									<div class="row">
-										<div class="col-md-12">
-											<label style="font-weight: bold; color: #3c3a3a;">Experience</label>
-										</div>
-										<div class="col-md-12">
-											<select id="experience" name="experience" class="form-control" required="required">
-												<option value="">--Select--</option>
-                        <option  value="Below 3 years">Below 3 years</option>
-												<option  value="5 years">5 years</option>
-												<option  value="More than 5 years">More than 5 years</option>
-											</select>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-
-
-
 							<div class="col-md-12">
 								<div class="form-group required">
 
@@ -292,10 +260,6 @@ if (auth()->user()) {
 										</div>
 										<div class="col-md-12">
 											<textarea id="specific_query" name="specific_query" class="form-control" placeholder="Any specific query"></textarea>
-											<input type="hidden" name="url_client" value="{{$_SERVER['REQUEST_URI']}}">
-											<input type="hidden" name="browser_client" value="{{Request::header('user-agent')}}">
-											<input type="hidden" name="ip_client" value="{{Request::getClientIp()}}">
-
 
 										</div>
 									</div>
@@ -311,60 +275,7 @@ if (auth()->user()) {
 			</div>
 		</div>
 	</div>
-</div></div>
-
-<style>
-  .quwrrih input.form-control:hover {
-    background: rgb(218, 221, 226);
-}
-   .quwrrih #userOTP .btn.btn-default{
-         background: #238d8a;
-    color: #fff;
-    padding: 8px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    width: 84px;
-    font-size: 18px;
-
-    }
-
-.biuttt button.btn.btn-primary.btnsave.submit {
-    background: #238d8a;
-    color: #fff;
-    padding: 8px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    width: 84px;
-    font-size: 18px;
-}
-.quwrrih  label {
-    margin-top: 13px;
-}
-.quwrrih .modal-content {
-        border-radius: 4px;
-    border: 2px solid #e3bd27 !important;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-}
-.biuttt button.btn.btn-secondary.close-btn {
-    background: #e3bd27;
-    color: #fff;
-    padding: 8px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    width: 84px;
-    font-size: 18px;
-}
-.biuttt button.btn.btn-primary.next.btnsave {
-    background: #238d8a;
-    color: #fff;
-    padding: 8px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    width: 84px;
-    font-size: 18px;
-}
-
-</style>
+</div>
 @section('after_scripts')
 @parent
 <script>
@@ -890,7 +801,7 @@ function getSelectedCity(countryCode, cityId)
 
 	#msform .action-button-previous {
 		width: 100px;
-		background: #114645;
+		background: #c5c5f1;
 		font-weight: 700;
 		color: #fff;
 		border: 0;
@@ -902,7 +813,7 @@ function getSelectedCity(countryCode, cityId)
 
 	#msform .action-button {
 		width: 100px;
-		background: #715e13;
+		background: #ee0979;
 		font-weight: 700;
 		color: #fff;
 		border: 0;

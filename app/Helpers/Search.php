@@ -166,8 +166,11 @@ class Search
 
         if(isset($_POST['listings_ids'])){
 
-
+            if(!empty($_POST['listings_ids'])) {
+                $this->arrSql->where['a.user_id']=" not in (0) ";
+            } else {
             $this->arrSql->where['a.user_id']=" not in (".implode(",",json_decode($_POST['listings_ids'])).") ";
+          }
 
         //     $this->bindings['listings_ids'] = implode(",",json_decode($_POST['listings_ids']));
 

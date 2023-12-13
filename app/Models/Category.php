@@ -67,6 +67,7 @@ class Category extends BaseModel
 	 */
 	protected $fillable = [
 		'parent_id',
+		'menuname',
 		'name',
 		'title',
 		'slug',

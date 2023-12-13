@@ -5,19 +5,19 @@
 .title_text{
 	  font-size: 31px!important;
   }
-   
+
 .com-breadcrumbs{margin-top:100px!important;}
 .para{font-size: 14px;
     color: #fff;}
-		
+
   </style>
- 
-<div class="com-breadcrumbs"> 
+
+<div class="com-breadcrumbs">
 		        <div class="container-fluid">
-		            <nav aria-label="breadcrumb" role="navigation"> 
-		                <ol class="breadcrumb"> 
-		                    <li class="breadcrumb-item"><a href="{{ lurl($company_url) }}">Home</a></li> 
-		                    <li class="breadcrumb-item">Product Range</li> 
+		            <nav aria-label="breadcrumb" role="navigation">
+		                <ol class="breadcrumb">
+		                    <li class="breadcrumb-item"><a href="{{ lurl($company_url) }}">Home</a></li>
+		                    <li class="breadcrumb-item">Product Range</li>
 		                </ol>
 		            </nav>
 		        </div>
@@ -47,7 +47,7 @@
                                   'slug' => 'other',
                                   'username'   =>  $sUser->username,
                               ]);
-                               
+
                               ?>
                            @else
                            <?php
@@ -57,8 +57,11 @@
                               ]);
                              ?>
                            @endif
-                         
-                           
+
+
+
+                           @foreach($group['posts'] as $pkey => $post)
+
                            <?php
                               $pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
                               if ($pictures->count() > 0) {
@@ -66,14 +69,20 @@
                               } else {
                                   $postImg = resize(config('larapen.core.picture.default'));
                               }
-                              
-                              
+
+
                               ?>
-                            
-                           @foreach($group['posts'] as $pkey => $post)
-                          
+
+
                            <tr>
-                              <td><img width="40px" class="img-responsive" src="{{ $postImg }}" alt="{{ $post->title }}"></td>
+                              <td>
+                                @if(file_exists($postImg))
+                                <img width="40px" class="img-responsive" src="{{ $postImg }}" alt="{{ $post->title }}">
+                                @else
+                                <img width="40px" class="img-responsive" src="{{ str_replace('storage','storage/app',$postImg) }}" alt="{{ $post->title }}">
+                                @endif
+
+                              </td>
                               <td><a style="font-size: 13px;" href="{{ lurl($group_url) }}#{{slugify($post->title)}}">{{ $post->title }}</a></td>
                               <td style="font-size: 13px;"> {!! Illuminate\Support\Str::limit($post->short_description, 100, ' ...') !!} </td>
                               <td><a class="custom_btn bg_shop_red send_message" style="font-size: 10px;margin-bottom: 16px;background: #bf2626; padding: 10px 10px 10px 10px;height: 40px;margin-top: 10px;margin-left: 14px;
@@ -105,10 +114,10 @@
                               $arr=explode('/',$url);
                               $urlvalue=str_replace('-',' ',$arr[2]);
                               $company=$arr[1];
-                              
+
                               if($arr[2]!='')
                               {
-                              	
+
                               	$data=DB::table('posts')
                               								 ->join('product_groups','product_groups.id','=','posts.group_id')
                               								 ->where(['posts.user_id'=>$userid])->where(['posts.reviewed'=>1])->where(['product_groups.slug'=>$arr[2]])->groupby('posts.group_id')->get();
@@ -124,7 +133,7 @@
                                              $data2=DB::table('posts')->where(['group_id'=>$row->group_id])->where(['user_id'=>$userid])->get();
                                                   		?>
                                           <a role="button" class="rightsidenav"  href="/<?=$company?>/<?=$row->slug?>" aria-expanded="true" aria-controls="collapse-{{$key}}">
-                                             {{$row->name}} 
+                                             {{$row->name}}
                                              <hr style="margin: 6px 0px;">
                                              <span style="font-weight: 500;
                                                 font-size: 10px;"> <?php echo count($data2)?> products available</span>
@@ -161,7 +170,7 @@
                                              $data2=DB::table('posts')->where(['group_id'=>$row->group_id])->where(['user_id'=>$userid])->get();
                                              ?>
                                           <a role="button" class="rightsidenav"  href="/<?=$company?>/{{ $row->slug }}" aria-expanded="{{@$expanded}}" aria-controls="collapse-{{$key}}">
-                                             {{$row->name}} 
+                                             {{$row->name}}
                                              <hr style="margin: 6px 0px;">
                                              <span style="font-weight: 500;
                                                 font-size: 10px;"> <?php echo count($data2)?> products available</span>
@@ -183,7 +192,7 @@
                            </div>
                            <?php
                               }
-                              
+
                               }
                               ?>
                         </div>

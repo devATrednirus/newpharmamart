@@ -12,7 +12,11 @@
 	@if (!empty($entity_model) && !$entity_model->isEmpty())
 		@foreach ($entity_model as $connected_entity_entry)
 			<div style="margin: 10px 5px; display: inline-block;">
+				@if(str_contains(Request::fullurl(),'posts'))
+				<img src="{{ str_replace('storage','storage/app',\Storage::disk($field['disk'])->url($connected_entity_entry->{$field['attribute']})) }}" style="width:320px; height:auto;">
+				@else
 				<img src="{{ \Storage::disk($field['disk'])->url($connected_entity_entry->{$field['attribute']}) }}" style="width:320px; height:auto;">
+				@endif
 				<div style="text-align: center; margin-top: 10px;">
 					<a href="{{ admin_url('pictures/' . $connected_entity_entry->id . '/edit') }}" target="_blank" class="btn btn-xs btn-default"><i class="fa fa-edit"></i> {{ trans('admin::messages.Edit') }}</a>&nbsp;
 					<a href="{{ admin_url('pictures/' . $connected_entity_entry->id) }}" target="_blank" class="btn btn-xs btn-default" data-button-type="delete"><i class="fa fa-trash"></i> {{ trans('admin::messages.Delete') }}</a>

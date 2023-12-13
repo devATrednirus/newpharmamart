@@ -1,3 +1,11 @@
+<?php $sty = '';
+if(!empty($_GET['debu'])) {
+  if($_GET['debu'] == 1)  {
+    echo "search.inc.posts";
+    $sty = ' style="border: 1px solid;" ';
+  }
+} ?>
+
 <!-- <style>table > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th { background-color: #efefef; }
 td{padding:1px;}</style> -->
 <?php
@@ -76,7 +84,11 @@ $i=0;
 		$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
 		$alttag = null;
 		if ($pictures->count() > 0) {
-			$postImg = resize($pictures->first()->filename, 'medium');
+		    if(file_exists(storage_path($pictures->first()->filename)) ) {
+		        $postImg = resize($pictures->first()->filename, 'medium');
+		    } else {
+		        $postImg = str_replace('storage','storage/app',resize($pictures->first()->filename, 'medium'));
+		    }
 			$alttag = $pictures->first()->alttag;
 		} else {
 			$postImg = resize(config('larapen.core.picture.default'));
@@ -159,6 +171,8 @@ $i=0;
                 $img='';
 				foreach($pictures as $imgrow)
 				 {
+
+
 					 $img = $imgrow->filename;
  					 $alttag = $imgrow->alttag;
 				 }
@@ -168,6 +182,7 @@ $i=0;
 			?>
 
 			<div class="row">
+
         <div class="col-lg-9">
           <div class="row">
 
@@ -179,7 +194,13 @@ $i=0;
 					{{--<span class="photo-count"><i class="fa fa-camera"></i> <?=$pictures->count();?> </span>--}}
 
 					<a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">
-						<img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/<?=$img?>" alt="{{$alttag}}" width="320px" height="270px">
+            @if(file_exists(storage_path($img)))
+              <img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/<?=$img?>" alt="{{$alttag}}" width="320px" height="270px">
+            @else
+              <img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/app/<?=$img?>" alt="{{$alttag}}" width="320px" height="270px">
+            @endif
+
+
 					</a>
 				</div>
 			</div>
@@ -287,7 +308,7 @@ $i=0;
 
         <div class="data-button">
 
-        <a  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+        <a class="send_message"  data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
       </div>
       <div class="data-buttons">
             <?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
@@ -313,7 +334,12 @@ $i=0;
 					{{--<span class="photo-count"><i class="fa fa-camera"></i> {{ $pictures->count() }} </span>--}}
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
 					<a href="{{ lurl($post->uri, $attr) }}">
+            @if(file_exists(storage_path($postImg)))
 						<img class="img-thumbnail no-margin" loading="lazy" src="{{ $postImg }}" alt="{{$alttag}}" width="320px" height="240px">
+            @else
+            <img class="img-thumbnail no-margin" loading="lazy" src="{{ str_replace('storage','storage/app',$postImg) }}" alt="{{$alttag}}" width="320px" height="240px">
+            @endif
+
 					</a>
 				</div>
 			</div>
@@ -414,7 +440,7 @@ $i=0;
 
         <div class="data-button">
 
-        <a  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+        <a  class="send_message"  data-toggle="modal" data-id="{{ $post->id }}"  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
       </div>
       <div class="data-buttons">
             <?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
@@ -456,7 +482,12 @@ $i=0;
 												    	//dd($related);
 														$alttag = null;
 												    		if ($related->picture ) {
-																$relatedImg = resize($related->picture->filename, 'medium');
+                                if(file_exists(storage_path($related->picture->filename))) {
+                                    $relatedImg = resize($related->picture->filename, 'medium');
+                                } else {
+                                    $relatedImg = str_replace('storage','storage/app',resize($related->picture->filename, 'medium'));
+                                }
+
 																if ($related->picture->alttag ) {
 																	$alttag = $related->picture->alttag;
 																}
@@ -477,7 +508,7 @@ $i=0;
                             <div class="some_content">
 													    <p>{{$related->title}}</p>
 
-														<a href="{{ lurl($related->uri) }}" data-toggle="modal" data-id="{{ $related->id }}" href="#contactUser">Get Quote</a>
+														<a  class="send_message" data-toggle="modal" data-id="{{ $related->id }}" href="#contactUser">Get Quote</a>
 													</div></div>
 												</div>
                       </div>
@@ -531,15 +562,27 @@ $i=0;
  			@if($banner)
  				<div class="banners-ads">
 					<?php $attr = ['countryCode' => config('country.icode'), 'username' => $banner->user->username]; ?>
+            @if(file_exists(storage_path($banner->filename)))
 				    <div class="ads-img"><a target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}"><img src="/storage/{{$banner->filename}}" loading="lazy" width="320px" height="320px"></a></div>
+            @else
+            <div class="ads-img"><a target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}"><img src="/storage/app/{{$banner->filename}}" loading="lazy" width="320px" height="320px"></a></div>
+            @endif
 				</div>
  			@endif
 
  			@if($relatedCat->count()>0)
+
+
 <div class="row bor">
   <div class="col-lg-12">
      <div class="title">
-        <h4>Related Category</h4>
+        <h4>Related Category<?php $sty = '';
+        if(!empty($_GET['debu'])) {
+          if($_GET['debu'] == 1)  {
+            echo "  related_category";
+            $sty = ' style="border: 1px solid;" ';
+          }
+        } ?></h4>
      </div>
   </div>
 
@@ -571,9 +614,13 @@ $i=0;
 							</div>
 						</div> --->
 
-            <div class="rel">
-                  <a href="/category/<?=$related->slug?>"> <img src="{{ \Storage::url($related->picture) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="220px" height="{{ $heightimg }}px"></a>
-                   <h4><a href="/category/<?=$related->slug?>">{{$related->name}}</a></h4>
+                <div class="rel">
+                  @if(file_exists(storage_path($related->picture)))
+                    <a href="/category/<?=$related->slug?>"> <img src="{{ \Storage::url($related->picture) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="220px" height="{{ $heightimg }}px"></a>
+                  @else
+                    <a href="/category/<?=$related->slug?>"> <img src="{{ str_replace('storage','storage/app',\Storage::url($related->picture)) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="220px" height="{{ $heightimg }}px"></a>
+                  @endif
+                  <h4><a href="/category/<?=$related->slug?>">{{$related->name}}</a></h4>
                 </div>
 
 
@@ -681,6 +728,7 @@ $i=0;
                 $img='';
 				foreach($pictures as $imgrow)
 				 {
+
  					 $img=$imgrow->filename;
  					 $alttag=$imgrow->alttag;
 				 }
@@ -694,7 +742,11 @@ $i=0;
 					{{--<span class="photo-count"><i class="fa fa-camera"></i> <?=$pictures->count();?> </span>--}}
 
 					<a href="<?=lurl('/')?>/detail/<?=$post->post_id?>/<?=slugify(@$post->title)?>">
+            @if(file_exists(storage_path($img)))
 						<img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/<?=$img?>" alt="{{@$alttag}}" width="320px" height="240px">
+            @else
+            <img class="img-thumbnail no-margin" loading="lazy" src="<?=lurl('/')?>/storage/app/<?=$img?>" alt="{{@$alttag}}" width="320px" height="240px">
+            @endif
 					</a>
 				</div>
 			</div>
@@ -793,7 +845,7 @@ $i=0;
 
         <div class="data-button">
 
-        <a  href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
+        <a  class="send_message"  data-toggle="modal" data-id="{{ $post->id }}"   href="#contactUser"> <span> {{ t('Send a message') }} </span></a>
       </div>
       <div class="data-buttons">
             <?php $attr = ['countryCode' => config('country.icode'), 'username' => $post->username]; ?>
@@ -821,7 +873,7 @@ $i=0;
 		{
 		?>
 
-		<p class="no-result">{{ t('No result. Refine your search using other criteria.') }}</p>
+		<!-- <p class="no-result">{{ t('No result. Refine your search using other criteria.') }}</p> -->
 		<?php
 		}
 		?>
@@ -853,8 +905,7 @@ $i=0;
 
  			@if($relatedCat->count()>0)
 <div class="row bor">
-
-					<h2>Related --Categories</h2>
+					<!-- <h2>Related --Categories</h2> -->
 					<div class="related-cate-inner">
 						 @foreach($relatedCat as $related)
 
@@ -873,12 +924,19 @@ $i=0;
 					 		}
 						?>
 
-					    <div class="related-pro">
+					    <div class="col-lg-6" >
 						    <div class="related-pro-inner">
-						    <div class="re-pic">
+						    <div class="re-pic text-center">
+                  @if(file_exists(storage_path($related->picture)))
 							   <a href="{{ $url }}"> <img src="{{ \Storage::url($related->picture) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="320px" height="140px"></a>
+                 @else
+                 <a href="{{ $url }}"> <img src="{{ str_replace('storage','storage/app',\Storage::url($related->picture)) . getPictureVersion() }}" alt="{{ $related->name }}" loading="lazy" width="320px" height="140px"></a>
+                 @endif
+
 							</div>
-							<h3><a href="{{ $url }}">{{$related->name}}</a></h3>
+              <div class=" text-center">
+                <h5 class="ps-product__title text-center" style="max-width:300px;"><a href="{{ $url }}">{{$related->name}}</a></h3>
+                  </div>
 							</div>
 						</div>
 						@endforeach

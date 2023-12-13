@@ -203,6 +203,7 @@ if(!empty($_GET['debu'])) {
 
 
 <style>
+
  .title-with-bg h2 {
     /* font-size: 42px !important; */
     font-family: 'Poppins';
@@ -284,5 +285,9 @@ a.cat-links {
 }
 .category-title {
     text-align: center;
+}
+
+h5.ps-product__title.text-center {
+    margin-left: 0px;
 }
 </style>

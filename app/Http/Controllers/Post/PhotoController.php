@@ -27,7 +27,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\File;
 use Torann\LaravelMetaTags\Facades\MetaTag;
- 
+
 use App\Models\Message;
 use App\Models\QuickMessage;
 use App\Models\Payment;
@@ -39,35 +39,35 @@ use App\Models\ProductGroup;
 class PhotoController extends FrontController
 {
 	public $data;
-	
+
 	/**
 	 * PhotoController constructor.
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		// From Laravel 5.3.4 or above
 		$this->middleware(function ($request, $next) {
 			$this->commonQueries();
-			
+
 			return $next($request);
 		});
-		
+
 		$this->middleware('only.ajax')->only('delete');
 	}
-	
+
 	/**
 	 * Common Queries
 	 */
 	public function commonQueries()
 	{
 		$data = [];
-		
+
 		// Count Packages
 		$data['countPackages'] = Package::trans()->applyCurrency()->count();
 		view()->share('countPackages', $data['countPackages']);
-		
+
 		// Count Payment Methods
 		$data['countPaymentMethods'] = PaymentMethod::whereIn('name', array_keys((array)config('plugins.installed')))
 			->where(function ($query) {
@@ -75,10 +75,10 @@ class PhotoController extends FrontController
 					->orWhereNull('countries');
 			})->count();
 		view()->share('countPaymentMethods', $data['countPaymentMethods']);
-		
+
 		// Save common's data
 		$this->data = $data;
-		
+
 		// Keep the Post's creation message
 		// session()->keep(['message']);
 		if (getSegment(2) == 'create') {
@@ -87,7 +87,7 @@ class PhotoController extends FrontController
 			}
 		}
 	}
-	
+
 	/**
 	 * Show the form the create a new ad post.
 	 *
@@ -110,7 +110,7 @@ class PhotoController extends FrontController
 
         // My Groups
         $this->myGroups = ProductGroup::where('user_id', auth()->user()->id)
-            
+
             ->orderByDesc('id');
         view()->share('countMyGroups', $this->myGroups->count());
 
@@ -145,7 +145,7 @@ class PhotoController extends FrontController
             ->where('user_id', auth()->user()->id)
             ->orderByDesc('id');
         view()->share('countSavedSearch', $savedSearch->count());
-        
+
         // Conversations
 
             $this->conversations = Message::with('latestReply')->with('post')
@@ -164,7 +164,7 @@ class PhotoController extends FrontController
         view()->share('countConversations', $this->conversations->count());
 		 view()->share('pagePath', '');
 		$data = [];
-		
+
 		// Get Post
 		if (getSegment(2) == 'create') {
 			if (!session()->has('tmpPostId')) {
@@ -182,14 +182,14 @@ class PhotoController extends FrontController
 				->with(['pictures'])
 				->first();
 		}
-		
+
 		if (empty($post)) {
 			abort(404);
 		}
-		
+
 		view()->share('post', $post);
-		
-		
+
+
 		// Get next step URI
 		$creationPath = (getSegment(2) == 'create') ? 'create/' : '';
 		if (
@@ -199,6 +199,7 @@ class PhotoController extends FrontController
 			$this->data['countPaymentMethods'] > 0
 		) {
 			$nextStepUrl = config('app.locale') . '/posts/' . $creationPath . $postIdOrToken . '/payment';
+      $nextStepUrl =  'posts/' . $creationPath . $postIdOrToken . '/payment';
 			$nextStepLabel = t('Next');
 		} else {
 			if (getSegment(2) == 'create') {
@@ -210,8 +211,8 @@ class PhotoController extends FrontController
 		}
 		view()->share('nextStepUrl', $nextStepUrl);
 		view()->share('nextStepLabel', $nextStepLabel);
-		
-		
+
+
 		// Meta Tags
 		if (getSegment(2) == 'create') {
 			MetaTag::set('title', getMetaTag('title', 'create'));
@@ -221,10 +222,10 @@ class PhotoController extends FrontController
 			MetaTag::set('title', t('Update My Ad'));
 			MetaTag::set('description', t('Update My Ad'));
 		}
-		
+
 		return view('post.photos', $data);
 	}
-	
+
 	/**
 	 * Store a new ad post.
 	 *
@@ -240,7 +241,7 @@ class PhotoController extends FrontController
 				if ($request->ajax()) {
 					return response()->json(['error' => t('Post not found')]);
 				}
-				
+
 				return redirect('posts/create');
 			}
 			$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
@@ -252,18 +253,18 @@ class PhotoController extends FrontController
 				->where('id', $postIdOrToken)
 				->first();
 		}
-		
+
 		if (empty($post)) {
 			if ($request->ajax()) {
 				return response()->json(['error' => t('Post not found')]);
 			}
 			abort(404);
 		}
-		
+
 		// Get pictures limit
 		$countExistingPictures = Picture::where('post_id', $post->id)->count();
 		$picturesLimit = (int)config('settings.single.pictures_limit', 5) - $countExistingPictures;
-		
+
 		// Save all pictures
 		$pictures = [];
 		$files = $request->file('pictures');
@@ -272,7 +273,7 @@ class PhotoController extends FrontController
 				if (empty($file)) {
 					continue;
 				}
-				
+
 				// Delete old file if new file has uploaded
 				// Check if current Post have a pictures
 				$picture = Picture::find($key);
@@ -280,7 +281,7 @@ class PhotoController extends FrontController
 					// Delete old file
 					$picture->delete($picture->id);
 				}
-				
+
 				// Post Picture in database
 				$picture = new Picture([
 					'post_id'  => $post->id,
@@ -288,16 +289,16 @@ class PhotoController extends FrontController
 					'position' => (int)$key + 1,
 				]);
 				$picture->save();
-				
+
 				$pictures[] = $picture;
-				
+
 				// Check the pictures limit
 				if ($key >= ($picturesLimit - 1)) {
 					break;
 				}
 			}
 		}
-		
+
 		// Get next step URI
 		$creationPath = (getSegment(2) == 'create') ? 'create/' : '';
 		if (
@@ -319,17 +320,17 @@ class PhotoController extends FrontController
 			}
 			$nextStepLabel = t('Done');
 		}
-		
+
 		view()->share('nextStepUrl', $nextStepUrl);
 		view()->share('nextStepLabel', $nextStepLabel);
-		
-		
+
+
 		// Ajax response
 		if ($request->ajax()) {
 			$data = [];
 			$data['initialPreview'] = [];
 			$data['initialPreviewConfig'] = [];
-			
+
 			$pictures = collect($pictures);
 			if ($pictures->count() > 0) {
 				foreach ($pictures as $picture) {
@@ -339,7 +340,7 @@ class PhotoController extends FrontController
 					} else {
 						$initialPreviewConfigUrl = lurl('posts/' . $post->id . '/photos/' . $picture->id . '/delete');
 					}
-					
+
 					// Build Bootstrap-Input plugin's parameters
 					$data['initialPreview'][] = resize($picture->filename);
 					$data['initialPreviewConfig'][] = [
@@ -351,14 +352,14 @@ class PhotoController extends FrontController
 					];
 				}
 			}
-			
+
 			return response()->json($data);
 		}
-		
+
 		// Non ajax response
 		return redirect($nextStepUrl);
 	}
-	
+
 	/**
 	 * Delete picture
 	 *
@@ -370,39 +371,39 @@ class PhotoController extends FrontController
 	public function delete($postIdOrToken, $pictureId, Request $request)
 	{
 		$inputs = $request->all();
-		
+
 		// Get Post
 		if (getSegment(2) == 'create') {
 			if (!session()->has('tmpPostId')) {
 				if ($request->ajax()) {
 					return response()->json(['error' => t('Post not found')]);
 				}
-				
+
 				return redirect('posts/create');
 			}
 			$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])->where('id', session('tmpPostId'))->where('tmp_token', $postIdOrToken)->first();
 		} else {
 			$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])->where('user_id', auth()->user()->id)->where('id', $postIdOrToken)->first();
 		}
-		
+
 		if (empty($post)) {
 			if ($request->ajax()) {
 				return response()->json(['error' => t('Post not found')]);
 			}
 			abort(404);
 		}
-		
+
 		$picture = Picture::withoutGlobalScopes([ActiveScope::class])->find($pictureId);
 		if (!empty($picture)) {
 			$nb = $picture->delete();
 		}
-		
+
 		if ($request->ajax()) {
 			return response()->json([]);
 		}
-		
+
 		flash(t("The picture has been deleted."))->success();
-		
+
 		return back();
 	}
 }

@@ -70,7 +70,7 @@ class DetailsController extends FrontController
 		// From Laravel 5.3.4 or above
 		$this->middleware(function ($request, $next) {
 			$this->commonQueries();
-            //Log::info('Middle '.print_r($next));
+
 			return $next($request);
 		});
 	}
@@ -785,7 +785,7 @@ class DetailsController extends FrontController
 	public function updateQueryMessage(Request $request)
 	{
 
-		//auth()->check();
+		auth()->check();
 		/* if(!auth()->check()){
 			return response()->json([
                 'code' => 100,
@@ -841,9 +841,8 @@ class DetailsController extends FrontController
 									'code' => 400,
 									'message' => $message->from_user_id
 							],422);  */
-							Log::info('userid: '.$message->from_user_id);
+							Log::info('userid_firstplace: '.$message->from_user_id);
 							$user = User::where('id',$message->from_user_id)->first();
-							Log::info('useridnext: '.$message->from_user_id);
 
 		} else {
 			//echo "b";
@@ -853,12 +852,11 @@ class DetailsController extends FrontController
                 'message' => "mode2"
             ],422); */
 					//$user = User::find(auth()->user()->id);
-					Log::info('userid: '.auth()->user()->id);
+					Log::info('userid_secondplace: '.auth()->user()->id);
 					$user = User::where('id',auth()->user()->id)->first();
-					Log::info('useridnext: '.auth()->user()->id);
 		}
 
-        Log::info('here1');
+
 		if(!empty($data['from_email'])) {
 				$message->from_email = $data['from_email'];
 		}
@@ -893,21 +891,6 @@ class DetailsController extends FrontController
 				$message->profession = $data['profession'];
 		}
 
-
-		if(!empty($data['experience'])) {
-				$message->experience = $data['experience'];
-		}
-		if(!empty($data['url_client'])) {
-				$message->url_client = $data['url_client'];
-		}
-		if(!empty($data['browser_client'])) {
-				$message->browser_client = $data['browser_client'];
-		}
-		if(!empty($data['ip_client'])) {
-				$message->ip_client = $data['ip_client'];
-		}
-
-
 		$message->verified_status ="By OTP";
 
 		$message->include_in_share = "1";
@@ -934,16 +917,13 @@ class DetailsController extends FrontController
 
 		}
 
-Log::info('here2');
+
 
 
 
 		//dd($message);
 
         $message->save();
-
-
-
 
         if($user->email==null){
 

@@ -87,40 +87,40 @@
                                   <div class="form-groups hells">
              <h4 class="catr">Enquire Now</h4>
              <div class="choose-contact-box contact-inner">
-                 <form action="/enquiry/store" id="frmfootform" method="POST">
+                 <form action="#" id="frmfootform" method="POST"  enctype="multipart/form-data" onSubmit="return submitFootForm(this)">
                    @csrf
                    <div class="row">
                       <div class="col-md-6 col-sm-12">
                          <div class="contact-form-section best">
-                            <input type="text" class="form-control" placeholder="Name*" id="name" name="name" required="">
+                            <input type="text" class="form-control" placeholder="Name*"  name="from_name" required="">
                          </div>
                       </div>
                       <div class="col-md-6 col-sm-12">
                          <div class="contact-form-section best">
-                            <input type="text" class="form-control" placeholder="Email*" id="email" name="email" required="">
+                            <input type="text" class="form-control" placeholder="Email*"  name="from_email" required="">
                          </div>
                       </div>
                       <div class="col-md-6 col-sm-12">
                          <div class="contact-form-section best">
-                            <input type="text" class="form-control" placeholder="Phone*" id="phone" name="phone" required="">
+                            <input type="text" class="form-control" placeholder="Phone*"name="from_phone" required="">
                          </div>
                       </div>
                       <div class="col-md-6 col-sm-12">
                          <div class="contact-form-section best">
-                            <input type="text" class="form-control" placeholder="City*" id="city" name="city" required="">
+                            <input type="text" class="form-control" placeholder="City*"  name="city" required="">
                          </div>
                       </div>
                       <div class="col-md-12 col-sm-12">
                          <div class="contact-form-section best">
-                            <textarea class="form-control" id="message" name="message" required="" rows="4"
+                            <textarea class="form-control"  name="message" required="" rows="4"
                                placeholder="Message*" style="height: 100px;"></textarea>
                          </div>
                       </div>
                       <div class="col-md-12 col-sm-12 pb-4">
                           <div class="href-center">
-                         <button type="submit" id="btn-submit">
+                         <!--- <a href="#"  data-toggle="modal" data-target="#userOTP"> ---><button type="submit" id="btn-submit">
                             Send
-                         </button>
+                         </button><!--- </a> --->
                          </div>
                       </div>
                    </div>
@@ -144,3 +144,89 @@
        </div>
    </footer>
    <!-- main-footer end -->
+<script>
+
+   function submitFootForm(form){
+
+     query_url = "{{ lurl('posts') }}/0/contact";
+
+    var form =$(form);
+
+    $('form').removeClass('active_query');
+    form.addClass('active_query');
+    //$("#contactUser [type='submit']").attr('disabled','disabled');
+      $.ajax({
+        method: 'POST',
+        url: query_url,
+        data: {
+          'from_name': form.find('[name="from_name"]').val(),
+          'from_phone': form.find('[name="from_phone"]').val(),
+          'message': form.find('[name="message"]').val(),
+          'from_email': form.find('[name="from_email"]').val(),
+          '_token': $('input[name=_token]').val()
+        }
+      }).done(function(data) {
+
+
+        //$('#contactUser').removeClass('show');
+         //$("#contactUser").removeClass('fade');
+        //$("#contactUser  [type='submit']").removeAttr('disabled');
+        $('#query_type').val(data.type);
+        console.log('type: ' + data.type);
+
+        $('#query_id').val(data.id);
+        console.log('id: ' + data.id);
+        $('#slider_from_email').val(data.email);
+        console.log('email: ' + data.email);
+
+        window.dataLayer =window.dataLayer || [];
+
+        window.dataLayer.push({
+          'event':'directQuery','conversionValue':1
+        });
+
+        $("#sliderForm #msform fieldset").removeAttr('style').hide();
+        $("#sliderForm #msform fieldset:eq(0)").show();
+        $("#sliderForm").addClass('show');
+         //$("#contactUser").hide();
+         //$("#contactUser").removeClass('show');
+         //$("#contactUser").removeClass('fade');
+        $("#sliderForm").show();
+
+
+      }).fail(function(response) {
+
+
+
+        //$("#contactUser  [type='submit']").removeAttr('disabled');
+        var responseJSON = response.responseJSON;
+        if(responseJSON.code==100){
+          //$('#contactUser').removeClass('show');
+           //$("#contactUser").removeClass('fade');
+          $('#signin_phone').val(form.find('[name="from_phone"]').val());
+          $('#signin_name').val(form.find('[name="from_name"]').val());
+          $('#userLogin form').submit();
+        }
+        else if(responseJSON.code==422){
+
+            alert(responseJSON.message);
+        }
+        else{
+          var data = responseJSON.data;
+          var msg=[];
+          $.each(data, function (index, value) {
+
+            if(msg.length==0){
+              form.find('[name="'+index+'"]').focus()
+            }
+            msg.push(value);
+          });
+          alert(msg.join("\n"));
+        }
+
+
+
+      });
+      return false;
+}
+</script>

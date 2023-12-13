@@ -129,7 +129,7 @@ class Message extends BaseModel
     {
         parent::boot();
 	
-		//Message::observe(MessageObserver::class);
+		Message::observe(MessageObserver::class);
     }
 	
 	public function routeNotificationForMail()

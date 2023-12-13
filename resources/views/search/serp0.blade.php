@@ -1,4 +1,16 @@
-
+{{--
+* LaraClassified - Classified Ads Web Application
+* Copyright (c) BedigitCom. All Rights Reserved
+*
+* Website: http://www.bedigit.com
+*
+* LICENSE
+* -------
+* This software is furnished under a license and may be used and copied
+* only in accordance with the terms of such license and with the inclusion
+* of the above copyright notice. If you Purchased from Codecanyon,
+* Please read the full License from here - http://codecanyon.net/licenses/standard
+--}}
 
 
 
@@ -17,7 +29,9 @@ if(!empty($_GET['debu'])) {
    $fullUrlNoParams = current($tmpExplode);
    ?>
 @extends('newlayouts.app')
-
+@section('meta_title','')
+@section('meta_keywords','')
+@section('meta_description','')
 @section('meta_image')
 content="{{ Request::root() }}/images/logo-2.png"\
 @endsection
@@ -104,54 +118,7 @@ button.hex {
 
 
                <!-- Content -->
-
-
-               <?php //dd($cat); ?>
-
-
                <div class="col-lg-9 col-md-12 order-first order-md-1">
-@if(!empty($cat))
-@if(empty($subCat))
-<div class="row bor" style="padding-left:60px;">
-
-
-    <div class=" row col-md-12 boxlayout" style="background: #238d8a !important;">
-        <div class="title" style="padding-top:5px; ">
-        <h4 style="color:white !important;">All Categories in {{$cat->name}}</h4>
-     </div>
-    </div>
-
-@foreach ($cat->children as $val)
-
-<?php $attr = [
-                        'countryCode' => config('country.icode'),
-                        'catSlug'     => $cat->slug,
-                        'subCatSlug'  => $val->slug
-                      ];
-                                            $searchUrl = lurl(trans('routes.search-subCat', $attr), $attr) ; ?>
-
-<div class="row col-md-4 boxlayout">
- <div class="rely">
-	<h4><a href="{{$searchUrl}}">&raquo;&raquo; {{$val->name}}</a></h4>
-        </div>
-    </div>
-
-@endforeach
-
-
-
-
-
-
-
-
-
-
-</div>
-
-@endif
-@endif
-
 
                   <div>
                      <!-- <div class="col-md-12 page-content col-thin-left listing-col-wrap ">  --->
@@ -343,13 +310,6 @@ button.hex {
                            <p>
 
                            @if(isset($bottom_text))
-                           <?php $sty = '';
-                           if(!empty($_GET['debu'])) {
-                             if($_GET['debu'] == 1)  {
-                               echo "bottom_text";
-                               $sty = ' style="border: 1px solid;" ';
-                             }
-                           } ?>
                            {!! $bottom_text !!}
                            @endif
                          </p>
@@ -375,14 +335,6 @@ button.hex {
                   </div>
 
                     <div class="row">
-                      <?php $sty = '';
-                      if(!empty($_GET['debu'])) {
-                        if($_GET['debu'] == 1)  {
-                          echo "listing_company";
-                          $sty = ' style="border: 1px solid;" ';
-                        }
-                      } ?>
-
                       <div class="col-md-12">
                           <div class="listing_company">
                              <h4></h4>
@@ -394,12 +346,7 @@ button.hex {
                         @if(!empty($banner->user))
                         <div class="banners-ads">
                            <?php $attr = ['countryCode' => config('country.icode'), 'username' => empty($banner->user->username) ? 'Guest' : $banner->user->username]; ?>
-                           @if(file_exists(storage_path($banner->filename)))
                            <div class="ads-img"><a target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}"><img alt="{{$banner->user->name}}" src="/storage/{{$banner->filename}}" loading="lazy" width="320px" height="320px"></a></div>
-                           @else
-<div class="ads-img"><a target="_blank" href="{{ lurl(trans('routes.v-search-username', $attr), $attr) }}"><img alt="{{$banner->user->name}}" src="/storage/{{str_replace('public/','',$banner->filename)}}" loading="lazy" width="320px" height="320px"></a></div>
-                           @endif
-
                         </div></div>
                         @endif
                         @endforeach
@@ -431,13 +378,6 @@ button.hex {
       <div class="container">
          <h4 style="font-size: 28px;margin-bottom: 20px;text-align: center;font-weight: bold;text-transform: uppercase;">Popular Cities</h4>
          <div class="row justify-content-center">
-           <?php $sty = '';
-           if(!empty($_GET['debu'])) {
-             if($_GET['debu'] == 1)  {
-               echo "cities";
-               $sty = ' style="border: 1px solid;" ';
-             }
-           } ?>
             <ul class="list">
               @if(!empty($cities))
                @foreach ($cities as $_city)
@@ -505,22 +445,12 @@ button.hex {
 
 
 @endsection
-<!---- ths is 1 --->
 @section('modal_location')
-<!---- ths is 2 --->
 @include('layouts.inc.modal.location')
 @endsection
-
-@section('loginotpslide')
-@include('search.inc.compose-message')
-@includeWhen(!auth()->check(),'search.inc.user_login')
-@includeWhen(!auth()->check(),'search.inc.user_login_otp')
-@include('search.inc.slider-message')
-@endsection
 @section('modal_message')
-
-<!---- ths is 4 --->
-
+@include('search.inc.compose-message')
+@include('search.inc.slider-message')
 @endsection
 @section('after_scripts')
 <script src="{{ url('assets/js/readmore.min.js') }}" type="text/javascript"></script>
@@ -651,11 +581,10 @@ button.hex {
 </script>
 <style>
    ul.list li a:after {
-   /* content: "|"; */
+   content: "|";
    padding-left: 2px;
    padding-right: 1px;
    font-size: 15px;
-   vertical-align: text-top;
    }
    .sub{
    background: #e6ddd4;

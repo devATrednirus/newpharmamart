@@ -1,4 +1,4 @@
-<?php
+x<?php
 
 
 
@@ -82,9 +82,11 @@
 				<div class="add-image">
 					<span class="photo-count"><i class="fa fa-camera"></i> {{ $pictures->count() }} </span>
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
-
+            @if(file_exists($postImg))
 						<img class="img-thumbnail no-margin" src="{{ $postImg }}" alt="img">
-
+            @else
+            <img class="img-thumbnail no-margin" src="{{ str_replace('storage','storage/app',$postImg) }}" alt="img">
+            @endif
 
 
 				</div>

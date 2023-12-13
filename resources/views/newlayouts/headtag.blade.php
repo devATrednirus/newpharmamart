@@ -4,17 +4,18 @@
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-{{-- <title>@if(View::hasSection('meta_title')) @yield('meta_title') @else Top Pharma Franchise Company India | PCD Pharma Franchise Price List @endif</title>
+<title>@if(View::hasSection('meta_title')) @yield('meta_title') @else Top Pharma Franchise Company India | PCD Pharma Franchise Price List @endif</title>
 
 <meta name="title" content="@if(View::hasSection('meta_title')) @yield('meta_title') @else Top Pharma Franchise Company India | PCD Pharma Franchise Price List @endif">
 <meta name="keywords" content="@if(View::hasSection('meta_keywords')) @yield('meta_keywords') @else Top Pharma Franchise Company India,PCD Pharma Franchise Price List @endif">
-<meta name="description" content="@if(View::hasSection('meta_description')) @yield('meta_description') @else Are you Looking for Best Pharma Franchise Company? Get in touch with us for 50+ PCD Pharma Franchise Company as well as third party mfg companies in India. @endif"> --}}
+<meta name="description" content="@if(View::hasSection('meta_description')) @yield('meta_description') @else Are you Looking for Best Pharma Franchise Company? Get in touch with us for 50+ PCD Pharma Franchise Company as well as third party mfg companies in India. @endif">
 
 <meta property="og:title" content="@yield('meta_title')" />
 <meta property="og:description" content="@yield('meta_description')" />
-<link rel="icon" type="image/x-icon" href="{{ \Storage::url(config('settings.app.favicon')) . getPictureVersion() }}">
+<!-- <link rel="icon" type="image/x-icon" href="{{ \Storage::url(config('settings.app.favicon')) . getPictureVersion() }}"> -->
 <link rel="icon" type="image/x-icon" href="/assets/img/jenus.jpg">
-
+<link rel="stylesheet" href="/home/css/stylea.css">
+<link rel="stylesheet" href="/home/css/styleb.css">
 <meta property="og:url" content="{{ Request::fullUrl() }}" />
 
 <meta property="og:type" content="website" />
@@ -32,10 +33,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link
   href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap"
-  rel="stylesheet">
+  rel="stylesheet">  --->
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -55,7 +56,7 @@
 
       <link href="/assets/css/responsive.css" rel="stylesheet">
       <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --->
 
 
       <link rel="stylesheet" href="/home/plugins/font-awesome/css/font-awesome.min.css">
@@ -73,7 +74,7 @@
   <link rel="stylesheet" href="/home/css/style.css">
 
   <link rel="stylesheet" href="/home/css/home-1.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css">
+   <!--- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.css"> --->
 
 
 

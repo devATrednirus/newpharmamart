@@ -13,82 +13,9 @@
 
 	@include('newlayouts.head')
 
-<div class="pen-information"></div>
-<div id="wa-chat-widget">
-    <div class='wa-chat-widget-header'>
-      <img src="images/why-choose/profile (1).png">
-      <div class="wa-chat-widget-profile">
-        <div>Pharma Franchise Mart</div>
-        <small>Typically replies within an hour</small>
-      </div>
-      <a class='close' href='#'>×</a>
-    </div>
-    <div class="wa-chat-widget-body">
-      <div class="message">
-        <small class="profile-name">Pharma Franchise Mart</small>
-        <div class="wcw-message">Hi there 👋<br /> How We can Help You?</div>
-      </div>
-    </div>
-    <div class="wa-chat-widget-send">
-        <a href="https://api.whatsapp.com/send?phone=91-9888885364&text=Pharma Franchise%20Mart">
-        <button type="button" class="btn btn-success">Chat Now</button></a>
-      <!--<form target="_blank" method="get" action="https://wa.me/918826588115">
-        <input type="text" name="text" placeholder="Type a message" />
-        <button type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-            <path
-              d="M24 0l-6 22-8.129-7.239 7.802-8.234-10.458 7.227-7.215-1.754 24-12zm-15 16.668v7.332l3.258-4.431-3.258-2.901z" />
-          </svg></button>
-      </form>-->
-    </div>
-  </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="best emergency call">
-          <a href="tel:91-9888885364">
-          <img class="ener"src="/images/why-choose/emergency-call.png"></a>
-      </div>
-
-
-  <a href="#wa-chat-widget" class="wa-icon"><svg xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 1219.547 1225.016">
-      <path fill="#E0E0E0"
-        d="M1041.858 178.02C927.206 63.289 774.753.07 612.325 0 277.617 0 5.232 272.298 5.098 606.991c-.039 106.986 27.915 211.42 81.048 303.476L0 1225.016l321.898-84.406c88.689 48.368 188.547 73.855 290.166 73.896h.258.003c334.654 0 607.08-272.346 607.222-607.023.056-162.208-63.052-314.724-177.689-429.463zm-429.533 933.963h-.197c-90.578-.048-179.402-24.366-256.878-70.339l-18.438-10.93-191.021 50.083 51-186.176-12.013-19.087c-50.525-80.336-77.198-173.175-77.16-268.504.111-278.186 226.507-504.503 504.898-504.503 134.812.056 261.519 52.604 356.814 147.965 95.289 95.36 147.728 222.128 147.688 356.948-.118 278.195-226.522 504.543-504.693 504.543z" />
-      <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="609.77" y1="1190.114" x2="609.77" y2="21.084">
-        <stop offset="0" stop-color="#20b038" />
-        <stop offset="1" stop-color="#60d66a" />
-      </linearGradient>
-      <path fill="url(#a)"
-        d="M27.875 1190.114l82.211-300.18c-50.719-87.852-77.391-187.523-77.359-289.602.133-319.398 260.078-579.25 579.469-579.25 155.016.07 300.508 60.398 409.898 169.891 109.414 109.492 169.633 255.031 169.57 409.812-.133 319.406-260.094 579.281-579.445 579.281-.023 0 .016 0 0 0h-.258c-96.977-.031-192.266-24.375-276.898-70.5l-307.188 80.548z" />
-      <!--<image overflow="visible" opacity=".08" width="682" height="639" xlink:href="FCC0802E2AF8A915.png"
-        transform="translate(270.984 291.372)" />--->
-      <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFF"
-        d="M462.273 349.294c-11.234-24.977-23.062-25.477-33.75-25.914-8.742-.375-18.75-.352-28.742-.352-10 0-26.25 3.758-39.992 18.766-13.75 15.008-52.5 51.289-52.5 125.078 0 73.797 53.75 145.102 61.242 155.117 7.5 10 103.758 166.266 256.203 226.383 126.695 49.961 152.477 40.023 179.977 37.523s88.734-36.273 101.234-71.297c12.5-35.016 12.5-65.031 8.75-71.305-3.75-6.25-13.75-10-28.75-17.5s-88.734-43.789-102.484-48.789-23.75-7.5-33.75 7.516c-10 15-38.727 48.773-47.477 58.773-8.75 10.023-17.5 11.273-32.5 3.773-15-7.523-63.305-23.344-120.609-74.438-44.586-39.75-74.688-88.844-83.438-103.859-8.75-15-.938-23.125 6.586-30.602 6.734-6.719 15-17.508 22.5-26.266 7.484-8.758 9.984-15.008 14.984-25.008 5-10.016 2.5-18.773-1.25-26.273s-32.898-81.67-46.234-111.326z" />
-      <path fill="#FFF"
-        d="M1036.898 176.091C923.562 62.677 772.859.185 612.297.114 281.43.114 12.172 269.286 12.039 600.137 12 705.896 39.633 809.13 92.156 900.13L7 1211.067l318.203-83.438c87.672 47.812 186.383 73.008 286.836 73.047h.255.003c330.812 0 600.109-269.219 600.25-600.055.055-160.343-62.328-311.108-175.649-424.53zm-424.601 923.242h-.195c-89.539-.047-177.344-24.086-253.93-69.531l-18.227-10.805-188.828 49.508 50.414-184.039-11.875-18.867c-49.945-79.414-76.312-171.188-76.273-265.422.109-274.992 223.906-498.711 499.102-498.711 133.266.055 258.516 52 352.719 146.266 94.195 94.266 146.031 219.578 145.992 352.852-.118 274.999-223.923 498.749-498.899 498.749z" />
-    </svg></a>
-
-
-
-
+	@include('whatsappbutton')
 
 
 
@@ -107,291 +34,7 @@
 
 
 
-	<!-- Button trigger modal -->
-	<div class="relax lex">
-<button type="button" id="btenqr" class="" data-toggle="modal" data-target="#exampleModal">
-  Enquire Now
-</button>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <p>Send Enquiry<br>
-(Do Not Post Job Enquiry)</p>
-      <div class="modal-header">
-          <!--<form action="https://dealkaregaindia.com/user-lead/submit" method="post">
-                    <input type="hidden" name="_token" value="2EVHowQaL6cdn84SRYihMVzvIjcakq8B3hONjMex">                   <div class="row">
-                      <div class="col-lg-4 col-md-12">
-                          <p class="kVZdeE"> Name</p>
-                           <input class="kMhfli" type="text" name="user_name" value="" placeholder="Name" required>
-                      </div>
-                      <div class="col-lg-4 col-md-12">
-                          <p class="kVZdeE">Mobile Number</p>
-                           <input class="kMhfli" type="text" name="Phone" value="" placeholder="phone" required>
-                      </div>
-                      <div class="col-lg-4 col-md-12">
-                        <p class="kVZdeE"> Email</p>
-                         <input class="kMhfli" type="text" name="user_email" value="" placeholder="Email" >
-                      </div>
-
-                    </div>
-
-                    <div class="row">
-                         <div class="col-lg-4 col-md-12">
-                             <p class="kVZdeE">Service Type</p>
-                            <input list="browsers" class="kMhfli" name="service_type" id="browser" >
-                            <datalist id="browsers">
-                             <option>Pcd pharma franchise</option>
-                              <option>Third party manufacturing</option>
-                             </datalist>
-                         </div>
-
-                         <div class="col-lg-4 col-md-12">
-                            <p class="kVZdeE">Service For</p>
-
-                            <input list="browsersss" class="kMhfli" name="service_for" id="browser" >
-                            <datalist id="browsersss">
-                             <option>Cardio</option>
-                              <option>Derma</option>
-                              <option>Dental</option>
-                              <option>General</option>
-                              <option>Gynae</option>
-                              <option>Ortho</option>
-                              <option>Pediatric</option>
-                              <option>Psychiatry</option>
-                              <option>Veterinary</option>
-                              <option>Neuro</option>
-                              <option>Generic</option>
-                              <option>Opthalmic</option>
-                              <option>Oncology</option>
-                              <option>Ayurvedic</option>
-                              <option>Other</option>
-                             </datalist>
-                         </div>
-                         <div class="col-lg-4 col-md-12">
-                            <p class="kVZdeE">Requirement Emergency</p>
-                               <input list="browserssss" class="kMhfli" name="emer" id="browser" >
-                            <datalist id="browserssss">
-                             <option>Immediate</option>
-                              <option>within 15 days</option>
-                              <option>within month</option>
-                             </datalist>
-
-
-
-                         </div>
-                    </div>
-                   <div class="flex-li">
-                      <ul>
-                          <li><p class="kVZdeE">City</p>
-                   <input class="kMhfli" type="text" name="city" value="" placeholder="City" ></li>
-                   <li><p class="kVZdeE">Pincode</p>
-                   <input class="kMhfli" type="text" name="pincode" value="" placeholder="Pincode" ></li>
-                         <li><p class="kVZdeE">State</p>
-                   <input class="kMhfli" type="text" name="state" value="" placeholder="State" ></li>
-
-                      </ul>
-
-                    <div class="row">
-
-                      <div class="col-lg-6 col-md-12">
-                         <p class="kVZdeE">GST</p>
-
-                        <input list="browsersssss" class="kMhfli" name="gst" id="browser" >
-                            <datalist id="browsersssss">
-                             <option>Yes</option>
-                              <option>No</option>
-                              <option>Applied</option>
-                             </datalist>
-
-                      </div>
-                      <div class="col-lg-6 col-md-12">
-                         <p class="kVZdeE">Drug Licence</p>
-                   <input list="browsersssss" class="kMhfli" name="license" id="browser" >
-                            <datalist id="browsersssss">
-                             <option>Yes</option>
-                              <option>No</option>
-                              <option>Applied</option>
-                              <option>Arrange It</option>
-                             </datalist>
-                      </div>
-
-                   </div>
-                      <p class="kVZdeE">Message</p>
-                   <input class="kMhfli" type="text" name="message" value="" placeholder="Message" >
-
-
-                   </div>
-
-
-
-
-
-                     <button type="submit" class="btn btn-primary">Submit</button>
-
-
-                  </form>-->
-       <form action="/enquiry/store/from/popup"  id="frmenqrform" method="POST"  >
-                        @csrf
-                        <div class="row">
-
-                            <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Are You Looking for*</b></p>
-                                  <input type="text" list="tttt" class="form-control" name="looking" id="looking" required="" >
-                            <datalist id="tttt">
-                             <option>Third Party Manufacturing</option>
-                              <option>PCD Franchise</option>
-
-
-                             </datalist>
-                              </div>
-                           </div>
-
-
-                            <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Requirement*</b></p>
-                                  <input type="text" list="hhhhhhh" class="form-control" name="requirement" id="requirement" required="">
-                            <datalist id="hhhhhhh">
-                             <option>Immediate</option>
-                              <option>With A Month</option>
-                              <option>Future</option>
-
-                             </datalist>
-                              </div>
-                           </div>
-
-                            <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Profession*</b></p>
-                                  <input type="text" list="dddddd" class="form-control" name="profesional" id="profesional" required="">
-                            <datalist id="dddddd">
-                             <option>Doctor</option>
-                              <option>Medical Representative</option>
-                              <option>Stockist</option>
-                               <option>Chesmist</option>
-                                <option>Distributor</option>
-
-                             </datalist>
-                              </div>
-                           </div>
-
-
-                            <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Experience</b></p>
-                                  <input type="text" list="mmmmm" class="form-control" name="experience" id="experience" >
-                            <datalist id="mmmmm">
-                             <option>Below 3 years</option>
-                              <option>5 year</option>
-
-
-                             </datalist>
-                              </div>
-                           </div>
-
-
-
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Name*</b></p>
-                                 <input type="text" class="form-control" placeholder="Name" id="name" name="name" required="">
-                              </div>
-                           </div>
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Email*</b></p>
-                                 <input type="text" class="form-control" placeholder="Email" id="email" name="email" required="">
-                              </div>
-                           </div>
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Phone*</b></p>
-                                 <input type="text" class="form-control" placeholder="Phone" id="phone" name="phone" required="">
-                              </div>
-                           </div>
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>City*</b></p>
-                                 <input type="text" class="form-control" placeholder="City" id="city" name="city" required="">
-                              </div>
-                           </div>
-
-                           <!--newform-->
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Pincode*</b></p>
-                                 <input type="text" class="form-control" type="text" name="pincode" value="" placeholder="Pincode" required="" >
-                              </div>
-                           </div>
-
-
-
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>State</b></p>
-                                 <input  type="text" class="form-control" type="text" name="state" value="" placeholder="State" >
-                              </div>
-                           </div>
-
-
-                            <!--newform-->
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Drug Licence</b></p>
-                                  <label>Yes</label>
-                                  <input type="radio" name="drug" value="yes">
-                                  <label>No</label>
-                                  <input type="radio" name="drug" value="no">
-                                  <label>Applied</label>
-                                  <input type="radio" name="drug" value="applied">
-                              </div>
-                           </div>
-
-                           <div class="col-md-6 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>GST</b></p>
-                                  <label>Yes</label>
-                                  <input type="radio" name="gst" value="yes">
-                                  <label>No</label>
-                                  <input type="radio" name="gst" value="no">
-                                  <label>Applied</label>
-                                  <input type="radio" name="gst" value="applied">
-                              </div>
-                           </div>
-
-
-                           <div class="col-md-12 col-sm-12">
-                              <div class="contact-form-section best">
-                                  <p class="kVZdeE"><b>Message*</b></p>
-                                 <textarea class="form-control" id="message" name="message" rows="4"
-                                    placeholder="Message" style="height: 100px;" required=""></textarea>
-                              </div>
-                           </div>
-                           <div class="col-md-12 col-sm-12 pb-4">
-
-                              <button type="submit" id="btn-enqsubmit" class="btn btn-success" >
-                                 Send
-                              </button>
-
-                           </div>
-                        </div>
-                     </form>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
@@ -426,6 +69,10 @@
 
 
   </div>
+
+  @include('modalbutton')
+  <!-- include 'modal' --->
+  @yield('loginotpslide')
 	<!-- The Modal -->
 	<div id="mainModal" class="modal tmodal">
 
@@ -481,6 +128,10 @@
 
 		<script>
 
+var siteUrl = '{{ url('/') }}';
+var languageCode = 'en';
+var countryCode = 'IN';
+
 		$("#bigbtn-enqsubmit").on('click',function(e){
 
 		//function tohandlemodal() {
@@ -528,69 +179,22 @@
 
 
 
-<script>
-
-$(".mysublink").on('click',function(e){
-
-//console.log($("button[data-target='exampleModal']")data-target="#exampleModal");
-$("#btenqr").click()
-	//var modal = document.getElementById("exampleModal")
-//	modal.style.display = "block";
-
-	//$('#exampleModal').modal('toggle');
-	//$('body').addClass("modal-open");
-});
-
-
-
-$("#btn-enqsubmit").on('click',function(e){
-
-//function tohandlemodal() {
-	console.log('ddd');
-	if($('#frmenqrform')[0].checkValidity()) {
-		console.log('eee');
-
-		$.ajax({
-
-				 type:'POST',
-				 url:"{{-- route('enquirysideform') --}}",
-				 data:$('#frmenqrform').serialize(),
-
-				 //{
-					 //$('#frmenqrform').serialize(),
-				 //},
-				 success:function(data){
-						console.log(data.response);
-					$('body').removeClass("modal-open");
-						$('div').removeClass("modal-backdrop");
-						$('#exampleModal').modal('toggle');
-						var modal = document.getElementById("mainModal")
-						modal.style.display = "block";
-				 }
-
-		});
-		// modal show logics
-
-		e.preventDefault();
-	} else {
-		console.log('fff');
-		console.log($('#frmenqrform').serialize());
-		e.preventDefault();
-	}
-
-
-
-//}
-});
-
-</script>
 
 		<script>
 
 
 
 
+    $(".mysublink").on('click',function(e){
 
+    //console.log($("button[data-target='exampleModal']")data-target="#exampleModal");
+    $("#btenqr").click()
+    	//var modal = document.getElementById("exampleModal")
+    //	modal.style.display = "block";
+
+    	//$('#exampleModal').modal('toggle');
+    	//$('body').addClass("modal-open");
+    });
 
 
 
@@ -776,7 +380,7 @@ for (i = 0; i < dropdown.length; i++) {
 }
 </script>
 
-
+@yield('after_scripts')
 
 </body>
 

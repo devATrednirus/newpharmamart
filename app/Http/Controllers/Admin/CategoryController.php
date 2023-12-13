@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Session;
 class CategoryController extends PanelController
 {
 	public $parentId = 0;
-	
+
 	public function setup()
 	{
 		/*
@@ -40,11 +40,11 @@ class CategoryController extends PanelController
 		if (!request()->input('order')) {
 			$this->xPanel->orderBy('lft', 'ASC');
 		}
-		
+
 		$this->xPanel->addButtonFromModelFunction('top', 'bulk_delete_btn', 'bulkDeleteBtn', 'end');
 		// $this->xPanel->addButtonFromModelFunction('line', 'custom_fields', 'customFieldsBtn', 'beginning');
 		$this->xPanel->addButtonFromModelFunction('line', 'sub_categories', 'subCategoriesBtn', 'beginning');
-		
+
 		// Filters
 		// -----------------------
 		$this->xPanel->addFilter([
@@ -67,17 +67,17 @@ class CategoryController extends PanelController
 		], [
 			'No'  => 'No',
 			'Yes'   => 'Yes'
-			 
+
 		], function ($value) {
 			if($value=="No"){
 				$this->xPanel->addClause('where', 'is_hidden', '=', '0');
 			}
 			else if($value=="Yes"){
 				$this->xPanel->addClause('where', 'is_hidden', '=', '1');
-			} 
-			 
+			}
+
 		});
-		
+
 		/*
 		|--------------------------------------------------------------------------
 		| COLUMNS AND FIELDS
@@ -121,14 +121,27 @@ class CategoryController extends PanelController
 			'function_name' => 'getFeaturedHtml',
 			'on_display'    => 'checkbox',
 		]);
-		
-		
+
+
 		// FIELDS
 		$this->xPanel->addField([
 			'name'  => 'parent_id',
 			'type'  => 'hidden',
 			'value' => $this->parentId,
 		]);
+		$this->xPanel->addField([
+			'name'              => 'menuname',
+			'label'             => "Name Of Menu",
+			'type'              => 'text',
+			'attributes'        => [
+				'placeholder' => "Name Of Menu",
+			],
+			'wrapperAttributes' => [
+				'class' => 'form-group col-md-6',
+			],
+		]);
+
+
 		$this->xPanel->addField([
 			'name'              => 'name',
 			'label'             => trans("admin::messages.Name"),
@@ -163,7 +176,7 @@ class CategoryController extends PanelController
 				'class' => 'form-group col-md-6',
 			],
 		]);
-                
+
 		$this->xPanel->addField([
 			'name'              => 'slug',
 			'label'             => trans('admin::messages.Slug'),
@@ -180,7 +193,7 @@ class CategoryController extends PanelController
 			'name'              => 'youtubelink',
 			'label'             => 'you tube link',
 			'type'              => 'text',
-						
+
 			'wrapperAttributes' => [
 				'class' => 'form-group col-md-6',
 			],
@@ -189,7 +202,7 @@ class CategoryController extends PanelController
 			'name'              => 'youtubetext',
 			'label'             => 'you tube text',
 			'type'              => 'text',
-						
+
 			'wrapperAttributes' => [
 				'class' => 'form-group col-md-6',
 			],
@@ -275,12 +288,12 @@ class CategoryController extends PanelController
 			'type'  => 'checkbox',
 		]);
 	}
-	
+
 	public function store(StoreRequest $request)
 	{
 		return parent::storeCrud();
 	}
-	
+
 	public function update(UpdateRequest $request)
 	{
 		return parent::updateCrud();

@@ -41,6 +41,14 @@ if($data->blocked==0 && $data->closed==0){
 <!DOCTYPE html>
 <html lang="{{ ietfLangTag(config('app.locale')) }}"{!! (config('lang.direction')=='rtl') ? ' dir="rtl"' : '' !!}>
 <head>
+<!-- {{$template}} -->
+
+@if($template == "template1")
+		<link href="{{ url('templates_new/css/one_style.css')}}" rel="stylesheet">
+@endif
+@if($template == "template2")
+		<link href="{{ url('templates_new/css/two_style.css')}}" rel="stylesheet">
+@endif
 <style>
 table > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
    background-color: #efefef;
@@ -59,8 +67,70 @@ td{padding:10px;}
     padding-bottom: 27px;
     padding-top: 27px;
 }
-
+.mega_menu .ul_li_block a:hover {
+    background-color: rgb(194, 0, 0);
+    color: #fff !important;
+    padding: 5px 16px;
+}
 </style>
+
+<style>
+.dummy-wrap h2 {
+    text-align: center;
+    font-size: 27px;
+    font-weight: 700;
+    margin-bottom: 27px;
+}
+.com-des-right .short_description {
+    text-align: justify;
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+div {
+    font-size: 17px !important;
+}
+.breadcrumb-item + .breadcrumb-item {
+    font-size: 15px;
+    margin-top: 3px;
+}
+</style>
+
+<style>
+.col-md-12.company-about-left {
+    font-size: 17px;
+    text-align: justify;
+}
+.col-md-12.company-about-left h1 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+.col-md-12.company-info h3 {
+    text-align: center;
+    margin-bottom: 28px;
+}
+.f-p-slider h2 {
+    text-align: center;
+    margin-bottom: 19px;
+}
+.o-p-block h2 {
+    text-align: center;
+}
+.dropdown-item.service-heading {
+    font-size: 18px;
+    margin-top: 4px;
+    color: #151515;
+    text-transform: capitalize;
+    font-weight: 300;
+    white-space: normal;
+    height: 0;
+    min-height: 36px;
+    padding-left: 8px;
+    padding-right: 0;
+    margin-bottom: 11px;
+    overflow: hidden;
+}
+</style>
+
 	<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -300,13 +370,13 @@ else
 		});
 
 		{{-- Social Share --}}
-		$('.share').ShareLink({
+		/*$('.share').ShareLink({
 			title: '{{ addslashes(MetaTag::get('title')) }}',
 			text: '{!! addslashes(MetaTag::get('title')) !!}',
 			url: '{!! $fullUrl !!}',
 			width: 640,
 			height: 480
-		});
+		});*/
 
 		{{-- Modal Login --}}
 		@if (isset($errors) and $errors->any())

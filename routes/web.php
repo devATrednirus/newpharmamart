@@ -59,7 +59,7 @@
 */
 
 
-Route::group(array('before' => 'auth|nohttps'), function()
+Route::group(['before' => 'auth|nohttps','middleware' => ['cors'],], function()
 {
 
 Route::group([

@@ -96,6 +96,7 @@ class PanelController extends Controller
 	 */
 	public function storeCrud(StoreRequest $request = null)
 	{
+	    //dd('storeCrud');
 		try {
 
 
@@ -131,6 +132,8 @@ class PanelController extends Controller
 
 
 		} catch (\Exception $e) {
+
+		    //dd($e->errorInfo);
 			// Get error message
 			if (isset($e->errorInfo) && isset($e->errorInfo[2]) && !empty($e->errorInfo[2])) {
 				$msg = $e->errorInfo[2];
@@ -188,6 +191,7 @@ class PanelController extends Controller
 	 */
 	public function updateCrud(UpdateRequest $request = null)
 	{
+	    //dd('updateCrud');
 		try {
 			$this->xPanel->hasAccessOrFail('update');
 

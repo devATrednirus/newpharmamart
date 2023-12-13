@@ -5,7 +5,11 @@
     <!-- Wrap the image or canvas element with a block element (container) -->
     <div class="row">
         <div class="col-sm-6" style="margin-bottom: 20px;">
+            @if(str_contains(Request::fullurl(),'pictures'))
+            <img id="mainImage" src="{{ url( (isset($field['prefix']) ? $field['prefix'] : '') . (old($field['name']) ? old($field['name']) : (isset($field['value']) ? str_replace('storage','storage/app',\Storage::disk($field['disk'])->url($field['value'])) : (isset($field['default']) ? $field['default'] : '') ))) }}">
+            @else
             <img id="mainImage" src="{{ url( (isset($field['prefix']) ? $field['prefix'] : '') . (old($field['name']) ? old($field['name']) : (isset($field['value']) ? \Storage::disk($field['disk'])->url($field['value']) : (isset($field['default']) ? $field['default'] : '') ))) }}">
+            @endif
         </div>
         @if(isset($field['crop']) && $field['crop'])
             <div class="col-sm-3">
@@ -31,7 +35,7 @@
         @endif
         <button class="btn btn-danger" id="remove" type="button"><i class="fa fa-trash"></i></button>
     </div>
-    
+
     {{-- HINT --}}
     @if (isset($field['hint']))
         <p class="help-block">{!! $field['hint'] !!}</p>
@@ -43,7 +47,7 @@
 {{-- Extra CSS and JS for this particular field --}}
 {{-- If a field type is shown multiple times on a form, the CSS and JS will only be loaded once --}}
 @if ($xPanel->checkIfFieldIsFirstOfItsType($field, $fields))
-    
+
     {{-- FIELD CSS - will be loaded in the after_styles section --}}
     @push('crud_fields_styles')
     {{-- YOUR CSS HERE --}}
@@ -72,7 +76,7 @@
             width: 263px;
             height: 148px;
         }
-        
+
         .btn-file {
             position: relative;
             overflow: hidden;
@@ -94,7 +98,7 @@
         }
     </style>
     @endpush
-    
+
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
     @push('crud_fields_scripts')
     {{-- YOUR JS HERE --}}
@@ -123,18 +127,18 @@
 					aspectRatio : $(this).attr('data-aspectRatio')
 				};
 				var crop = $(this).attr('data-crop');
-				
+
 				// Hide 'Remove' button if there is no image saved
 				if (!$mainImage.attr('src')){
 					$remove.hide();
 				}
 				// Initialise hidden form input in case we submit with no change
 				$hiddenImage.val($mainImage.attr('src'));
-				
-				
+
+
 				// Only initialize cropper plugin if crop is set to true
 				if(crop){
-					
+
 					$remove.click(function() {
 						$mainImage.cropper("destroy");
 						$mainImage.attr('src','');
@@ -147,24 +151,24 @@
 						$remove.hide();
 					});
 				} else {
-					
+
 					$(this).find("#remove").click(function() {
 						$mainImage.attr('src','');
 						$hiddenImage.val('');
 						$remove.hide();
 					});
 				}
-				
+
 				$uploadImage.change(function() {
 					var fileReader = new FileReader(),
 						files = this.files,
 						file;
-					
+
 					if (!files.length) {
 						return;
 					}
 					file = files[0];
-					
+
 					if (/^image\/\w+$/.test(file.type)) {
 						fileReader.readAsDataURL(file);
 						fileReader.onload = function () {
@@ -198,7 +202,7 @@
 								$zoomOut.show();
 								$reset.show();
 								$remove.show();
-								
+
 							} else {
 								$mainImage.attr('src',this.result);
 								$hiddenImage.val(this.result);
@@ -209,12 +213,12 @@
 						alert("Please choose an image file.");
 					}
 				});
-				
+
 			});
 		});
     </script>
-    
-    
+
+
     @endpush
 @endif
 {{-- End of Extra CSS and JS --}}

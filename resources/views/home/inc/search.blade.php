@@ -1,3 +1,29 @@
+<style>
+.h-spacer {
+    padding-top: 4px;
+}
+
+.search-row .icon-append {
+    color: #949494;
+    font-size: 28px;
+    position: absolute;
+    top: 13px;
+    left: 7px;
+}
+
+.skin-blue button.btn-search {
+    background-color: #e2bd26;
+
+}
+   button.btn.btn-primary.btn-search.btn-block.read-more {
+    border-radius: 19px!important;
+
+}
+.skin-blue .intro {
+    background: #167b6f;
+}
+</style>
+
 <?php
 // Init.
 $sForm = [
@@ -177,7 +203,7 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 								<div class="row m-0">
 									<div class="col-sm-5 col-xs-12 search-col relative"   style="max-width: 57% !important;">
 										<i class="icon-docs icon-append"></i>
-										<input type="text" style="width:200px;" name="q" class="form-control keyword has-icon" placeholder="{{ t('What?') }}" value="">
+										<input type="text" style="width:252px;" name="q" class="form-control keyword has-icon" placeholder="{{ t('What?') }}" value="">
 									</div>
 
 									{{-- <div class="col-sm-5 col-xs-12 search-col relative locationicon">
@@ -195,7 +221,18 @@ if (file_exists(config('larapen.core.maps.path') . config('country.icode') . '.s
 									</div> --}}
 
 									<div class="col-sm-2 col-xs-12 search-col">
-										<button class="btn btn-primary btn-search btn-block read-more" style="margin-top:13px;padding:3px; width:50px;">
+										<button class="btn btn-primary btn-search btn-block read-more"
+
+										@if(str_contains(url()->current(), '/contact') || str_contains(url()->current(), '/detail'))
+  style="margin-top: 5px;padding: 0px;width: 113px;"
+
+												@else
+											 	style="margin-top:13px;padding:3px; width:50px;"
+										@endif
+
+
+
+										 >  <!---    --->
 											<i class="icon-search"></i> <strong>{{ t('Find') }}</strong>
 										</button>
 									</div>

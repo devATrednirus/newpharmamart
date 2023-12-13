@@ -217,8 +217,8 @@ trait EditTrait
 
 		  flash(t("Your ad has been updated."))->success();
         }
-		$nextStepUrl = config('app.locale') . '/posts/' . $creationPath . $postIdOrToken . '/photos';
-
+//		$nextStepUrl = config('app.locale') . '/posts/' . $creationPath . $postIdOrToken . '/photos';
+$nextStepUrl =  'posts/' . $creationPath . $postIdOrToken . '/photos';
         // Send Email Verification message
         if ($emailVerificationRequired) {
             $this->sendVerificationEmail($post);
@@ -236,8 +236,13 @@ trait EditTrait
             // Go to Phone Number verification
             $nextStepUrl = config('app.locale') . '/verify/post/phone/';
         }
+      //  dd($nextStepUrl);
 
         // Redirection
-        return redirect($nextStepUrl);
+        if(str_contains($nextStepUrl, 'post')) {
+          return redirect($nextStepUrl);
+        } else {
+          return redirect('account/my-posts');
+        }
     }
 }

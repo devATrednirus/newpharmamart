@@ -120,7 +120,7 @@
                         @if (count($post->pictures) > 0)
                         <ul class="bxslider">
                            @foreach($post->pictures as $key => $image)
-                           <li><img src="{{ resize($image->filename, 'big') }}" alt="{{$post->title}} {{$key+1}}"></li>
+                           <li><img src="{{ str_replace('storage','storage/app',resize($image->filename, 'big')) }}" alt="{{$post->title}} {{$key+1}}"></li>
                            @endforeach
                         </ul>
                         @if (count($post->pictures) > 1)
@@ -129,7 +129,7 @@
                               @foreach($post->pictures as $key => $image)
                               <li>
                                  <a class="thumb-item-link" data-slide-index="{{ $key }}" href="">
-                                    <img src="{{ resize($image->filename, 'small') }}"
+                                    <img src="{{ str_replace('storage','storage/app',resize($image->filename, 'small')) }}"
                                        alt="{{$post->title}} {{$key+1}}">
                                  </a>
                               </li>
@@ -371,7 +371,11 @@
                            @else
                            <div class="small-logo">
                               @if (!empty($userPhoto))
+                              @if(file_exists($userPhoto))
                               <img src="{{ $userPhoto }}" alt="{{ $post->user->name }}">
+                              @else
+                              <img src="{{ str_replace('storage','storage/app',$userPhoto) }}" alt="{{ $post->user->name }}">
+                              @endif
 
                               @else
                               <img src="{{ url('images/user.jpg') }}" alt="{{ $post->user->name }}">
@@ -735,6 +739,15 @@
    .detail-line div {
       background-color: #fff;
    }
+
+   #companydetail {
+    border-top: 1px solid #eee;
+    margin-top: 30px;
+    font-size: 17px;
+    padding: 17px 10px;
+  }
+
+
 </style>
 <!-- bxSlider CSS file -->
 @if (config('lang.direction') == 'rtl')

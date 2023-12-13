@@ -1,3 +1,11 @@
+<?php $sty = '';
+if(!empty($_GET['debu'])) {
+  if($_GET['debu'] == 1)  {
+    echo "search.inc.categories";
+    $sty = ' style="border: 1px solid;" ';
+  }
+} ?>
+
 <?php
 if (!isset($cats)) {
     $cats = collect([]);

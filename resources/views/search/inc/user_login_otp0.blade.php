@@ -1,11 +1,8 @@
 <div class="modal" id="userOTP" tabindex="-1" role="dialog" style="padding-top: 54px;">
-    
 	<div class="modal-dialog">
 		<div class="modal-content">
-	     <div class="quwrrih">
-			<div class="modal-header" style="background: #114645 !important;
-    border-color: #039eb5 !important;
-    color: #fff !important;">
+
+			<div class="modal-header">
 				<h4 class="modal-title" style="color:#fff;">
 					<i class="icon-mail-2"></i> OTP Verification
 				</h4>
@@ -41,12 +38,16 @@
 						$fromOtpError = (isset($errors) and $errors->has('otp')) ? ' is-invalid' : ''; ?>
 						<div class="col-md-12">
 							<div class="form-group required">
-							
+								<label for="phone" class="control-label">OTP
+
+										<sup>*</sup>
+
+								</label>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span id="phoneCountry" class="input-group-text" style="height: 48px;"><i class="fa fa-phone"></i></span>
 									</div>
-									<input id="otp" name="otp" type="text" placeholder="*OTP" maxlength="6" class="form-control{{ $fromOtpError }}" value="">
+									<input id="otp" name="otp" type="text" placeholder="OTP" maxlength="6" class="form-control{{ $fromOtpError }}" value="">
 
 								</div>
 
@@ -66,7 +67,6 @@
 
 		</div>
 	</div>
-</div>
 </div>
 
 
@@ -187,7 +187,11 @@
 		outline: 0;
 	}
 
-	
+	#userOTP .modal-header {
+		background: #dc0002;
+		border-color: #dc0002;
+		color: #fff;
+	}
 
 	.modal-header {
 		border-bottom: solid 1px #ddd;
@@ -215,7 +219,7 @@
 
 	#userOTP .input-group-text {
 		color: #fff;
-		background-color: #114645 !important;
+		background-color: #039eb5;
 		border: 1px solid #039eb5;
 	}
 
@@ -251,7 +255,7 @@
   color: #000;
 }
 #userOTP .btn.btn-success.pull-right {
-  background:#114645;
+  background: #039eb5;
   border-color: #039eb5;
   height: 39px;
   padding-top: 0;
@@ -260,15 +264,13 @@
   color: #fff;
 }
 #userOTP .btn.btn-default {
-background: #715e13;
-    border-color:#715e13;
-    height: 40px;
-    padding-top: 0;
-    padding-bottom: 0;
-    line-height: normal;
-    color: #fff;
-    width: 61px;
-    font-size: 17px;
+  background: #dc0002;
+  border-color: #dc0002;
+  height: 39px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: normal;
+  color: #fff;
 }
 .modal-footer{ border:none;}
 #userOTP .close {

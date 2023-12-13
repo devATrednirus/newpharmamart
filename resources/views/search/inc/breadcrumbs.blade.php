@@ -1,3 +1,11 @@
+<?php $sty = '';
+if(!empty($_GET['debu'])) {
+  if($_GET['debu'] == 1)  {
+    echo "search.inc.breadcrumbs";
+    $sty = ' style="border: 1px solid;" ';
+  }
+} ?>
+
 <?php
 $keywords = rawurldecode(request()->get('q'));
 
@@ -20,7 +28,6 @@ if(!$keywords){
 
 }
 
-
 if($keywords!="" && isset($city)){
 
 		$keywords.=" in ".$city->name;
@@ -30,6 +37,9 @@ $enableQueryForm = true;
 
 if($enableQueryForm==true) {
 ?>
+@section('meta_title',$display_cat_name)
+@section('meta_keywords',$keywords)
+@section('meta_description','')
 <?php $sty = '';
 if(!empty($_GET['debu'])) {
   if($_GET['debu'] == 1)  {

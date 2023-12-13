@@ -21,12 +21,18 @@
         <div class="col-6 col-md-2 p-0">
           <div class="ps-block--about wow zoomIn" data-wow-duration="1s" data-wow-delay=".25s"
             style="visibility: visible; animation-duration: 1s; animation-delay: 0.25s; animation-name: zoomIn;">
-
-
+              <!--- 'images/{{urlencode(Str::lower($location->name))}}.png'   --->
+              {{-- @if (file_exists(public_path('images/{{urlencode(Str::lower($location->name))}}.png')))
+              <img class="zoom-icon happy" src="images/{{Str::lower($location->name)}}.png" alt="{{$location->name}}"
+                width="100%" height="100%">
+              @else
+              <img class="zoom-icon happy" src="images/{{($location->name)}}.png" alt="{{$location->name}}"
+                width="100%" height="100%">
+              @endif --}}
 
               <a class="" target="blank" href="{!! $fullUrlLocation !!}">
-              <img class="zoom-icon happy" src="public/images/{{Str::lower($location->name)}}.png" alt="{{$location->name}}"
-                 onerror="this.src='public/images/maharashtra.png';"  width="100%" height="100%">
+              <img class="zoom-icon happy" src="images/{{Str::lower($location->name)}}.png" alt="{{$location->name}}"
+                 onerror="this.src='images/maharashtra.png';"  width="100%" height="100%">
               <h3 class="ps-block__title hrupa">{{$location->name}}</h3>
               </a>
           </div>

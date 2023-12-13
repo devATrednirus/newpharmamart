@@ -624,7 +624,7 @@ class User extends BaseUser
 
 
 
-         $out = '<img src="' . resize($this->photo, 'small') . '" data-toggle="tooltip"  ' . $style . '>';
+         $out = '<img src="' . str_replace('storage','storage/app',resize($this->photo, 'small')) . '" data-toggle="tooltip"  ' . $style . '>';
 
 
         }

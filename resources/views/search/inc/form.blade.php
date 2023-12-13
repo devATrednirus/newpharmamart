@@ -17,22 +17,28 @@ if (isset($city) and !empty($city)) {
 }
 ?>
 
-	{{-- <div class="search-row-wrapper header-search">
-		Me search.inc.form.blade.php
+	 <div class="search-row-wrapper header-search">
+		<?php $sty = '';
+		if(!empty($_GET['debu'])) {
+		  if($_GET['debu'] == 1)  {
+		    echo "search.inc.form";
+		    $sty = ' style="border: 1px solid;" ';
+		  }
+		} ?>
+
 		<div class="container search-row">
 			<?php $attr = ['countryCode' => config('country.icode')]; ?>
 			<form id="seach" name="search" action="{{ lurl(trans('routes.v-search', $attr), $attr) }}" method="GET">
 				<div class="row m-0">
-					 <div class="col-md-1"></div>
-					<div class="col-xl-2 col-md-3 col-sm-12 col-xs-12" style="display: block;">
-						<select name="ct" id="catSearch" class="form-control selecter" style="height: 38px">
+					<div class="col-xl-3 col-md-3 col-sm-12 col-xs-12" style="display: block;">
+						<select name="ct" id="catSearch" class="form-control selecter" style="height: 38px;width:100px !important;font-size: 1rem;">
 							<option value="" {{ ($ct=='') ? 'selected="selected"' : '' }}> Product </option>
 							<option value="company" {{ ($ct=='company') ? 'selected="selected"' : '' }}> Company </option>
 
 						</select>
 					</div>
 
-					<div class="col-xl-7 col-md-7 col-sm-12 col-xs-12" style="height: 38px">
+					<div class="col-xl-7 col-md-7 col-sm-12 col-xs-12" style="height: 38px;font-size: 1rem;">
 						<input name="q" class="form-control keyword" required="required"  type="text" placeholder="{{ t('What?') }}" value="{{ $keywords }}">
 					</div>
 					{{-- <input type="hidden" id="lSearch" name="l" value="{{ $qLocationId }}">
@@ -53,7 +59,7 @@ if (isset($city) and !empty($city)) {
 					<input type="hidden" id="rSearch" name="r" value="{{ $qAdmin }}"> -->
 
 					<div class="col-xl-1 col-md-2 col-sm-12 col-xs-12">
-						<button class="btn btn-primary btn-search btn-block">
+						<button  style="border:0px;width:50px !important;padding-top:5px;"> <!-- class="btn btn-primary btn-search btn-block" --->
 							<i class="fa fa-search" style="margin-left:-8px;"></i> <strong>{{ t('Find') }}</strong>
 						</button>
 					</div>
@@ -61,4 +67,4 @@ if (isset($city) and !empty($city)) {
 				</div>
 			</form>
 		</div>
-	</div>  --}}
+	</div>

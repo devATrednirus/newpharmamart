@@ -39,7 +39,7 @@
                         </figure>
                         <h6>{{ $user->name }}</h6>
                         <p class="lemp-1">{!! Str::words(strip_tags($user->about_us),20,'...') !!}</p>
-                        <button type="button" class="btn btn-warning">Enquire Now</button>
+                        <a class="send_message"  data-toggle="modal" data-id="0" href="#contactUser"><button type="button" class="btn btn-warning ">Enquire Now</button></a>
                         <a target="blank" href="/{{$user->username}}"><button type="button" class="btn btn-info">More Details</a></button>
                       </a>
                       </div>

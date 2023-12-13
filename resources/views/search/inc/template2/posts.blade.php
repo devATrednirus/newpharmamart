@@ -1,16 +1,16 @@
 <?php
 
-			 
-	
+
+
 		// Get Pack Info
         $package = null;
-         
+
         $cacheId = 'package.' . $post->py_package_id . '.' . config('app.locale');
         $package = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
             $package = \App\Models\Package::findTrans($post->py_package_id);
             return $package;
         });
-		 
+
 		// Get PostType Info
 		/*$cacheId = 'postType.' . $post->post_type_id . '.' . config('app.locale');
     	$postType = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
@@ -23,7 +23,14 @@
 		$pictures = \App\Models\Picture::where('post_id', $post->id)->orderBy('position')->orderBy('id');
 		$alttag =  null;
 		if ($pictures->count() > 0) {
-			$postImg = resize($pictures->first()->filename, 'medium');
+			if(file_exists(storage_path($pictures->first()->filename))) {
+					$postImg = resize($pictures->first()->filename, 'medium');
+			} else {
+					$postImg = resize($pictures->first()->filename, 'medium');
+					$postImg = str_replace('storage','storage/app',$postImg);
+			}
+
+
 			$alttag = $pictures->first()->alttag;
 
 		} else {
@@ -32,15 +39,15 @@
 		if(!$alttag){
 			$alttag = $post->title;
 		}
-		  
+
 		// Get the Post's City
 		$cacheId = config('country.code') . '.city.' . $post->city_id;
     	$city = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($post) {
             $city = \App\Models\City::find($post->city_id);
 			return $city;
 		});
- 
-		
+
+
 		// Convert the created_at date to Carbon object
 		$post->created_at = \Date::parse($post->created_at)->timezone(config('timezone.id'));
 
@@ -51,14 +58,14 @@
 			$liveCat = \App\Models\Category::find($post->category_id);
 			return $liveCat;
 		});
-		
+
 		// Check parent
 		if (empty($liveCat->parent_id)) {
 			$liveCatParentId = $liveCat->id;
 			$liveCatType = $liveCat->type;
 		} else {
 			$liveCatParentId = $liveCat->parent_id;
-			
+
 			$cacheId = 'category.' . $liveCat->parent_id . '.' . config('app.locale');
 			$liveParentCat = \Illuminate\Support\Facades\Cache::remember($cacheId, $cacheExpiration, function () use ($liveCat) {
 				$liveParentCat = \App\Models\Category::find($liveCat->parent_id);
@@ -66,7 +73,7 @@
 			});
 			$liveCatType = (!empty($liveParentCat)) ? $liveParentCat->type : 'classified';
 		}
-		
+
 		// Check translation
 		if ($cats->has($liveCatParentId)) {
 			$liveCatName = $cats->get($liveCatParentId)->name;
@@ -77,12 +84,12 @@
 		$customFields = $post->customFields;
 
 	?>
-	
+
 	<div class="white-block" id="{{ $post->id}}">
 				<div class="col-md-12">
-				
+
 	<div  class="item-list">
-        
+
 		<h2 class="item_title" id="<?php echo slugify($post->title);?>" style="font-size: 22px;color: red;
     line-height: 30px;">
 						<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
@@ -92,19 +99,19 @@
 			<div class="col-md-4 col-sm-4">
 			<div class="row">
 				<div class="add-image col-md-10">
-					 
+
 					<?php $attr = ['slug' => slugify($post->title), 'id' => $post->id]; ?>
-						
+
 						<img id="changeMe<?=$post->id?>" class="img-thumbnail no-margin" src="{{ $postImg }}" alt="{{$alttag}}">
 				</div>
-					
+
 				<?php
 				if($pictures->count()>2)
 				{
 				?>
-				<div class="col-md-2" style="border-left: solid 1px #ccc; border-right: solid 1px #ccc;"> 
-				<?php 
-				 
+				<div class="col-md-2" style="border-left: solid 1px #ccc; border-right: solid 1px #ccc;">
+				<?php
+
 				$moreimg=DB::table('pictures')->where(['post_id'=>$post->id])->get();
 				foreach($moreimg as $imgrow)
 				{
@@ -137,8 +144,8 @@
 			<div class="col-md-8 col-sm-8 p-page-des">
 				<div class="ads-details listing-name">
 					<div class="short_description text-justify"> <p>{!!$post->short_description!!} </p></div>
-					
-					
+
+
 				</div>
 				@include('post.inc.fields-values')
 			<div class="description des-with-pro-list" >
@@ -150,10 +157,10 @@
 				 $content=strip_tags($post->description);
 		//$pos=strpos(@$content,' ',500);
 		echo substr($content,0,500);
-				
+
 			?>
-			&nbsp; &nbsp; 
-				
+			&nbsp; &nbsp;
+
 			<?php
 			}
 			?>
@@ -169,23 +176,23 @@
 			</div>
 			<br>
 			<center>
-				<a class="custom_btn bg_shop_red send_message" style="margin-bottom: 16px;" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"><span> Submit Query </span></a> &nbsp; &nbsp; 
+				<a class="custom_btn bg_shop_red send_message" style="margin-bottom: 16px;" data-toggle="modal" data-id="{{ $post->id }}" href="#contactUser"><span> Submit Query </span></a> &nbsp; &nbsp;
 			  </center>
 			</div>
-			
-			
-			
+
+
+
 
 		</div>
 		<div class="row">
-			
-	
-			
+
+
+
 		</div>
-		
-		
+
+
 	</div>
-	
+
 	</div>
 	</div>
 	<script>
@@ -208,8 +215,3 @@
 }
 $('html, body').animate({scrollTop: $(window.location.hash).offset().top - 50}, 1000);
 	</script>
-
-
-
-
-

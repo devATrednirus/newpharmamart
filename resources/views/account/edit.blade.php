@@ -1046,7 +1046,7 @@
 
 																<tr>
                                                                 	<td class="text-left align-middle p-3">
-                                                                		{{$history->updatedby->name}}
+                                                                		@if(!empty($history->updatedby)) {{$history->updatedby->name}} @endif
                                                                 	</td>
                                                                 	<td class="text-left align-middle p-3">
                                                                 		{{implode(",",$history->old_locations)}}

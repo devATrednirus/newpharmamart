@@ -441,7 +441,8 @@ class LoginController extends FrontController
 
         $message = t('You have been logged out.') . ' ' . t('See you soon.');
         //flash($message)->success();
-        return redirect('/home');
+        //
+        return redirect('/');
 
         //return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }

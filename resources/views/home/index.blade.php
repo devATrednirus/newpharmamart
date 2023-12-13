@@ -39,7 +39,7 @@
 		@if (isset($sections) and $sections->count() > 0)
 			@foreach($sections as $section)
 				@if (view()->exists($section->view))
-          
+
 					@include($section->view, ['firstSection' => $loop->first])
 				@endif
 			@endforeach
@@ -48,6 +48,8 @@
 
 
 	</div>
+  @include('modalbutton')
+  	@include('whatsappbutton')
 @endsection
 
 @section('modal_message')
@@ -59,6 +61,8 @@
 
 @endsection
 
+
+@yield('loginotpslide')
 @section('after_scripts')
   <script>
     //document.location = 'http://mart.redniruscare.com/category/pharmaceutical-eye-ear-drops';
@@ -95,10 +99,9 @@
 
   <!-- custom code-->
   <script src="/home/js/main.js"></script>
-
+  <style>
+  .header-search .search-row .col-xs-12 button.btn-search.btn-block{
+      background: #e9061b !important;
+  }
+  </style>
 @endsection
-<style>
-.header-search .search-row .col-xs-12 button.btn-search.btn-block{
-    background: #e9061b !important;
-}
-</style>
