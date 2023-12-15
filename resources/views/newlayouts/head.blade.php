@@ -199,7 +199,7 @@
                             <ul class="menu">
                                 <li class="has-mega-menu"><a href="/">Home</a></li>
 																<?php
-																	$parents = DB::table('categories')->wherein('id',[1300,1302,1366,1401,1789])->where('parent_id','0')->where('active','1')->limit(5)->orderBy('id', 'ASC')->get();   //->orderByRaw("(id <> '".$category->parent_id."')  ASC,name")
+																	$parents = DB::table('categories')->wherein('id',[1300,1302,1366,1401,1789])->where('parent_id','0')->where('active','1')->where('is_special','0')->limit(5)->orderBy('id', 'ASC')->get();   //->orderByRaw("(id <> '".$category->parent_id."')  ASC,name")
 																?>
 
                                  <!-- <li class="has-mega-menu"><a href="#"> Categoriesddd<span class="sub-toggle"><i class="fa fa-chevron-down"></i></span></a>
@@ -338,5 +338,5 @@ $searchUrlMAINCat = lurl(trans('routes.search-cat', $attr), $attr) ;
 
 <!-- End smartphone / tablet look -->
 </div>
-
+@include('backtotop')
 </header>

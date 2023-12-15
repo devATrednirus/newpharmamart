@@ -15,13 +15,13 @@
             @if (isset($cat))
 
 
-<!---         {{$subCat->name}}
+<!---
  {{$cat->name}}   --->
 
 <?php
   //$cattoshow = $cats->groupBy('parent_id')->orderByRaw("(id = '".$cat->id."')  ASC,name")->get(0);
   //$cattoshow = $cats->groupBy('parent_id')->get(0);
-  $cattoshow =  DB::table('categories')->where('parent_id',0)->where('active',1)->orderByRaw("(id <> '".$cat->id."')  ASC,name")->get();
+  $cattoshow =  DB::table('categories')->where('parent_id',0)->where('active',1)->where('is_special',0)->orderByRaw("(id <> '".$cat->id."')  ASC,name")->get();
 ?>
 
 
@@ -50,7 +50,11 @@
                     <?php
                       //$cattoshow = $cats->groupBy('parent_id')->orderByRaw("(id = '".$cat->id."')  ASC,name")->get(0);
                       //$cattoshow = $cats->groupBy('parent_id')->get(0);
+                      if(!empty($subCat)) {
                       $iSubCatiss =  DB::table('categories')->where('parent_id',$iSubCatis->id)->where('active',1)->orderByRaw("(id <> '".$subCat->id."')  ASC,name")->get();
+                      } {
+                     $iSubCatiss =  DB::table('categories')->where('parent_id',$iSubCatis->id)->where('active',1)->get();
+                      }
                     ?>
 
                     @foreach ($iSubCatiss as $val)
@@ -79,7 +83,9 @@
           <a class="send_message" data-toggle="modal"  data-id="0"  href="#contactUser"><h4 class="catr">Enquire Now</h4></a>
         </div>
 
-
+        <div class="form-groups">
+          <a   href="category/molecules"><h4 class="catr">Explore Molecule List</h4></a>
+        </div>
 
 
 <!-- Closed -->

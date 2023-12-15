@@ -144,6 +144,7 @@
        </div>
    </footer>
    <!-- main-footer end -->
+   @yield('foot_scripts')
 <script>
 
    function submitFootForm(form){

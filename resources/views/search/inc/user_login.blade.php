@@ -1,5 +1,4 @@
 <div class="modal pk-login" id="userLogin" tabindex="-1" role="dialog">
-	search\inc\user_login.blade.php
 	<div class="modal-dialog">
 		<div class="modal-content">
 
@@ -116,8 +115,13 @@
 						$("#contactUser").hide();
 						$('#userLogin').hide();
 						$('#userLogin').removeClass('show');
+						$('#userLogin').removeClass('fade');
+						$('.modal-backdrop').removeClass('fade');
+						$('.modal-backdrop').removeClass('show');
+						$('body').removeClass('modal_open');						
 						$('#userOTP').show();
 						$('#userOTP').addClass('show');
+
 
 
 

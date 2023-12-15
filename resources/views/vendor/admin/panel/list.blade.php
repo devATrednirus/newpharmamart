@@ -36,7 +36,7 @@
 				@endif
 
 				<div class="box-header {{ $xPanel->hasAccess('create')?'with-border':'' }}">
-					@include('admin::panel.inc.button_stack', ['stack' => 'top'])
+					@include('admin::panel.inc.button_stack', ['stack' => 'top'])<button type="button" onclick="document.querySelector('#crudTable tbody tr td:last-child').scrollIntoView()" class="btn btn-primary">Scroll To End</button>
 					<div id="datatable_button_stack" class="pull-right text-right"></div>
 				</div>
 

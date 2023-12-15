@@ -939,10 +939,10 @@ class UserController extends PanelController
 
 		return $this->getTranslatedArray($entries);
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Handle Input values
 	 *

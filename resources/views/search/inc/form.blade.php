@@ -28,7 +28,7 @@ if (isset($city) and !empty($city)) {
 
 		<div class="container search-row">
 			<?php $attr = ['countryCode' => config('country.icode')]; ?>
-			<form id="seach" name="search" action="{{ lurl(trans('routes.v-search', $attr), $attr) }}" method="GET">
+			<form id="seach" name="search" action="search{{-- lurl(trans('routes.v-search', $attr), $attr) --}}" method="GET">
 				<div class="row m-0">
 					<div class="col-xl-3 col-md-3 col-sm-12 col-xs-12" style="display: block;">
 						<select name="ct" id="catSearch" class="form-control selecter" style="height: 38px;width:100px !important;font-size: 1rem;">
